@@ -99,7 +99,10 @@ export default function AdminPage() {
         </button>
       </div>
 
-      <div className="mt-6 flex gap-2 overflow-x-auto pb-2" role="tablist">
+      <div
+        className="mt-6 flex snap-x snap-proximity gap-2 overflow-x-auto scroll-px-4 pb-2"
+        role="tablist"
+      >
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -107,7 +110,7 @@ export default function AdminPage() {
             role="tab"
             aria-selected={tab === t.id}
             onClick={() => selectTab(t.id)}
-            className={`whitespace-nowrap rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
+            className={`whitespace-nowrap rounded-lg border px-4 py-2 text-sm font-medium transition-colors snap-start shrink-0 ${
               tab === t.id
                 ? 'border-fd-primary/40 bg-fd-primary/10 text-fd-primary'
                 : 'border-fd-border text-fd-muted-foreground hover:border-fd-primary/30 hover:text-fd-primary'
