@@ -1,26 +1,28 @@
 ---
 title: Middle P1S
-description: Middle bank Bambu Lab P1S — Polymaker CoPE printing.
+description: The middle Bambu Lab P1S; Polymaker CoPE printing.
 icon: Printer
 ---
 
 <MachineStatus id="p1s-middle" />
 
+The middle machine of the three P1S units. Polymaker CoPE only, through the AMS or the external spool holder; jobs come from Bambu Handy, an SD card, or the network queue. It shares settings and troubleshooting with the left and right machines, so those pages double as references when this one is busy.
+
 ## Quick Start
 
 <Steps>
-  <Step>Turn on the printer using the power switch at the back and wait for the screen to boot up completely.</Step>
-  <Step>Check the build plate is clean and inserted correctly into the magnetic bed.</Step>
-  <Step>Load the correct filament (Polymaker CoPE only) into the AMS or external spool holder.</Step>
+  <Step>Turn on the printer with the power switch at the back and wait for the screen to boot completely.</Step>
+  <Step>Check the build plate is clean and seated correctly on the magnetic bed.</Step>
+  <Step>Load Polymaker CoPE (and only Polymaker CoPE) into the AMS or the external spool holder.</Step>
   <Step>Select your sliced file from the Bambu Handy app, SD card, or network queue.</Step>
   <Step>Verify the print settings (temperature, speed, brim, supports) match your material and model.</Step>
   <Step>Run the auto bed leveling sequence if prompted.</Step>
-  <Step>Start the print and monitor the first layer to confirm proper adhesion.</Step>
+  <Step>Start the print and watch the first layer to confirm adhesion.</Step>
 </Steps>
 
 ## Settings
 
-Verified print profiles for this machine.
+Verified profile for this machine.
 
 <Tabs items={['Polymaker CoPE']}>
   <Tab value="Polymaker CoPE">
@@ -43,16 +45,16 @@ Verified print profiles for this machine.
 
 <Accordions>
   <Accordion title="First Layer Not Sticking">
-    Clean the build plate with 99% IPA. Re-level the bed using auto-leveling. Slow down first layer speed to 20mm/s. Apply glue stick for better adhesion. Check Z-offset is correct.
+    Clean the build plate with 99% IPA and re-level the bed using auto-leveling. Slow the first layer to 20mm/s, apply glue stick for better adhesion, and check the Z-offset is correct.
   </Accordion>
   <Accordion title="Spaghetti / Print Failure">
-    Cancel the print immediately. Clean the build plate. Check filament is not tangled. Verify correct print settings (temperature, speed, supports). Ensure bed is level. Restart the print and monitor first layer.
+    Cancel the print immediately and clean the build plate. Check the filament isn't tangled, verify the print settings (temperature, speed, supports), and make sure the bed is level before restarting. Monitor the first layer again.
   </Accordion>
   <Accordion title="Filament Not Feeding (AMS)">
-    Gently push filament by hand to help AMS grab it. Check spool is not tangled. Verify PTFE tube is not kinked. Reseat spool in AMS slot. Clean AMS feeder gears if clogged.
+    Gently push the filament by hand to help the AMS grab it. Check the spool isn't tangled, verify the PTFE tube isn't kinked, reseat the spool in its slot, and clean the feeder gears if they're clogged.
   </Accordion>
   <Accordion title="Nozzle Clog">
-    Heat nozzle to 250°C. Manually push filament through. Cool to 90°C. Perform cold pull by yanking filament out. Repeat 2-3 times. Use acupuncture needle if still clogged. Replace nozzle if needed.
+    Heat the nozzle to 250°C and manually push filament through, then cool to 90°C and yank the filament out for a cold pull. Repeat 2-3 times; use an acupuncture needle if it's still clogged, and replace the nozzle if needed.
   </Accordion>
 </Accordions>
 
@@ -61,23 +63,23 @@ Verified print profiles for this machine.
 <Accordions>
   <Accordion title="Wash the Build Plate">
     **Difficulty:** Easy · **Tools:** Warm water, dish soap, 99% IPA, lint-free cloth
-    
-    Remove the build plate from the printer. Wash with warm water and dish soap. Rinse thoroughly. Dry with lint-free cloth. Wipe with 99% IPA. Reinstall the plate securely on the magnetic bed.
-    
+
+    Remove the build plate from the printer and wash it with warm water and dish soap, rinsing thoroughly. Dry with a lint-free cloth, wipe with 99% IPA, and reinstall the plate securely on the magnetic bed.
+
     <Callout type="warn">Do not touch the build surface with bare hands after cleaning. Ensure the plate is completely dry before printing.</Callout>
   </Accordion>
 </Accordions>
 
 ## Rules
 
-- Only print useful items with correct settings - no waste or test prints without purpose.
+- Only print useful items with correct settings; no waste or test prints without purpose.
 - Always use the correct print profile (temperature, speed, brim, supports) for your model.
-- Check filament is the correct type (Polymaker CoPE only) and has enough left for the print.
-- Ensure the build plate is inserted correctly and securely on the magnetic bed.
+- Check the filament is the correct type (Polymaker CoPE only) and that there is enough left for the print.
+- Make sure the build plate is inserted correctly and securely on the magnetic bed.
 - Watch the first layer to confirm adhesion before leaving.
 - Clean the build plate with IPA before and after every print.
 - Report any clogs, grinding, or errors to exco immediately.
-- Remove filament and store in dry box after printing.
+- Remove filament and store it in a dry box after printing.
 - Log long prints (>4 hours) in the workshop registry.
 - Only exco can change advanced settings or update firmware.
 - Keep the glass door closed during printing.

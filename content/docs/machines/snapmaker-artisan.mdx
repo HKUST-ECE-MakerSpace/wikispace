@@ -6,16 +6,18 @@ icon: Wrench
 
 <MachineStatus id="snapmaker-artisan" />
 
+The Artisan is three machines in one frame: an FDM printer, a 40W laser engraver/cutter, and a CNC router, chosen by swapping toolheads. Swapping is the easy part; what gets skipped is the recalibration afterwards, which is how alignment errors happen. Run the calibration sequence every time you change toolheads or bits.
+
 ## Quick Start
 
 <Steps>
   <Step>Power on the machine and wait for the touchscreen to fully boot.</Step>
   <Step>Select the correct module (Laser or CNC) from the touchscreen menu.</Step>
-  <Step>Install the appropriate toolhead (laser module or CNC module with bit).</Step>
-  <Step>For laser: install the laser engraving/cutting platform and secure material with clamps or tape.</Step>
-  <Step>For CNC: install the CNC carving/cutting platform and clamp material firmly.</Step>
+  <Step>Install the appropriate toolhead (laser module, or CNC module with bit).</Step>
+  <Step>For laser: install the laser engraving/cutting platform and secure the material with clamps or tape.</Step>
+  <Step>For CNC: install the CNC carving/cutting platform and clamp the material firmly.</Step>
   <Step>Run the auto bed leveling / platform height calibration sequence.</Step>
-  <Step>Set the work origin (X, Y, Z) for your chosen module using the touchscreen.</Step>
+  <Step>Set the work origin (X, Y, Z) for your chosen module on the touchscreen.</Step>
   <Step>Use the Boundary Check feature to verify the machining area.</Step>
   <Step>Start the job at low power/speed first to confirm alignment.</Step>
   <Step>Never leave the machine unattended during operation.</Step>
@@ -23,7 +25,7 @@ icon: Wrench
 
 ## Settings
 
-Verified profiles for the Artisan, grouped by module.
+Verified profiles, grouped by module.
 
 ### 3D Printing
 
@@ -183,10 +185,10 @@ Verified profiles for the Artisan, grouped by module.
 
 <Accordions>
   <Accordion title="Laser Not Cutting Through">
-    Check focus height, increase passes, clean lens for residue.
+    Check the focus height first, then increase passes; a dirty lens loses power, so clean off any residue.
   </Accordion>
   <Accordion title="CNC Bit Breaking">
-    Reduce depth per pass, check feed rate, confirm material is clamped firmly.
+    Reduce the depth per pass and check the feed rate. Confirm the material is clamped firmly before restarting.
   </Accordion>
 </Accordions>
 
@@ -195,30 +197,30 @@ Verified profiles for the Artisan, grouped by module.
 <Accordions>
   <Accordion title="Laser Lens Cleaning">
     **Difficulty:** Easy · **Tools:** Lens cloth, isopropyl alcohol
-    
-    Power off, remove laser module cover, wipe lens gently in one direction, reassemble.
-    
+
+    Power off, remove the laser module cover, wipe the lens gently in one direction, and reassemble.
+
     <Callout type="warn">Never touch the lens with bare fingers.</Callout>
   </Accordion>
   <Accordion title="Change Tool Bit (CNC)">
     **Difficulty:** Easy · **Tools:** 14mm open end wrench, 17mm open end wrench, replacement bit
-    
-    Power off the machine. Loosen the collet nut using the wrenches. Remove the old bit. Insert the new bit fully into the collet. Tighten the collet nut securely. Power on and run the toolhead calibration.
-    
+
+    Power off the machine and loosen the collet nut using the wrenches. Remove the old bit, insert the new one fully into the collet, and tighten the nut securely. Power on and run the toolhead calibration.
+
     <Callout type="warn">Ensure the bit is fully inserted and tight. Loose bits can break or damage the machine.</Callout>
   </Accordion>
   <Accordion title="Recalibrate Settings After Tool Change">
     **Difficulty:** Medium · **Tools:** None (touchscreen only)
-    
-    Power on the machine. Navigate to the calibration menu on the touchscreen. Run platform height calibration. Set the work origin for the current toolhead. Run a test boundary check to verify alignment. If using laser, run laser focus calibration.
-    
+
+    Power on the machine and open the calibration menu on the touchscreen. Run platform height calibration, set the work origin for the current toolhead, then run a test boundary check to verify alignment. If you're on the laser, run laser focus calibration as well.
+
     <Callout type="warn">Always recalibrate after swapping toolheads or bits to prevent alignment errors.</Callout>
   </Accordion>
 </Accordions>
 
 ## Rules
 
-- Never leave laser or CNC jobs unattended - stay with the machine throughout the task.
+- Never leave laser or CNC jobs unattended; stay with the machine throughout the task.
 - Always use air assist / dust extraction when operating the laser module.
 - Wear safety glasses when operating the laser module.
 - Secure material fully with clamps before starting any CNC or laser job.

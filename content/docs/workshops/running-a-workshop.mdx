@@ -1,28 +1,24 @@
 ---
 title: Running a Workshop
-description: A meta-guide for workshop runners — using the run checklist, adapting pages, and frontmatter reference.
+description: A guide for workshop runners, covering the run checklist, adapting pages, and the frontmatter reference.
 icon: Presentation
 ---
 
-So you're running a workshop. This guide covers the tooling: how the interactive checklist behaves, and how to adapt a workshop page for your session.
+So you're running a workshop. This page covers the tooling: how the interactive checklist behaves during a session, and how to adapt a workshop page for your own run.
 
 ## The run checklist
 
-Each workshop page carries a checklist in its frontmatter. During the session it works like this:
+Each workshop page carries its checklist in its frontmatter. During the session it works like this:
 
-- **Tick items as you go.** Progress is saved per device — if you close the page and come back, your ticks are still there on the same device.
-- **Print view.** Want paper on the day? Use your browser's print function on the workshop page — the checklist renders cleanly for printing.
-- **Fresh start.** Each new device starts unticked, so a borrowed laptop or a co-runner's phone starts from zero — by design.
+- **Tick items as you go.** Progress saves per device, so if you close the page and come back on the same device, your ticks are still there.
+- **Print view.** If you want paper on the day, use your browser's print function on the workshop page; the checklist renders cleanly for printing.
+- **Fresh start per device.** Every new device starts unticked. A borrowed laptop or a co-runner's phone starts from zero, by design.
 
 ## Adapting a workshop page
 
-Workshop pages are wiki pages — exco can edit them at [`/edit`](/edit). Open the page's source there, adjust the frontmatter and body, and save; the change is live immediately (no rebuild).
+Workshop pages are wiki pages; exco can edit them at [`/edit`](/edit). Open the page source there, adjust the frontmatter and body, and save. The change is live immediately, with no rebuild.
 
-When adapting:
-
-- Keep the **overview → session flow → after the session** structure members expect.
-- Move anything a runner must prepare into the "before" checklist section.
-- Keep checklist labels short — one action per item.
+While adapting, keep the **overview → session flow → after the session** structure members expect, move anything a runner must prepare into the "before" checklist section, and keep checklist labels short: one action per item.
 
 ## Frontmatter reference
 
@@ -39,8 +35,8 @@ checklist:                     # renders as the interactive checklist
 ---
 ```
 
-- `checklist[].id` — kebab-case string, unique within the page.
-- `checklist[].label` — the visible, tickable text.
-- `checklist[].section` — the heading items are grouped under (e.g. `Before`, `Session`, `Wrap-up`).
+- `checklist[].id`: kebab-case string, unique within the page.
+- `checklist[].label`: the visible, tickable text.
+- `checklist[].section`: the heading items are grouped under (e.g. `Before`, `Session`, `Wrap-up`).
 
-With the frontmatter in place, the checklist component renders automatically at the top of the page — you write the prose around it.
+With the frontmatter in place, the checklist component renders automatically at the top of the page; you write the prose around it.

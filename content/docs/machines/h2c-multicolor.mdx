@@ -1,26 +1,28 @@
 ---
 title: Multi Color H2C
-description: Multi-colour AMS printer for PLA and CoPE prints.
+description: Four-slot AMS printer for multi-colour work in PLA and CoPE.
 icon: Palette
 ---
 
 <MachineStatus id="h2c-multicolor" />
 
+This is the multi-colour machine. Its four AMS slots run PLA and CoPE in a single print, with a purge tower carrying the transitions; those transitions are where multi-colour prints usually go wrong, which is why the quick start has you watch the first color changes and not just the first layer.
+
 ## Quick Start
 
 <Steps>
   <Step>Power on the printer and wait for the touchscreen to fully initialize.</Step>
-  <Step>Load all 4 AMS slots with the required filament colors (PLA or CoPE only).</Step>
+  <Step>Load all 4 AMS slots with the filament colors you need (PLA or CoPE only).</Step>
   <Step>Verify each spool is properly seated and the AMS hub connections are secure.</Step>
   <Step>Close the enclosure door before starting the print.</Step>
   <Step>Select your multi-color sliced file from the network queue or USB drive.</Step>
   <Step>Run the automatic bed-leveling calibration sequence.</Step>
-  <Step>Start the print and monitor the first layer AND the first 3 color changes to ensure proper purging and color separation.</Step>
+  <Step>Start the print and monitor the first layer and the first 3 color changes; you're watching for proper purging and clean color separation.</Step>
 </Steps>
 
 ## Settings
 
-Verified print profiles for this machine.
+Verified profiles. The purge values matter as much as the temperatures here.
 
 <Tabs items={['PLA', 'Polymaker CoPE']}>
   <Tab value="PLA">
@@ -57,22 +59,22 @@ Verified print profiles for this machine.
 
 <Accordions>
   <Accordion title="Color Bleeding / Contamination">
-    Increase purge volume between colors by 50-100mm³. Enable purge tower in slicer. Check flush settings for each color pair. Run AMS calibration to ensure proper filament retraction.
+    Increase the purge volume between colors by 50-100mm³ and enable the purge tower in the slicer. Check the flush settings for each color pair, and run AMS calibration so filament retraction behaves.
   </Accordion>
   <Accordion title="AMS Filament Feeding Failure">
-    Check spool is not tangled. Gently push filament by hand to help AMS grab it. Verify PTFE tube is not kinked. Reseat spool in AMS slot. Clean AMS feeder gears if clogged with filament dust.
+    Check the spool isn't tangled, then gently push the filament by hand to help the AMS grab it. Verify the PTFE tube isn't kinked, reseat the spool in its slot, and clean the AMS feeder gears if they're clogged with filament dust.
   </Accordion>
   <Accordion title="Nozzle Clog During Color Change">
-    Heat nozzle to 250°C (higher of the two material temps). Manually push filament through. Cool nozzle to 90°C. Perform cold pull. Use acupuncture needle if still clogged. Replace nozzle as last resort.
+    Heat the nozzle to 250°C (the higher of the two material temps) and manually push filament through. Cool to 90°C and perform a cold pull; if it's still clogged, use an acupuncture needle, and replace the nozzle as a last resort.
   </Accordion>
   <Accordion title="Purge Tower Printing Issues">
-    Verify purge tower position on bed (should not overlap print). Adjust purge volume in slicer. Ensure tower has minimum 5-10 layers to stabilize. Check purge tower adhesion to bed.
+    Verify the purge tower position on the bed (it must not overlap the print), adjust the purge volume in the slicer, and make sure the tower has a minimum of 5-10 layers to stabilize. Check that the tower is adhering to the bed.
   </Accordion>
   <Accordion title="First Layer Adhesion Problems">
-    Re-level bed using auto-leveling. Clean plate with 99% IPA. Adjust Z-offset (should be 0.1mm with feeler gauge). Lower first layer speed to 20mm/s. Apply glue stick for CoPE layers.
+    Re-level the bed using auto-leveling and clean the plate with 99% IPA. Adjust the Z-offset (0.1mm with a feeler gauge), lower first layer speed to 20mm/s, and apply glue stick for CoPE layers.
   </Accordion>
   <Accordion title="Layer Shifting in Multi-Color Print">
-    Check belt tension (~100Hz twang). Inspect for mechanical obstructions. Reduce print speed by 30%. Verify print head not colliding with purge tower.
+    Check belt tension (~100Hz twang) and inspect for mechanical obstructions. Reduce print speed by 30%, and verify the print head isn't colliding with the purge tower.
   </Accordion>
 </Accordions>
 
@@ -81,16 +83,16 @@ Verified print profiles for this machine.
 <Accordions>
   <Accordion title="Cold Pull Clog Clearing">
     **Difficulty:** Easy · **Tools:** Nylon filament or cleaning filament
-    
-    Heat nozzle to 250°C. Manually extrude filament until it flows smoothly. Set nozzle to cool to 90°C. At 90°C, firmly yank filament out. Inspect pulled filament for clean nozzle impression. Repeat 2-3 times if clog persists.
-    
+
+    Heat the nozzle to 250°C and manually extrude filament until it flows smoothly. Set the nozzle to cool to 90°C, then firmly yank the filament out at that temperature. Inspect the pulled filament for a clean nozzle impression and repeat 2-3 times if the clog persists.
+
     <Callout type="warn">Do not touch the hotend. Wait until nozzle cools to 90°C before pulling.</Callout>
   </Accordion>
   <Accordion title="AMS PTFE Tube Replacement">
     **Difficulty:** Medium · **Tools:** 2.5mm hex key, replacement PTFE tubes, tube cutter
-    
-    Remove all filament from AMS. Open AMS hub connections. Unscrew pneumatic fittings. Remove old PTFE tubes. Cut new tubes to exact length. Insert fully into fittings. Test filament path for each slot.
-    
+
+    Remove all filament from the AMS, open the AMS hub connections, and unscrew the pneumatic fittings to free the old PTFE tubes. Cut the new tubes to exact length, insert them fully into the fittings, and test the filament path for each slot.
+
     <Callout type="warn">Cut PTFE tubes square. Do not crush tubes during installation. Test each AMS slot after replacement.</Callout>
   </Accordion>
 </Accordions>

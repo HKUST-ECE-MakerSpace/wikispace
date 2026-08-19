@@ -1,26 +1,28 @@
 ---
 title: Engineering H2C
-description: Engineering FDM printer for CoPE, TPU and ASA with a heated enclosure and AMS.
+description: The lab's engineering FDM printer for CoPE, TPU and ASA, with a heated enclosure and AMS.
 icon: Printer
 ---
 
 <MachineStatus id="h2c-engineering" />
 
+This is the machine for parts that have to survive use. It runs the engineering materials (CoPE, TPU 90A, TPU 95A, ASA), and its heated enclosure is what keeps ASA from warping halfway through a print; filament comes from the AMS. Dry your filament before printing anything here, per the drying notes in the profile tables below.
+
 ## Quick Start
 
 <Steps>
   <Step>Turn on the main power switch at the back of the printer and wait for the touchscreen to fully boot.</Step>
-  <Step>Load the appropriate filament (CoPE, TPU 90A, TPU 95A, or ASA) into the AMS system.</Step>
-  <Step>Inspect the build plate for debris and apply bed adhesive if required for the material.</Step>
+  <Step>Load the filament you need (CoPE, TPU 90A, TPU 95A, or ASA) into the AMS.</Step>
+  <Step>Inspect the build plate for debris and apply bed adhesive if the material calls for it.</Step>
   <Step>Close the enclosure door securely before starting any high-temperature print.</Step>
   <Step>Select your sliced file from the network queue or USB drive.</Step>
-  <Step>Run the automatic bed leveling sequence via the touchscreen.</Step>
-  <Step>Start the print and monitor the first layer for proper adhesion.</Step>
+  <Step>Run the automatic bed leveling sequence from the touchscreen.</Step>
+  <Step>Start the print and watch the first layer go down for proper adhesion.</Step>
 </Steps>
 
 ## Settings
 
-Verified print profiles for this machine.
+Verified profiles. Start from these; adjust only if you know why.
 
 <Tabs items={['Polymaker CoPE', 'TPU 90A', 'TPU 95A', 'ASA']}>
   <Tab value="Polymaker CoPE">
@@ -78,19 +80,19 @@ Verified print profiles for this machine.
 
 <Accordions>
   <Accordion title="Nozzle Clog">
-    Heat nozzle to printing temp, retract and reinsert filament, use cold-pull if resistance remains, cold-pull with acupuncture needle if still clogged.
+    Heat the nozzle to printing temperature, retract and reinsert the filament, then do a cold pull if you still feel resistance. If the clog survives that, use an acupuncture needle.
   </Accordion>
   <Accordion title="Filament Loading Issues">
-    Confirm filament path is clear, check extruder gear for grinding, trim filament tip at an angle before loading.
+    Confirm the filament path is clear, check the extruder gear for grinding, and trim the filament tip at an angle before loading.
   </Accordion>
   <Accordion title="First Layer Not Sticking">
-    Re-level bed, clean plate with IPA, check nozzle-to-bed z-offset, lower first layer speed.
+    Re-level the bed, clean the plate with IPA, check the nozzle-to-bed z-offset, and lower the first layer speed.
   </Accordion>
   <Accordion title="Grinding Noise at Extruder">
-    Check filament diameter and dryness, reduce retraction speed, inspect gear teeth for filament dust.
+    Check filament diameter and dryness, reduce retraction speed, and inspect the gear teeth for filament dust.
   </Accordion>
   <Accordion title="Layer Shifting">
-    Check belt tension, inspect for mechanical obstruction, reduce print speed/acceleration.
+    Check belt tension, look for a mechanical obstruction, and reduce print speed and acceleration.
   </Accordion>
 </Accordions>
 
@@ -98,37 +100,37 @@ Verified print profiles for this machine.
 
 <Accordions>
   <Accordion title="Adhesion Failure on Build Plate">
-    Wash the build plate with warm soapy water, then wipe with 99% IPA. Dry completely. Re-level the bed using the auto-leveling sequence. Apply glue stick or Magigoo for CoPE/ASA prints. Increase bed temperature by 5°C.
+    Wash the build plate with warm soapy water and wipe it with 99% IPA, then dry it completely. Re-level the bed using the auto-leveling sequence and apply glue stick or Magigoo for CoPE/ASA prints. If it still lets go, increase bed temperature by 5°C.
   </Accordion>
   <Accordion title="AMS Filament Feeding Failure">
-    When the AMS displays a filament feed error, gently push the filament by hand to help the feeder grab it. Verify the spool is not tangled. Reseat the spool in the AMS slot. Check the PTFE tube for kinks. Clean the AMS feeder gears if dirty.
+    When the AMS displays a filament feed error, gently push the filament by hand to help the feeder grab it. Verify the spool isn't tangled and reseat it in its slot. Check the PTFE tube for kinks, and clean the AMS feeder gears if they're dirty.
   </Accordion>
   <Accordion title="Nozzle Clog">
-    Heat nozzle to 250°C. Manually push filament through until it flows smoothly. Cool nozzle to 90°C. Perform a cold pull by yanking filament out quickly. Inspect pulled tip for clean nozzle impression. Repeat 2-3 times. If still clogged, replace the nozzle.
+    Heat the nozzle to 250°C and manually push filament through until it flows smoothly. Let it cool to 90°C, then yank the filament out quickly to perform a cold pull; inspect the pulled tip for a clean nozzle impression and repeat 2-3 times if the clog persists. If it's still blocked after that, replace the nozzle.
   </Accordion>
   <Accordion title="Grinding Noise at Extruder">
-    Check filament diameter (1.75mm ± 0.05mm). Dry filament at recommended temperature. Reduce retraction speed to 25mm/s. Clean extruder gear teeth with a brass brush.
+    Check filament diameter (1.75mm ± 0.05mm) and dry the filament at its recommended temperature. Reduce retraction speed to 25mm/s and clean the extruder gear teeth with a brass brush.
   </Accordion>
   <Accordion title="Layer Shifting in Print">
-    Check belt tension (should twang at ~100Hz). Inspect pulleys for loose grub screws. Reduce print speed/acceleration by 30%. Lubricate linear rails if moving roughly.
+    Check belt tension (the belt should twang at ~100Hz) and inspect the pulleys for loose grub screws. Reduce print speed and acceleration by 30%, and lubricate the linear rails if the carriage moves roughly.
   </Accordion>
   <Accordion title="Warping (Especially ASA)">
-    Ensure heated enclosure is closed and reaches 45-55°C. Add brim or raft to the print. Increase bed temperature to 100-110°C. Reduce part cooling fan to 10-20%.
+    Make sure the heated enclosure is closed and reaches 45-55°C. Add a brim or raft, increase bed temperature to 100-110°C, and drop part cooling to 10-20%.
   </Accordion>
 </Accordions>
 
 ## Rules
 
 - Wear appropriate PPE when handling high-temperature materials like CoPE and ASA.
-- Remain at the printer to visually confirm the entire first layer adheres successfully.
+- Stay at the printer until the entire first layer has visibly adhered.
 - Unattended overnight prints require exco approval and a visible contact label on the printer.
-- Clean the build plate with 99% IPA after every print once cooled.
+- Clean the build plate with 99% IPA after every print, once it has cooled.
 - Report all hardware issues, clogs, or unusual noises to exco immediately.
-- Remove filament spools from the AMS after printing and store in dry boxes with desiccant.
-- Standard print settings may be adjusted by trained users; advanced profiles require exco authorization.
-- Firmware updates are restricted to exco members only.
+- Remove filament spools from the AMS after printing and store them in dry boxes with desiccant.
+- Trained users may adjust standard print settings; advanced profiles require exco authorization.
+- Firmware updates are exco-only.
 - Log every print job (material, duration, username) in the workshop registry.
-- Never manually force filament through the AMS; follow official unloading protocols.
+- Never force filament through the AMS by hand; follow the official unloading protocol.
 
 ## Videos
 
