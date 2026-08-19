@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 
 /**
@@ -65,6 +66,12 @@ export function LoginForm({
       >
         {busy ? 'Logging in…' : 'Log in'}
       </button>
+      <Link
+        href="/"
+        className="text-center text-sm text-fd-muted-foreground transition-colors hover:text-fd-primary"
+      >
+        ← Back to home
+      </Link>
     </form>
   );
 }

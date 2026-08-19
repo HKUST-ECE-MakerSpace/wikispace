@@ -17,6 +17,7 @@ const STATUS_DOTS: Record<MachineStatus, string> = {
 };
 
 const QUICK_LINKS: { href: string; label: string }[] = [
+  { href: '/report', label: '⚠️ Report issue' },
   { href: '/docs/machines', label: 'Machines' },
   { href: '/docs/banks', label: 'Banks' },
   { href: '/docs/filament', label: 'Filament' },

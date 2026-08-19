@@ -7,6 +7,7 @@ export function baseOptions(): BaseLayoutProps {
       title: appName,
     },
     links: [
+      { text: 'Report Issue', url: '/report' },
       { text: 'Machines', url: '/docs/machines' },
       { text: 'Workshops', url: '/docs/workshops' },
       { text: 'Admin', url: '/admin' },

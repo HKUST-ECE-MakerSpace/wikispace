@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import type { MachineStatus } from '@/lib/types';
@@ -61,6 +62,12 @@ export function MachineStatusWidget({ id }: { id: string }) {
       {machine.quantity ? (
         <span className="text-fd-muted-foreground">· {machine.quantity}</span>
       ) : null}
+      <Link
+        href={`/report?machine=${id}`}
+        className="rounded-lg border border-fd-border px-2 py-1.5 text-xs font-medium text-fd-muted-foreground transition-colors hover:border-fd-primary hover:text-fd-primary"
+      >
+        Report issue
+      </Link>
       <button
         type="button"
         onClick={() => setShowQr((v) => !v)}

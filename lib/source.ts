@@ -18,6 +18,8 @@ import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
 import { defineDocs } from 'fumadocs-mdx/config';
 import { dynamic } from 'fumadocs-mdx/runtime/dynamic';
 
+import { applyTreeIcons } from './page-tree-icons';
+
 import { docsContentRoute, docsImageRoute, docsRoute } from './shared';
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'docs');
@@ -113,7 +115,10 @@ async function scanDir(absDir: string, relDir: string, result: ScanResult): Prom
   for (const dirent of dirents) {
     const rel = relDir ? `${relDir}/${dirent.name}` : dirent.name;
     const abs = path.join(absDir, dirent.name);
-
+    // Hidden files (`.x`) and partials (`_x`) never become pages — the editor
+    // uses them for live-preview drafts without polluting the tree or search.
+    if (dirent.name.startsWith('.') || dirent.name.startsWith('_')) continue;
+    if (dirent.isDirectory() && dirent.name === 'node_modules') continue;
     if (dirent.isDirectory()) {
       await scanDir(abs, rel, result);
       continue;
@@ -133,24 +138,24 @@ async function scanDir(absDir: string, relDir: string, result: ScanResult): Prom
     if (!DOC_EXTENSIONS.some((ext) => dirent.name.endsWith(ext))) continue;
 
     const raw = await fs.readFile(abs, 'utf8');
-    const parsed = frontmatter(raw);
-    const data = (parsed.data ?? {}) as Record<string, unknown>;
-
-    // Normalise required page fields so the tree/search always have them.
-    if (typeof data.title !== 'string' || data.title.length === 0) {
-      const heading = parsed.content.match(/^#\s+(.+)$/m);
-      data.title =
-        heading?.[1]?.trim() ??
-        dirent.name.replace(/\.mdx?$/i, '').replace(/[-_]/g, ' ');
-    }
-    if (typeof data.description !== 'string') data.description = '';
-
     result.entries.push({
       info: { path: rel, fullPath: abs },
-      data,
+      data: normalizePageData(raw, dirent.name),
     });
     result.hashes.push(`${rel}:${sha1(raw)}`);
   }
+}
+
+/** Parse frontmatter and guarantee title/description exist. */
+function normalizePageData(raw: string, fallbackName: string): Record<string, unknown> {
+    const parsed = frontmatter(raw);
+    const data = (parsed.data ?? {}) as Record<string, unknown>;
+    if (typeof data.title !== 'string' || data.title.length === 0) {
+      const heading = parsed.content.match(/^#\s+(.+)$/m);
+      data.title = heading?.[1]?.trim() ?? fallbackName.replace(/\.mdx?$/i, '').replace(/[-_]/g, ' ');
+    }
+    if (typeof data.description !== 'string') data.description = '';
+    return data;
 }
 
 
@@ -171,6 +176,47 @@ export async function getDocsSource(): Promise<DocsSource> {
   const scan = await scanContent();
   if (cached?.hash === scan.hash) return cached.source;
 
+  const source = await buildSource(scan);
+  cached = { hash: scan.hash, source };
+  return source;
+}
+
+/** The editor's live-preview draft: content/docs/_preview.mdx → slug "preview". */
+export const PREVIEW_FILE = '_preview.mdx';
+
+let previewCache: { hash: string; source: DocsSource } | undefined;
+
+/**
+ * Like getDocsSource but with the hidden editor draft included as an extra
+ * page. The scanner skips underscore files, so the draft itself never leaks
+ * into the public tree or search; only this source knows about it.
+ */
+export async function getPreviewSource(): Promise<DocsSource> {
+  const draftAbs = path.join(CONTENT_DIR, PREVIEW_FILE);
+  let raw: string;
+  try {
+    raw = await fs.readFile(draftAbs, 'utf8');
+  } catch {
+    return getDocsSource(); // no draft yet → plain source
+  }
+  const draftHash = sha1(raw);
+  if (previewCache?.hash === draftHash) return previewCache.source;
+
+  const scan = await scanContent();
+  const withDraft: ScanResult = {
+    ...scan,
+    entries: [
+      ...scan.entries,
+      { info: { path: 'preview.mdx', fullPath: draftAbs }, data: normalizePageData(raw, PREVIEW_FILE) },
+    ],
+  };
+  const source = await buildSource(withDraft);
+  previewCache = { hash: draftHash, source };
+  return source;
+}
+
+/** Compile a scan into a loader output with sidebar icons resolved. */
+async function buildSource(scan: ScanResult): Promise<DocsSource> {
   const runtime = await dynamic(configExports, { environment: 'runtime', root: process.cwd() });
   const collection = await runtime.docs('docs', CONTENT_DIR, scan.meta, scan.entries);
   // Cast at the package boundary: fumadocs-mdx's Source type is structurally
@@ -182,7 +228,10 @@ export async function getDocsSource(): Promise<DocsSource> {
     source: collection.toFumadocsSource() as unknown as StaticSource<DocsSourceConfig>,
   });
 
-  cached = { hash: scan.hash, source };
+  // String icons (meta.json / frontmatter) would render as literal text in
+  // the sidebar; swap them for lucide components on every tree read.
+  const bareGetPageTree = source.getPageTree.bind(source);
+  source.getPageTree = () => applyTreeIcons(bareGetPageTree());
   return source;
 }
 

@@ -2,6 +2,9 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
+/* fumadocs toggles dark mode with a .dark class; register it so `dark:` works. */
+@custom-variant dark (&:is(.dark *));
+
 html {
   scrollbar-gutter: stable;
 }
