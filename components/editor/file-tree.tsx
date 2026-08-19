@@ -71,14 +71,25 @@ interface FileTreeProps {
   files: TreeFile[];
   activePath: string | null;
   error: string;
+  /** Create-form visibility is owned by the app so the top bar can open it. */
+  createOpen: boolean;
+  onToggleCreate: (open: boolean) => void;
   onSelect: (path: string) => void;
   onCreate: (path: string, template: TemplateKey) => Promise<void>;
   onRefresh: () => Promise<void>;
 }
 
-export function FileTree({ files, activePath, error, onSelect, onCreate, onRefresh }: FileTreeProps) {
+export function FileTree({
+  files,
+  activePath,
+  error,
+  createOpen,
+  onToggleCreate,
+  onSelect,
+  onCreate,
+  onRefresh,
+}: FileTreeProps) {
   const [collapsed, setCollapsed] = useState<ReadonlySet<string>>(new Set());
-  const [showCreate, setShowCreate] = useState(false);
   const [template, setTemplate] = useState<TemplateKey>('blank');
   const [newPath, setNewPath] = useState(TEMPLATES.blank.defaultPath);
   const [createError, setCreateError] = useState('');
@@ -107,7 +118,7 @@ export function FileTree({ files, activePath, error, onSelect, onCreate, onRefre
     setCreateError('');
     try {
       await onCreate(trimmed, template);
-      setShowCreate(false);
+      onToggleCreate(false);
       setNewPath(TEMPLATES[template].defaultPath);
     } catch (cause) {
       setCreateError(cause instanceof Error ? cause.message : 'Could not create the file');
@@ -158,8 +169,8 @@ export function FileTree({ files, activePath, error, onSelect, onCreate, onRefre
   };
 
   return (
-    <aside className="flex max-h-[40vh] w-full shrink-0 flex-col border-b border-fd-border md:max-h-none md:w-72 md:border-b-0 md:border-r">
-      <div className="flex items-center gap-2 border-b border-fd-border px-3 py-2">
+    <aside className="flex min-h-0 w-full flex-1 flex-col border-fd-border md:w-72 md:flex-none md:border-r">
+      <div className="flex shrink-0 items-center gap-2 border-b border-fd-border px-3 py-2">
         <h2 className="text-sm font-semibold">Pages</h2>
         <span className="text-xs text-fd-muted-foreground">{files.length}</span>
         <div className="ml-auto flex gap-1">
@@ -173,7 +184,7 @@ export function FileTree({ files, activePath, error, onSelect, onCreate, onRefre
           </button>
           <button
             type="button"
-            onClick={() => setShowCreate((previous) => !previous)}
+            onClick={() => onToggleCreate(!createOpen)}
             className="flex items-center gap-1 rounded-md border border-fd-border px-2 py-1 text-xs font-medium hover:bg-fd-accent"
           >
             <Plus className="size-3.5" /> New page
@@ -181,10 +192,10 @@ export function FileTree({ files, activePath, error, onSelect, onCreate, onRefre
         </div>
       </div>
 
-      {showCreate && (
+      {createOpen && (
         <form
           onSubmit={(event) => void submitCreate(event)}
-          className="flex flex-col gap-2 border-b border-fd-border bg-fd-card px-3 py-2.5"
+          className="flex shrink-0 flex-col gap-2 border-b border-fd-border bg-fd-card px-3 py-2.5"
         >
           <label className="flex flex-col gap-1 text-xs text-fd-muted-foreground">
             Template
@@ -221,7 +232,7 @@ export function FileTree({ files, activePath, error, onSelect, onCreate, onRefre
             </button>
             <button
               type="button"
-              onClick={() => setShowCreate(false)}
+              onClick={() => onToggleCreate(false)}
               className="rounded-md border border-fd-border px-3 py-1.5 text-sm hover:bg-fd-accent"
             >
               Cancel
@@ -230,7 +241,7 @@ export function FileTree({ files, activePath, error, onSelect, onCreate, onRefre
         </form>
       )}
 
-      {error && <p className="border-b border-fd-border px-3 py-2 text-xs text-red-500">{error}</p>}
+      {error && <p className="shrink-0 border-b border-fd-border px-3 py-2 text-xs text-red-500">{error}</p>}
 
       <nav className="min-h-0 flex-1 overflow-y-auto px-1.5 py-2">
         <ul>{tree.children.map((child) => renderNode(child, 0))}</ul>

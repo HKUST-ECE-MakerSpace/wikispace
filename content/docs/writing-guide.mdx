@@ -1,0 +1,203 @@
+---
+title: Editing the Wiki
+description: How to edit pages in /edit — templates, frontmatter, MDX components, live preview and sidebar ordering.
+icon: FileText
+---
+
+Every page on this wiki is a file under `content/docs`. They are all edited in the browser at [`/edit`](/edit) — no local setup, no git.
+
+## Opening the editor
+
+1. Go to [`/edit`](/edit) and sign in with the admin password (ask exco).
+2. You get three panes: **file list** (left), **source** (center), **live preview** (right).
+3. Pick a file in the list and edit. **⌘S / Ctrl+S** saves — changes go live the moment you save.
+4. The toolbar above the editor inserts ready-made MDX snippets (tabs, callouts, steps, widgets) at the cursor.
+
+The preview refreshes about a second after you stop typing. It renders from an invisible draft: what you see there is unpublished until you press Save, and the draft never shows up in the public sidebar or search.
+
+## Creating a page
+
+Press **New** (top bar) or **New page** (file list), pick a template, and give it a path relative to `content/docs` — for example `machines/my-machine.mdx`.
+
+File names use **lowercase letters, digits and hyphens** (`my-page.mdx`, never `My Page.mdx`). Folders are allowed; only `.mdx`, `.md` and `.json` files can be created.
+
+A new file is reachable at its URL but **not in the sidebar** until you list it in the folder's `meta.json` — see [sidebar order](#sidebar-order).
+
+## Frontmatter
+
+The block between the `---` markers at the top of a page:
+
+```mdx
+---
+title: J1S Printer
+description: Dual-extruder printer, currently under maintenance.
+icon: Printer
+full: false
+---
+```
+
+| Field | What it does |
+| --- | --- |
+| `title` | Page heading and sidebar label. |
+| `description` | One-line summary shown under the title and in search results. |
+| `icon` | Sidebar icon — must be one of the names below. |
+| `full` | `true` renders the page edge-to-edge — use it when a wide table needs the full viewport. |
+
+Allowed `icon` values: `Boxes`, `CircleAlert`, `Cog`, `FileText`, `FlaskConical`, `Nut`, `Package`, `Presentation`, `Printer`, `ScrollText`, `Wrench`, `Zap`.
+
+Workshops add three more fields — the checklist renders as a tracked, tickable list on the page:
+
+```mdx
+---
+title: Induction Workshop
+duration: 60
+audience: New members
+checklist:
+  - id: intro
+    label: Welcome & safety briefing
+    section: Introduction
+  - id: tour
+    label: Lab tour
+    section: Hands-on
+---
+```
+
+Each checklist item needs a unique `id` and a `label`; `section` groups items under a heading.
+
+## Writing MDX
+
+Pages are Markdown: `##` headings, lists, [links](https://commonmark.org), pipe tables, fenced code blocks. MDX adds the wiki's own components on top — they are auto-provided, so **never put `import` statements in a page body**: a line starting with `import` crashes the page at build time.
+
+### Callout
+
+```mdx
+<Callout type="warn" title="PPE is mandatory">
+  Safety glasses on while any machine is running.
+</Callout>
+```
+
+Use `type="info"` for notes and `type="warn"` for hazards.
+
+### Tabs
+
+<Tabs items={['How to write', 'How it renders']}>
+  <Tab value="How to write">
+
+```mdx
+<Tabs items={['PLA', 'PETG']}>
+  <Tab value="PLA">Verified PLA settings…</Tab>
+  <Tab value="PETG">Verified PETG settings…</Tab>
+</Tabs>
+```
+
+  </Tab>
+  <Tab value="How it renders">
+    <p>
+      The snippet on the left produced the tabs you are clicking through right now — one <code>&lt;Tab&gt;</code> per entry, its <code>value</code> matching an item in <code>items</code>.
+    </p>
+  </Tab>
+</Tabs>
+
+Use tabs for per-material settings tables; keep the tab list short.
+
+### Accordions
+
+```mdx
+<Accordions>
+  <Accordion title="AMS PTFE Tube Replacement">
+    Collapsed until clicked — repair steps, warnings, details.
+  </Accordion>
+</Accordions>
+```
+
+### Steps
+
+```mdx
+<Steps>
+  <Step>Clean the build plate with IPA.</Step>
+  <Step>Load filament in the AMS.</Step>
+</Steps>
+```
+
+### Cards
+
+<Cards>
+  <Card title="Machines" description="Card example — links to a real page." href="/docs/machines" />
+  <Card title="Lab Rules" description="The other card in this example." href="/docs/rules" />
+</Cards>
+
+The source for the two cards above:
+
+```mdx
+<Cards>
+  <Card title="Machines" description="Card example — links to a real page." href="/docs/machines" />
+  <Card title="Lab Rules" description="The other card in this example." href="/docs/rules" />
+</Cards>
+```
+
+### TypeTable
+
+```mdx
+<TypeTable
+  type={{
+    nozzle: { type: 'number', default: '0.4mm', description: 'Brass; hardened for CF' },
+  }}
+/>
+```
+
+### Live widgets
+
+Three components render live data from the ops dashboard — no content to write, just an id:
+
+```mdx
+<MachineStatus id="j1s" />
+<ComponentBank id="electronics-bank" />
+<FilamentTable />
+```
+
+`MachineStatus` ids match the machine slugs (`j1s`, `p1s-left`, `snapmaker-artisan`, …). `ComponentBank` ids are `electronics-bank`, `assembly-mechanics` and `screw-bank`.
+
+### YouTube
+
+```mdx
+<YouTube url="https://youtu.be/VIDEO_ID" title="Bambu Lab H2C First Print Guide" />
+```
+
+Paste the regular `youtu.be` share link and give it a descriptive `title`.
+
+## Linking between pages
+
+Relative links to another page's `.mdx` file are rewritten to its public URL — this [link to the lab rules](./rules.mdx) is written as `[link to the lab rules](./rules.mdx)`. Absolute `/docs/...` links also work (`[J1S](/docs/machines/j1s)`). Relative paths are better inside a folder: they keep working when the folder moves.
+
+## Sidebar order
+
+Each folder's `meta.json` controls order, labels and separators:
+
+```json
+{
+  "title": "Machines",
+  "icon": "Printer",
+  "defaultOpen": true,
+  "pages": [
+    "index",
+    "---3D Printers---",
+    "h2c-engineering",
+    "j1s",
+    "---Soldering---",
+    "soldering-station"
+  ]
+}
+```
+
+- `pages` lists page names (file names without `.mdx`) in display order.
+- `"---Name---"` entries render as separators.
+- `title` and `icon` (same allowed names as frontmatter) name the folder; `defaultOpen` expands it on load.
+- Pages **not** listed don't appear in the sidebar. Use a `"..."` entry to insert all remaining pages at that spot, or `"!page-name"` to hide one.
+- The root `content/docs/meta.json` orders the top-level sections.
+
+## Things that will bite you
+
+- **No `import` in page bodies** — the runtime compile crashes. Components are already available.
+- **Naming**: lowercase-hyphens only, `.mdx`/`.md`/`.json` extensions.
+- **Unlisted pages stay invisible** in the sidebar until `meta.json` mentions them.
+- **Saves publish instantly** — check the live preview before you hit ⌘S.

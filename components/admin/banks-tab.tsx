@@ -479,7 +479,7 @@ export function BanksTab({ onAuthLost }: { onAuthLost: () => void }) {
                                   <span className="line-clamp-2 text-xs leading-snug text-fd-muted-foreground">
                                     {cell.description}
                                   </span>
-                                ) : (cell.items?.length ?? 0) > 0 ? (
+                                ) : cell.items && cell.items.length > 0 ? (
                                   <span className="truncate text-xs text-fd-muted-foreground">
                                     {cell.items.map((item) => item.name).join(', ')}
                                   </span>

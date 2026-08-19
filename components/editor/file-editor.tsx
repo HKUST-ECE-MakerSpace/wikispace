@@ -2,11 +2,13 @@
 
 import { oneDark } from '@codemirror/theme-one-dark';
 import { markdown } from '@codemirror/lang-markdown';
-import { ExternalLink, Trash2 } from 'lucide-react';
+import type { EditorView } from '@codemirror/view';
 import dynamic from 'next/dynamic';
-import { useMemo, type KeyboardEvent } from 'react';
+import { useMemo, useRef } from 'react';
 
 import { parseFrontmatter, updateFrontmatter } from './frontmatter';
+import { SnippetToolbar } from './snippet-toolbar';
+import type { Snippet } from './snippets';
 
 const CodeMirror = dynamic(() => import('@uiw/react-codemirror'), {
   ssr: false,
@@ -27,98 +29,59 @@ export function viewPageUrl(path: string): string | null {
 interface FileEditorProps {
   path: string;
   value: string;
-  dirty: boolean;
-  saving: boolean;
-  savedFlash: boolean;
   error: string;
   onChange: (next: string) => void;
-  onSave: () => void;
-  onDelete: (path: string) => void;
 }
 
-export function FileEditor({
-  path,
-  value,
-  dirty,
-  saving,
-  savedFlash,
-  error,
-  onChange,
-  onSave,
-  onDelete,
-}: FileEditorProps) {
+/**
+ * Center pane of the editor: snippet toolbar, frontmatter helper fields and
+ * the CodeMirror buffer. Save/delete/live-preview chrome lives in the app's
+ * sticky top bar instead.
+ */
+export function FileEditor({ path, value, error, onChange }: FileEditorProps) {
   const isJson = path.toLowerCase().endsWith('.json');
-  const isMetaJson = path.split('/').pop() === 'meta.json';
   const fields = useMemo(() => parseFrontmatter(value), [value]);
-  const viewHref = viewPageUrl(path);
+  const viewRef = useRef<EditorView | null>(null);
 
-  const handleKeyDown = (event: KeyboardEvent): void => {
-    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') {
-      event.preventDefault();
-      if (dirty && !saving) onSave();
+  const insertSnippet = (snippet: Snippet): void => {
+    const view = viewRef.current;
+    if (!view) {
+      onChange(`${value}\n${snippet.text}`);
+      return;
     }
+    const pos = view.state.selection.main.head;
+    // Block components must start on their own line — MDX parses them as
+    // inline text (and fails) when glued onto a paragraph.
+    const line = view.state.doc.lineAt(pos);
+    const midParagraph = line.text.slice(0, pos - line.from).trim() !== '';
+    const prefix = snippet.text.startsWith('<') && midParagraph ? '\n\n' : '';
+    view.dispatch({
+      changes: { from: pos, insert: prefix + snippet.text },
+      selection: { anchor: pos + prefix.length + snippet.cursorOffset },
+    });
+    view.focus();
   };
 
-  const patchField = (key: 'title' | 'description', next: string): void => {
-    onChange(updateFrontmatter(value, { [key]: next }));
-  };
-
-  const confirmDelete = (): void => {
-    if (!window.confirm(`Delete ${path}? This cannot be undone.`)) return;
-    onDelete(path);
+  const patchField = (field: 'title' | 'description', next: string): void => {
+    onChange(updateFrontmatter(value, { [field]: next }));
   };
 
   return (
-    <section onKeyDown={handleKeyDown} className="flex min-h-0 flex-1 flex-col">
-      <div className="flex flex-wrap items-center gap-2 border-b border-fd-border px-4 py-2">
-        <span className="truncate font-mono text-sm">
-          {path}
-          {dirty && <span className="ml-1 text-fd-primary" title="Unsaved changes">●</span>}
-        </span>
-        <div className="ml-auto flex flex-wrap items-center gap-2">
-          {savedFlash && <span className="text-sm font-medium text-fd-primary">Saved ✓</span>}
-          {viewHref && (
-            <a
-              href={viewHref}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1 rounded-lg border border-fd-border px-3 py-1.5 text-sm hover:bg-fd-accent"
-            >
-              View page <ExternalLink className="size-3.5" />
-            </a>
-          )}
-          <button
-            type="button"
-            onClick={onSave}
-            disabled={!dirty || saving}
-            className="rounded-lg bg-fd-primary px-4 py-1.5 text-sm font-medium text-fd-primary-foreground disabled:opacity-50"
-          >
-            {saving ? 'Saving…' : 'Save'}
-          </button>
-          <button
-            type="button"
-            onClick={confirmDelete}
-            disabled={isMetaJson}
-            title={isMetaJson ? 'meta.json cannot be deleted' : `Delete ${path}`}
-            className="flex items-center gap-1 rounded-lg border border-fd-border px-3 py-1.5 text-sm text-red-600 hover:bg-fd-accent disabled:cursor-not-allowed disabled:opacity-40 dark:text-red-400"
-          >
-            <Trash2 className="size-3.5" /> Delete
-          </button>
-        </div>
-      </div>
-
+    <section className="flex min-h-0 flex-1 flex-col">
       {error && (
         <p className="border-b border-fd-border bg-red-500/10 px-4 py-2 text-sm text-red-600 dark:text-red-400">
           {error}
         </p>
       )}
 
+      {!isJson && <SnippetToolbar onInsert={insertSnippet} />}
+
       {isJson ? (
-        <p className="border-b border-fd-border px-4 py-1.5 text-xs text-fd-muted-foreground">
-          JSON file — edit the raw text directly.
+        <p className="shrink-0 border-b border-fd-border px-4 py-1.5 text-xs text-fd-muted-foreground">
+          JSON file — edit the raw text directly; no live preview.
         </p>
       ) : (
-        <div className="flex flex-col gap-2 border-b border-fd-border px-4 py-2 sm:flex-row">
+        <div className="flex shrink-0 flex-col gap-2 border-b border-fd-border px-4 py-2 sm:flex-row">
           <label className="flex min-w-0 flex-1 flex-col gap-1 text-xs text-fd-muted-foreground">
             Title
             <input
@@ -145,13 +108,16 @@ export function FileEditor({
         </div>
       )}
 
-      <div className="min-h-[50vh] flex-1 overflow-hidden text-left">
+      <div className="min-h-0 flex-1 overflow-hidden text-left">
         <CodeMirror
           value={value}
           height="100%"
           theme={oneDark}
           extensions={[markdown()]}
           onChange={onChange}
+          onCreateEditor={(view) => {
+            viewRef.current = view;
+          }}
         />
       </div>
     </section>
