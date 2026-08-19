@@ -1,0 +1,19 @@
+{
+  "title": "Machines",
+  "icon": "Printer",
+  "defaultOpen": true,
+  "pages": [
+    "index",
+    "---3D Printers---",
+    "h2c-engineering",
+    "h2c-multicolor",
+    "p1s-left",
+    "p1s-middle",
+    "p1s-right",
+    "j1s",
+    "---Snapmaker---",
+    "snapmaker-artisan",
+    "---Soldering---",
+    "soldering-station"
+  ]
+}

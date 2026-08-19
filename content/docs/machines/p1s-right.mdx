@@ -1,0 +1,88 @@
+---
+title: Right P1S
+description: Right bank Bambu Lab P1S — Polymaker CoPE printing.
+icon: Printer
+---
+
+<MachineStatus id="p1s-right" />
+
+## Quick Start
+
+<Steps>
+  <Step>Turn on the printer using the power switch at the back and wait for the screen to boot up completely.</Step>
+  <Step>Check the build plate is clean and inserted correctly into the magnetic bed.</Step>
+  <Step>Load the correct filament (Polymaker CoPE only) into the AMS or external spool holder.</Step>
+  <Step>Select your sliced file from the Bambu Handy app, SD card, or network queue.</Step>
+  <Step>Verify the print settings (temperature, speed, brim, supports) match your material and model.</Step>
+  <Step>Run the auto bed leveling sequence if prompted.</Step>
+  <Step>Start the print and monitor the first layer to confirm proper adhesion.</Step>
+</Steps>
+
+## Settings
+
+Verified print profiles for this machine.
+
+<Tabs items={['Polymaker CoPE']}>
+  <Tab value="Polymaker CoPE">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Nozzle temp | 245-260C |
+    | Bed temp | 75-85C |
+    | Speed | 30-50mm/s (normal) |
+    | Cooling | 20-30% fan |
+    | Retraction | 1.0mm @ 25mm/s |
+    | Brim | Recommended for parts with small contact area |
+    | Supports | Use supports for overhangs >45 degrees |
+    | Drying | Dry at 70C for 4-6 hours before printing |
+
+  </Tab>
+</Tabs>
+
+## Troubleshooting
+
+<Accordions>
+  <Accordion title="First Layer Not Sticking">
+    Clean the build plate with 99% IPA. Re-level the bed using auto-leveling. Slow down first layer speed to 20mm/s. Apply glue stick for better adhesion. Check Z-offset is correct.
+  </Accordion>
+  <Accordion title="Spaghetti / Print Failure">
+    Cancel the print immediately. Clean the build plate. Check filament is not tangled. Verify correct print settings (temperature, speed, supports). Ensure bed is level. Restart the print and monitor first layer.
+  </Accordion>
+  <Accordion title="Filament Not Feeding (AMS)">
+    Gently push filament by hand to help AMS grab it. Check spool is not tangled. Verify PTFE tube is not kinked. Reseat spool in AMS slot. Clean AMS feeder gears if clogged.
+  </Accordion>
+  <Accordion title="Nozzle Clog">
+    Heat nozzle to 250°C. Manually push filament through. Cool to 90°C. Perform cold pull by yanking filament out. Repeat 2-3 times. Use acupuncture needle if still clogged. Replace nozzle if needed.
+  </Accordion>
+</Accordions>
+
+## Repair Guides
+
+<Accordions>
+  <Accordion title="Wash the Build Plate">
+    **Difficulty:** Easy · **Tools:** Warm water, dish soap, 99% IPA, lint-free cloth
+    
+    Remove the build plate from the printer. Wash with warm water and dish soap. Rinse thoroughly. Dry with lint-free cloth. Wipe with 99% IPA. Reinstall the plate securely on the magnetic bed.
+    
+    <Callout type="warn">Do not touch the build surface with bare hands after cleaning. Ensure the plate is completely dry before printing.</Callout>
+  </Accordion>
+</Accordions>
+
+## Rules
+
+- Only print useful items with correct settings - no waste or test prints without purpose.
+- Always use the correct print profile (temperature, speed, brim, supports) for your model.
+- Check filament is the correct type (Polymaker CoPE only) and has enough left for the print.
+- Ensure the build plate is inserted correctly and securely on the magnetic bed.
+- Watch the first layer to confirm adhesion before leaving.
+- Clean the build plate with IPA before and after every print.
+- Report any clogs, grinding, or errors to exco immediately.
+- Remove filament and store in dry box after printing.
+- Log long prints (>4 hours) in the workshop registry.
+- Only exco can change advanced settings or update firmware.
+- Keep the glass door closed during printing.
+- Clear the poop chute if it gets full.
+
+## Videos
+
+<YouTube url="https://youtu.be/37HiYOfReX4?si=Mpbq2Ztwfyu97vtK" title="P1S Beginner Guide" />

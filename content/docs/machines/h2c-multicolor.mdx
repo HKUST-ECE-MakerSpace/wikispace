@@ -1,0 +1,113 @@
+---
+title: Multi Color H2C
+description: Multi-colour AMS printer for PLA and CoPE prints.
+icon: Palette
+---
+
+<MachineStatus id="h2c-multicolor" />
+
+## Quick Start
+
+<Steps>
+  <Step>Power on the printer and wait for the touchscreen to fully initialize.</Step>
+  <Step>Load all 4 AMS slots with the required filament colors (PLA or CoPE only).</Step>
+  <Step>Verify each spool is properly seated and the AMS hub connections are secure.</Step>
+  <Step>Close the enclosure door before starting the print.</Step>
+  <Step>Select your multi-color sliced file from the network queue or USB drive.</Step>
+  <Step>Run the automatic bed-leveling calibration sequence.</Step>
+  <Step>Start the print and monitor the first layer AND the first 3 color changes to ensure proper purging and color separation.</Step>
+</Steps>
+
+## Settings
+
+Verified print profiles for this machine.
+
+<Tabs items={['PLA', 'Polymaker CoPE']}>
+  <Tab value="PLA">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Nozzle temp | 200-215C |
+    | Bed temp | 55-60C |
+    | Speed | 80-120mm/s |
+    | Cooling | 100% |
+    | Retraction | 0.8mm @ 30mm/s |
+    | Purge volume | 150-200mm³ |
+    | Purge tower | Recommended for all color changes |
+
+  </Tab>
+  <Tab value="Polymaker CoPE">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Nozzle temp | 245-260C |
+    | Bed temp | 75-85C |
+    | Speed | 30-50mm/s |
+    | Cooling | 20-30% |
+    | Enclosure | 45-50C |
+    | Retraction | 1.0mm @ 25mm/s |
+    | Purge volume | 300-400mm³ for clean transitions |
+    | Purge tower | Required when switching from CoPE to PLA |
+    | Drying | 70C for 4-6 hours |
+
+  </Tab>
+</Tabs>
+
+## Troubleshooting
+
+<Accordions>
+  <Accordion title="Color Bleeding / Contamination">
+    Increase purge volume between colors by 50-100mm³. Enable purge tower in slicer. Check flush settings for each color pair. Run AMS calibration to ensure proper filament retraction.
+  </Accordion>
+  <Accordion title="AMS Filament Feeding Failure">
+    Check spool is not tangled. Gently push filament by hand to help AMS grab it. Verify PTFE tube is not kinked. Reseat spool in AMS slot. Clean AMS feeder gears if clogged with filament dust.
+  </Accordion>
+  <Accordion title="Nozzle Clog During Color Change">
+    Heat nozzle to 250°C (higher of the two material temps). Manually push filament through. Cool nozzle to 90°C. Perform cold pull. Use acupuncture needle if still clogged. Replace nozzle as last resort.
+  </Accordion>
+  <Accordion title="Purge Tower Printing Issues">
+    Verify purge tower position on bed (should not overlap print). Adjust purge volume in slicer. Ensure tower has minimum 5-10 layers to stabilize. Check purge tower adhesion to bed.
+  </Accordion>
+  <Accordion title="First Layer Adhesion Problems">
+    Re-level bed using auto-leveling. Clean plate with 99% IPA. Adjust Z-offset (should be 0.1mm with feeler gauge). Lower first layer speed to 20mm/s. Apply glue stick for CoPE layers.
+  </Accordion>
+  <Accordion title="Layer Shifting in Multi-Color Print">
+    Check belt tension (~100Hz twang). Inspect for mechanical obstructions. Reduce print speed by 30%. Verify print head not colliding with purge tower.
+  </Accordion>
+</Accordions>
+
+## Repair Guides
+
+<Accordions>
+  <Accordion title="Cold Pull Clog Clearing">
+    **Difficulty:** Easy · **Tools:** Nylon filament or cleaning filament
+    
+    Heat nozzle to 250°C. Manually extrude filament until it flows smoothly. Set nozzle to cool to 90°C. At 90°C, firmly yank filament out. Inspect pulled filament for clean nozzle impression. Repeat 2-3 times if clog persists.
+    
+    <Callout type="warn">Do not touch the hotend. Wait until nozzle cools to 90°C before pulling.</Callout>
+  </Accordion>
+  <Accordion title="AMS PTFE Tube Replacement">
+    **Difficulty:** Medium · **Tools:** 2.5mm hex key, replacement PTFE tubes, tube cutter
+    
+    Remove all filament from AMS. Open AMS hub connections. Unscrew pneumatic fittings. Remove old PTFE tubes. Cut new tubes to exact length. Insert fully into fittings. Test filament path for each slot.
+    
+    <Callout type="warn">Cut PTFE tubes square. Do not crush tubes during installation. Test each AMS slot after replacement.</Callout>
+  </Accordion>
+</Accordions>
+
+## Rules
+
+- Supervise the first layer and the first color transition of every multi-color print.
+- All 4 AMS slots must be loaded before starting any multi-color print.
+- Clean the build plate with 99% IPA before and after every print.
+- Report all AMS feeding errors, tangled spools, or color mixing issues to exco immediately.
+- Remove all filament spools from the AMS after printing and store in dry boxes with desiccant.
+- Do not run unattended overnight prints without exco approval.
+- Log all print jobs (colors used, duration, username) in the workshop registry.
+- Do not mix PLA and CoPE in the same print without proper purge tower settings.
+- Firmware updates are restricted to exco members only.
+- Do not manually force filament through the AMS; follow official protocols.
+
+## Videos
+
+<YouTube url="https://youtu.be/WyEihfxzwjM?si=W3DPqV_f9jfVArFR" title="Bambu Lab H2C First Print Guide" />

@@ -1,0 +1,46 @@
+---
+title: Running a Workshop
+description: A meta-guide for workshop runners — using the run checklist, adapting pages, and frontmatter reference.
+icon: Presentation
+---
+
+So you're running a workshop. This guide covers the tooling: how the interactive checklist behaves, and how to adapt a workshop page for your session.
+
+## The run checklist
+
+Each workshop page carries a checklist in its frontmatter. During the session it works like this:
+
+- **Tick items as you go.** Progress is saved per device — if you close the page and come back, your ticks are still there on the same device.
+- **Print view.** Want paper on the day? Use your browser's print function on the workshop page — the checklist renders cleanly for printing.
+- **Fresh start.** Each new device starts unticked, so a borrowed laptop or a co-runner's phone starts from zero — by design.
+
+## Adapting a workshop page
+
+Workshop pages are wiki pages — exco can edit them at [`/edit`](/edit). Open the page's source there, adjust the frontmatter and body, and save; the change is live immediately (no rebuild).
+
+When adapting:
+
+- Keep the **overview → session flow → after the session** structure members expect.
+- Move anything a runner must prepare into the "before" checklist section.
+- Keep checklist labels short — one action per item.
+
+## Frontmatter reference
+
+```yaml
+---
+title: My Workshop            # page + sidebar title
+description: One-line summary  # used in search + sidebar
+duration: 60                   # minutes
+audience: 'new members'        # who the session is for
+checklist:                     # renders as the interactive checklist
+  - id: welcome                # kebab-case, unique per item
+    label: Welcome & introductions
+    section: Before            # groups items into sections
+---
+```
+
+- `checklist[].id` — kebab-case string, unique within the page.
+- `checklist[].label` — the visible, tickable text.
+- `checklist[].section` — the heading items are grouped under (e.g. `Before`, `Session`, `Wrap-up`).
+
+With the frontmatter in place, the checklist component renders automatically at the top of the page — you write the prose around it.

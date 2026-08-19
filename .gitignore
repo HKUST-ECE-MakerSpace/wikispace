@@ -1,0 +1,10 @@
+webtest2/
+node_modules/
+.next/
+.env
+.env.local
+.env*.local
+logs/
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts

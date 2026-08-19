@@ -1,0 +1,236 @@
+---
+title: Snapmaker Artisan (40W Laser + CNC)
+description: '3-in-1 machine: 3D printer, 40W laser engraver/cutter and CNC router.'
+icon: Wrench
+---
+
+<MachineStatus id="snapmaker-artisan" />
+
+## Quick Start
+
+<Steps>
+  <Step>Power on the machine and wait for the touchscreen to fully boot.</Step>
+  <Step>Select the correct module (Laser or CNC) from the touchscreen menu.</Step>
+  <Step>Install the appropriate toolhead (laser module or CNC module with bit).</Step>
+  <Step>For laser: install the laser engraving/cutting platform and secure material with clamps or tape.</Step>
+  <Step>For CNC: install the CNC carving/cutting platform and clamp material firmly.</Step>
+  <Step>Run the auto bed leveling / platform height calibration sequence.</Step>
+  <Step>Set the work origin (X, Y, Z) for your chosen module using the touchscreen.</Step>
+  <Step>Use the Boundary Check feature to verify the machining area.</Step>
+  <Step>Start the job at low power/speed first to confirm alignment.</Step>
+  <Step>Never leave the machine unattended during operation.</Step>
+</Steps>
+
+## Settings
+
+Verified profiles for the Artisan, grouped by module.
+
+### 3D Printing
+
+<Tabs items={['PLA', 'PETG']}>
+  <Tab value="PLA">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Nozzle temp | 205-215C |
+    | Bed temp | 55-60C |
+    | Speed | standard |
+
+  </Tab>
+  <Tab value="PETG">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Nozzle temp | 230-240C |
+    | Bed temp | 70-80C |
+    | Speed | slow-normal |
+
+  </Tab>
+</Tabs>
+
+### Laser
+
+<Tabs items={['Basswood Plywood', 'Plywood', 'Walnut', 'Black Acrylic', 'Corrugated Paper', 'Canvas', 'Painted Metal', 'Stainless Steel']}>
+  <Tab value="Basswood Plywood">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Power | 80-100% |
+    | Speed | 300-600mm/min |
+    | Passes | 1 pass for 3-5mm, 2 passes for thicker |
+    | Air assist | ON |
+    | Notes | Focus offset: None |
+
+  </Tab>
+  <Tab value="Plywood">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Power | 100% |
+    | Speed | 120mm/min (3.175mm thick) |
+    | Passes | 1 |
+    | Air assist | ON |
+    | Notes | Use line-filled engraving at 45% power for engraving |
+
+  </Tab>
+  <Tab value="Walnut">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Power | 100% |
+    | Speed | 120-300mm/min (3-5mm thick) |
+    | Passes | 1 |
+    | Air assist | ON |
+    | Notes | Engraving at 10% power, vector engraving at 80% |
+
+  </Tab>
+  <Tab value="Black Acrylic">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Power | 100% |
+    | Speed | 60-120mm/min (2-3mm thick) |
+    | Passes | 1-2 |
+    | Air assist | ON |
+    | Notes | Use masking tape to reduce melt marks. Vector engraving at 60-80% power. |
+
+  </Tab>
+  <Tab value="Corrugated Paper">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Power | 30-40% |
+    | Speed | 9000mm/min |
+    | Passes | 1 |
+    | Air assist | ON |
+    | Notes | Single pass, watch for scorching |
+
+  </Tab>
+  <Tab value="Canvas">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Power | 30% |
+    | Speed | 7500mm/min |
+    | Passes | 1 |
+    | Air assist | ON |
+    | Notes | Line-filled engraving |
+
+  </Tab>
+  <Tab value="Painted Metal">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Power | 15-45% |
+    | Speed | 9000-10800mm/min |
+    | Passes | 1 |
+    | Air assist | ON |
+    | Notes | For removing paint layer only |
+
+  </Tab>
+  <Tab value="Stainless Steel">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Power | 90% |
+    | Speed | 1200mm/min |
+    | Passes | 1 |
+    | Air assist | ON |
+    | Notes | Line-filled engraving only |
+
+  </Tab>
+</Tabs>
+
+### CNC
+
+<Tabs items={['MDF', 'Aluminum', 'Basswood']}>
+  <Tab value="MDF">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Bit type | 3.175mm Flat End Mill |
+    | Spindle speed | 12000rpm |
+    | Depth per pass | 1.0-1.5mm |
+    | Feed rate | Standard |
+    | Notes | Clear dust frequently. Use tabs to hold parts in place. |
+
+  </Tab>
+  <Tab value="Aluminum">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Bit type | 2mm Flat End Mill |
+    | Spindle speed | 18000rpm |
+    | Depth per pass | 0.2mm |
+    | Feed rate | Slow |
+    | Notes | Use cutting fluid, slow feed, multiple passes. |
+
+  </Tab>
+  <Tab value="Basswood">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Bit type | 3.175mm Flat End Mill |
+    | Spindle speed | 12000rpm |
+    | Depth per pass | 1.5-2mm |
+    | Feed rate | Standard |
+    | Notes | Can combine with laser engraving on same piece |
+
+  </Tab>
+</Tabs>
+
+## Troubleshooting
+
+<Accordions>
+  <Accordion title="Laser Not Cutting Through">
+    Check focus height, increase passes, clean lens for residue.
+  </Accordion>
+  <Accordion title="CNC Bit Breaking">
+    Reduce depth per pass, check feed rate, confirm material is clamped firmly.
+  </Accordion>
+</Accordions>
+
+## Repair Guides
+
+<Accordions>
+  <Accordion title="Laser Lens Cleaning">
+    **Difficulty:** Easy · **Tools:** Lens cloth, isopropyl alcohol
+    
+    Power off, remove laser module cover, wipe lens gently in one direction, reassemble.
+    
+    <Callout type="warn">Never touch the lens with bare fingers.</Callout>
+  </Accordion>
+  <Accordion title="Change Tool Bit (CNC)">
+    **Difficulty:** Easy · **Tools:** 14mm open end wrench, 17mm open end wrench, replacement bit
+    
+    Power off the machine. Loosen the collet nut using the wrenches. Remove the old bit. Insert the new bit fully into the collet. Tighten the collet nut securely. Power on and run the toolhead calibration.
+    
+    <Callout type="warn">Ensure the bit is fully inserted and tight. Loose bits can break or damage the machine.</Callout>
+  </Accordion>
+  <Accordion title="Recalibrate Settings After Tool Change">
+    **Difficulty:** Medium · **Tools:** None (touchscreen only)
+    
+    Power on the machine. Navigate to the calibration menu on the touchscreen. Run platform height calibration. Set the work origin for the current toolhead. Run a test boundary check to verify alignment. If using laser, run laser focus calibration.
+    
+    <Callout type="warn">Always recalibrate after swapping toolheads or bits to prevent alignment errors.</Callout>
+  </Accordion>
+</Accordions>
+
+## Rules
+
+- Never leave laser or CNC jobs unattended - stay with the machine throughout the task.
+- Always use air assist / dust extraction when operating the laser module.
+- Wear safety glasses when operating the laser module.
+- Secure material fully with clamps before starting any CNC or laser job.
+- Ensure the Enclosure door is closed and stays closed during laser operation.
+- Keep the emergency stop button within easy reach at all times.
+- Report any calibration drift, alignment issues, or unusual noises to exco immediately.
+- Clean the laser lens before each use with a lens cloth and IPA.
+- Only use authorized bits and tools for CNC operations.
+- Log all jobs (material, duration, username) in the workshop registry.
+- Only exco can change advanced settings or update firmware.
+- Do not use highly reflective materials for laser engraving (except 304 stainless steel and anodized aluminium).
+
+## Videos
+
+<YouTube url="https://youtu.be/76wUx7I-Gsk?si=intNKUYx3xckQfhs" title="Snapmaker Artisan Guides" />

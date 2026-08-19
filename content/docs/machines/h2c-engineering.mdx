@@ -1,0 +1,135 @@
+---
+title: Engineering H2C
+description: Engineering FDM printer for CoPE, TPU and ASA with a heated enclosure and AMS.
+icon: Printer
+---
+
+<MachineStatus id="h2c-engineering" />
+
+## Quick Start
+
+<Steps>
+  <Step>Turn on the main power switch at the back of the printer and wait for the touchscreen to fully boot.</Step>
+  <Step>Load the appropriate filament (CoPE, TPU 90A, TPU 95A, or ASA) into the AMS system.</Step>
+  <Step>Inspect the build plate for debris and apply bed adhesive if required for the material.</Step>
+  <Step>Close the enclosure door securely before starting any high-temperature print.</Step>
+  <Step>Select your sliced file from the network queue or USB drive.</Step>
+  <Step>Run the automatic bed leveling sequence via the touchscreen.</Step>
+  <Step>Start the print and monitor the first layer for proper adhesion.</Step>
+</Steps>
+
+## Settings
+
+Verified print profiles for this machine.
+
+<Tabs items={['Polymaker CoPE', 'TPU 90A', 'TPU 95A', 'ASA']}>
+  <Tab value="Polymaker CoPE">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Nozzle temp | 240-260C |
+    | Bed temp | 70-85C |
+    | Speed | Slow (30-50mm/s) |
+    | Cooling | 20-30% fan |
+    | Enclosure | Heated enclosure recommended (45-50C) |
+    | Drying | Dry at 70C for 4-6 hours before printing |
+
+  </Tab>
+  <Tab value="TPU 90A">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Nozzle temp | 220-235C |
+    | Bed temp | 45-60C |
+    | Speed | Very slow (15-30mm/s) |
+    | Cooling | 20-30% fan |
+    | Retraction | Disabled or 1mm @ 15mm/s |
+    | Drying | Dry at 50C for 4-6 hours before printing |
+
+  </Tab>
+  <Tab value="TPU 95A">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Nozzle temp | 220-240C |
+    | Bed temp | 45-60C |
+    | Speed | Very slow (15-30mm/s) |
+    | Cooling | 20-30% fan |
+    | Retraction | Disabled or 0.5mm @ 15mm/s |
+    | Drying | Dry at 50C for 4-6 hours before printing |
+
+  </Tab>
+  <Tab value="ASA">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Nozzle temp | 240-260C |
+    | Bed temp | 90-110C |
+    | Speed | Slow-normal (40-60mm/s) |
+    | Cooling | 10-20% fan |
+    | Enclosure | Heated enclosure required (45-55C) |
+    | Drying | Dry at 80C for 4-8 hours before printing |
+    | Notes | Use brim or raft to prevent warping. Apply glue stick or hairspray for bed adhesion. |
+
+  </Tab>
+</Tabs>
+
+## Troubleshooting
+
+<Accordions>
+  <Accordion title="Nozzle Clog">
+    Heat nozzle to printing temp, retract and reinsert filament, use cold-pull if resistance remains, cold-pull with acupuncture needle if still clogged.
+  </Accordion>
+  <Accordion title="Filament Loading Issues">
+    Confirm filament path is clear, check extruder gear for grinding, trim filament tip at an angle before loading.
+  </Accordion>
+  <Accordion title="First Layer Not Sticking">
+    Re-level bed, clean plate with IPA, check nozzle-to-bed z-offset, lower first layer speed.
+  </Accordion>
+  <Accordion title="Grinding Noise at Extruder">
+    Check filament diameter and dryness, reduce retraction speed, inspect gear teeth for filament dust.
+  </Accordion>
+  <Accordion title="Layer Shifting">
+    Check belt tension, inspect for mechanical obstruction, reduce print speed/acceleration.
+  </Accordion>
+</Accordions>
+
+## Repair Guides
+
+<Accordions>
+  <Accordion title="Adhesion Failure on Build Plate">
+    Wash the build plate with warm soapy water, then wipe with 99% IPA. Dry completely. Re-level the bed using the auto-leveling sequence. Apply glue stick or Magigoo for CoPE/ASA prints. Increase bed temperature by 5°C.
+  </Accordion>
+  <Accordion title="AMS Filament Feeding Failure">
+    When the AMS displays a filament feed error, gently push the filament by hand to help the feeder grab it. Verify the spool is not tangled. Reseat the spool in the AMS slot. Check the PTFE tube for kinks. Clean the AMS feeder gears if dirty.
+  </Accordion>
+  <Accordion title="Nozzle Clog">
+    Heat nozzle to 250°C. Manually push filament through until it flows smoothly. Cool nozzle to 90°C. Perform a cold pull by yanking filament out quickly. Inspect pulled tip for clean nozzle impression. Repeat 2-3 times. If still clogged, replace the nozzle.
+  </Accordion>
+  <Accordion title="Grinding Noise at Extruder">
+    Check filament diameter (1.75mm ± 0.05mm). Dry filament at recommended temperature. Reduce retraction speed to 25mm/s. Clean extruder gear teeth with a brass brush.
+  </Accordion>
+  <Accordion title="Layer Shifting in Print">
+    Check belt tension (should twang at ~100Hz). Inspect pulleys for loose grub screws. Reduce print speed/acceleration by 30%. Lubricate linear rails if moving roughly.
+  </Accordion>
+  <Accordion title="Warping (Especially ASA)">
+    Ensure heated enclosure is closed and reaches 45-55°C. Add brim or raft to the print. Increase bed temperature to 100-110°C. Reduce part cooling fan to 10-20%.
+  </Accordion>
+</Accordions>
+
+## Rules
+
+- Wear appropriate PPE when handling high-temperature materials like CoPE and ASA.
+- Remain at the printer to visually confirm the entire first layer adheres successfully.
+- Unattended overnight prints require exco approval and a visible contact label on the printer.
+- Clean the build plate with 99% IPA after every print once cooled.
+- Report all hardware issues, clogs, or unusual noises to exco immediately.
+- Remove filament spools from the AMS after printing and store in dry boxes with desiccant.
+- Standard print settings may be adjusted by trained users; advanced profiles require exco authorization.
+- Firmware updates are restricted to exco members only.
+- Log every print job (material, duration, username) in the workshop registry.
+- Never manually force filament through the AMS; follow official unloading protocols.
+
+## Videos
+
+<YouTube url="https://youtu.be/WyEihfxzwjM?si=jYMEEcK40wjC-xst" title="Bambu Lab H2C First Print Guide" />

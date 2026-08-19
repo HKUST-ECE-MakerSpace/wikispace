@@ -1,0 +1,108 @@
+---
+title: Soldering Stations
+description: Temperature-controlled soldering irons for electronics assembly and repair.
+icon: Zap
+---
+
+<MachineStatus id="soldering-station" />
+
+## Quick Start
+
+<Steps>
+  <Step>Power on the station and select your target temperature.</Step>
+  <Step>Wait for the tip to reach temperature (LED stops blinking).</Step>
+  <Step>Tin the tip lightly with fresh solder before use.</Step>
+  <Step>Solder your joint using proper technique.</Step>
+  <Step>Return the iron to its stand and power off after use.</Step>
+</Steps>
+
+## Settings
+
+Verified print profiles for this machine.
+
+<Tabs items={['Leaded Solder (SnPb)', 'Lead Free (SAC305)', 'Fine SMD', 'General Purpose', 'Maximum Safe']}>
+  <Tab value="Leaded Solder (SnPb)">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Tip temp | 320-350C |
+    | Notes | Standard solder, melts at 183°C |
+
+  </Tab>
+  <Tab value="Lead Free (SAC305)">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Tip temp | 350-380C |
+    | Notes | Higher temp needed, melts at 220°C |
+
+  </Tab>
+  <Tab value="Fine SMD">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Tip temp | 300-320C |
+    | Tip | Conical fine tip |
+    | Notes | Lower temp to prevent damage to small components |
+
+  </Tab>
+  <Tab value="General Purpose">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Tip temp | 330-370C |
+    | Notes | Recommended range for most soldering work |
+
+  </Tab>
+  <Tab value="Maximum Safe">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Tip temp | 400C |
+    | Notes | Do not exceed 400°C to prevent tip and PCB damage |
+
+  </Tab>
+</Tabs>
+
+## Troubleshooting
+
+<Accordions>
+  <Accordion title="Tip Not Heating">
+    Check power connection, verify tip is seated fully, inspect heating element cable.
+  </Accordion>
+  <Accordion title="Poor Solder Flow / Cold Joints">
+    Re-tin the tip, clean with brass wool, increase temp slightly, check flux freshness.
+  </Accordion>
+  <Accordion title="Tip Oxidizing Quickly">
+    Always tin before storing, avoid leaving tip on at idle for long periods.
+  </Accordion>
+</Accordions>
+
+## Repair Guides
+
+<Accordions>
+  <Accordion title="Clean Soldering Iron Tip">
+    **Difficulty:** Easy · **Tools:** Wet sponge or brass wool
+    
+    Wet the sponge with water and squeeze out excess (should be damp, not dripping). For brass wool: gently push and twist the tip into the wool to remove excess solder. For wet sponge: gently wipe the tip on the damp sponge. After cleaning, immediately apply fresh solder to the tip (tin it) to prevent oxidation.
+    
+    <Callout type="warn">Do not use steel wool - it will scratch and damage the tip plating. Do not use excessive force when cleaning. Always tin the tip after cleaning.</Callout>
+  </Accordion>
+</Accordions>
+
+## Rules
+
+- Always use the wet sponge or brass wool to clean the tip.
+- Do not use steel wool - it scratches and damages the tip plating.
+- Never leave the iron on and unattended.
+- Turn off and let cool before storing.
+- Tin the tip before storing to prevent oxidation.
+- Use fume extraction when available.
+- Do not use excessive force when soldering or cleaning.
+- Do not use temperatures higher than 400°C.
+- Return the iron to its stand when not in use.
+- Report faulty tips or stations to exco immediately.
+
+## Videos
+
+<YouTube url="https://youtu.be/3jAw41LRBxU?si=KiM7wdo3wc_PXOyN" title="HOW TO SOLDER!" />

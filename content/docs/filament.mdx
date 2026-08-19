@@ -1,0 +1,18 @@
+---
+title: Filament Inventory
+description: Live stock of every filament type in the lab — materials, colours and roll counts.
+icon: Package
+---
+
+This is the live filament inventory — what the lab stocks right now, updated from the ops dashboard as spools are added and used.
+
+<FilamentTable />
+
+## Before you print
+
+- Check the table for your material **and** colour before you slice — the machines have verified profiles per material (see each [machine page](/docs/machines)).
+- Make sure the stock column shows enough rolls for your whole print.
+
+## Low-stock alerts
+
+Rows highlighted in amber (2 rolls or fewer, marked "· low") are running out. If the filament you need is low — or gone — use the **Request filament** button above the table: it sends a restock request straight to exco's ops dashboard, and the inventory updates once it's fulfilled.
