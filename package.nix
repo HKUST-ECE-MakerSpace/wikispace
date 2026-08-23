@@ -16,7 +16,7 @@ let
     if stdenv.isDarwin then
       "sha256-knBFWtQWeUcjP3VW0oTd4kKjBkWt41JkZXZIx7y1NeY="
     else
-      "sha256-1/1xCZx8RZfKLdNJRqbZaJFOnLsk6bkNl3KtX4LQTqE=";
+      "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 
   # Everything the build needs — no VCS, no dev scratch, no runtime state.
   appSource = lib.cleanSourceWith {
