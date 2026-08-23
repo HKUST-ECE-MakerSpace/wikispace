@@ -1,8 +1,9 @@
 import { promises as fs, type Dirent } from 'node:fs';
 import path from 'node:path';
+import { CONTENT_DIR } from '@/lib/paths';
 
 /** Root every editable path must resolve inside. */
-export const CONTENT_DIR = path.join(process.cwd(), 'content', 'docs');
+export { CONTENT_DIR };
 
 /** Editable filenames: letters, digits, hyphens, dots, slashes — nothing else. */
 const PATH_RE = /^[a-z0-9-./]+$/i;

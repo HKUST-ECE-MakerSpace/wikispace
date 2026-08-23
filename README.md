@@ -153,25 +153,36 @@ ADMIN_PASSWORD='choose-one' bun run start -p 3000
 Keep `data/` across deploys to preserve live state — the app only writes it at
 runtime. Under PM2: `pm2 start bun --name wiki -- run start`.
 
-On NixOS (the setup used for `wiki.ecemaker.space`), the repo is added as a
-flake input and served behind Caddy, the same way the other MakerSpace
-services are:
+On NixOS (how `wiki.ecemaker.space` is deployed), this repo is a flake that
+exposes both the package and a `services.wiki` module:
 
 ```nix
-# flake input
-wiki.url = "git+https://github.com/HKUST-ECE-MakerSpace/wikispace";
+# flake input — public repo, no token needed
+wikispace.url = "github:HKUST-ECE-MakerSpace/wikispace";
 ```
 
 ```nix
-# host config: build, run under systemd, reverse-proxy with Caddy
+# host config
+imports = [ inputs.wikispace.nixosModules.default ];
+services.wiki = {
+  enable = true;
+  port = 3001;
+  environment.ADMIN_PASSWORD = "…"; # seeds data/settings.json on first boot
+};
 services.caddy.virtualHosts."wiki.ecemaker.space" = {
   extraConfig = ''
     handle {
-      reverse_proxy localhost:3000
+      reverse_proxy localhost:3001
     }
   '';
 };
 ```
+
+The module runs the standalone Next.js server as a hardened, dynamic-user
+systemd service. Wiki content and ops state live in `/var/lib/wiki`
+(`WIKI_CONTENT_DIR` / `WIKI_DATA_DIR` overrides) — seeded from the package on
+first boot, then owned by the web editor and ops dashboard. Deploying an
+update is `nix flake update wikispace && nixos-rebuild switch`.
 
 One process serves everything — docs, ops, editor and admin. The legacy stack
 (`vite preview` + Express + Socket.IO on separate ports) is gone.
@@ -181,3 +192,7 @@ One process serves everything — docs, ops, editor and admin. The legacy stack
 Admin → Backup exports every collection and setting as a single JSON file and
 re-imports it the same way. On the host, backing up the `data/` directory is
 equivalent — it is the entire live state.
+
+## License
+
+[MIT](./LICENSE) — HKUST ECE MakerSpace.

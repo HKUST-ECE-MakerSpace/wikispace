@@ -2,6 +2,7 @@ import { randomBytes } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { hashPassword } from './auth';
+import { DATA_DIR } from './paths';
 import type {
   BankPage,
   ComponentRequest,
@@ -16,7 +17,7 @@ import type {
  * (tmp file + rename), read-through cache. Missing files are bootstrapped
  * from the seeds below; existing files are never overwritten.
  */
-const DATA_DIR = path.join(process.cwd(), 'data');
+/* DATA_DIR comes from lib/paths.ts (WIKI_DATA_DIR overridable). */
 
 const cache = new Map<string, unknown>();
 

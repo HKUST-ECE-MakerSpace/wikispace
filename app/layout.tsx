@@ -1,9 +1,13 @@
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import './global.css';
-import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 
-const inter = Inter({
-  subsets: ['latin'],
+/* Vendored Inter (latin, variable) — keeps `next build` network-free, so the
+ * app builds inside the Nix sandbox. */
+const inter = localFont({
+  src: './fonts/inter-latin-var.woff2',
+  weight: '100 900',
+  display: 'swap',
 });
 
 export default function Layout({ children }: LayoutProps<'/'>) {

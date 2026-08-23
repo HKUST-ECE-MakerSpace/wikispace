@@ -21,8 +21,7 @@ import { dynamic } from 'fumadocs-mdx/runtime/dynamic';
 import { applyTreeIcons } from './page-tree-icons';
 
 import { docsContentRoute, docsImageRoute, docsRoute } from './shared';
-
-const CONTENT_DIR = path.join(process.cwd(), 'content', 'docs');
+import { CONTENT_DIR } from './paths';
 /**
  * Collection definitions for the runtime compiler — keyed like the exports of
  * a source configuration file. No build-time macro: files are read from disk

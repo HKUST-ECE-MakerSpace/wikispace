@@ -10,6 +10,10 @@ logs/
 # runtime state (auto-seeded on first boot; contains the hashed admin
 # password + session secret once the app has run — never commit it)
 data/
+
+# nix flake build outputs
+result
+result-*
 *.tsbuildinfo
 next-env.d.ts
 
