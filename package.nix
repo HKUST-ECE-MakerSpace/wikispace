@@ -14,11 +14,12 @@ let
   # (node_modules differ: per-OS optional deps like @next/swc-*).
   appHash =
     if stdenv.isDarwin then
-      "sha256-knBFWtQWeUcjP3VW0oTd4kKjBkWt41JkZXZIx7y1NeY="
+      "sha256-gjMepIby9rosa2JZvLkVA2UCK1jbEit7TdOpGir74To="
     else
-      "sha256-olGXwxTsCj82mbGaGwA372YEiBLP0Z/+D83CHUSrDlA=";
+      "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 
-  # Everything the build needs — no VCS, no dev scratch, no runtime state.
+  # Everything the build needs — no VCS, no dev scratch, no runtime state,
+  # and no doc-only files (README/LICENSE edits don't shift the build hash).
   appSource = lib.cleanSourceWith {
     src = ./.;
     filter =
@@ -31,7 +32,10 @@ let
         ".git"
         ".env"
         ".env.local"
+        ".github"
         ".next"
+        "LICENSE"
+        "README.md"
         "data"
         "node_modules"
         "webtest2"

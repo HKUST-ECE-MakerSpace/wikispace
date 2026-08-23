@@ -222,11 +222,20 @@ sudo nix flake update wikispace
 sudo nixos-rebuild switch --flake /etc/nixos#eez156
 ```
 
-If `package.json` dependencies changed, the two `appHash` values in
-`package.nix` must be re-pinned first — run `nix build .#default` on macOS and
-`nix build github:HKUST-ECE-MakerSpace/wikispace#default` on the server, read
-the `got:` sha256 from each hash-mismatch error, paste it into the matching
-platform branch of `appHash`, commit and push.
+Whenever the app source changes (not just dependencies), the two `appHash`
+values in `package.nix` must be re-pinned first — the hash pins the whole
+build:
+
+1. Reset both hashes in `package.nix` to `sha256-AAAA…=` and push.
+2. On macOS run `nix build .#default`, on the server run
+   `nix build github:HKUST-ECE-MakerSpace/wikispace#default`; each fails with
+   a hash mismatch showing the real `got:` sha256 for that platform.
+3. Paste them into the matching `appHash` branches, commit, push.
+
+Resetting the placeholder first matters: a still-valid output under the old
+hash makes Nix silently serve the stale build instead of rebuilding.
+README and LICENSE are excluded from the build source, so doc-only edits
+never need re-pinning.
 
 ## License
 
