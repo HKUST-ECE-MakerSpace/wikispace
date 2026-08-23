@@ -5,8 +5,8 @@ import {
   DocsPage,
   DocsTitle,
   MarkdownCopyButton,
-  ViewOptionsPopover,
 } from 'fumadocs-ui/layouts/docs/page';
+import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import { notFound } from 'next/navigation';
 import { WorkshopChecklist } from '@/components/workshop-checklist';
 import type { ChecklistItem } from '@/lib/types';
@@ -30,6 +30,7 @@ function isChecklistItem(value: unknown): value is ChecklistItem {
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params;
+  const searchParams = await props.searchParams;
   const source = await getDocsSource();
   const page = source.getPage(params.slug);
   if (!page) notFound();
@@ -41,32 +42,46 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
     ? page.data.checklist.filter(isChecklistItem)
     : [];
 
+  const body = (
+    <DocsBody>
+      <data.body
+        components={getMDXComponents({
+          // this allows you to link to other pages with relative file paths
+          a: createRelativeLink(source, page),
+        })}
+      />
+    </DocsBody>
+  );
+
   return (
     <DocsPage toc={data.toc} full={full}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription className="mb-0">{page.data.description}</DocsDescription>
       <div className="flex flex-row gap-2 items-center border-b pb-6">
         <MarkdownCopyButton markdownUrl={markdownUrl} />
-        <ViewOptionsPopover markdownUrl={markdownUrl} />
       </div>
       {checklist.length > 0 ? (
-        <WorkshopChecklist
-          pageUrl={page.url}
-          items={checklist}
-          durationMin={
-            typeof page.data.duration === 'number' ? page.data.duration : undefined
-          }
-          audience={typeof page.data.audience === 'string' ? page.data.audience : undefined}
-        />
-      ) : null}
-      <DocsBody>
-        <data.body
-          components={getMDXComponents({
-            // this allows you to link to other pages with relative file paths
-            a: createRelativeLink(source, page),
-          })}
-        />
-      </DocsBody>
+        <Tabs
+          items={['Overview', 'Checklist']}
+          defaultIndex={searchParams.tab === 'checklist' ? 1 : 0}
+        >
+          <Tab value="Overview">{body}</Tab>
+          <Tab value="Checklist">
+            <WorkshopChecklist
+              pageUrl={page.url}
+              items={checklist}
+              durationMin={
+                typeof page.data.duration === 'number' ? page.data.duration : undefined
+              }
+              audience={
+                typeof page.data.audience === 'string' ? page.data.audience : undefined
+              }
+            />
+          </Tab>
+        </Tabs>
+      ) : (
+        body
+      )}
     </DocsPage>
   );
 }

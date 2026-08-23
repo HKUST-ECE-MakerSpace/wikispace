@@ -113,8 +113,9 @@ checklist:
     section: Wrap-up
 ---
 
-The checklist in this page's frontmatter renders as a tracked checklist —
-attendees tick items off as the session progresses. Each item needs an \`id\`
+The checklist in this page's frontmatter renders in its own Checklist tab —
+runners tick items off as the session progresses (deep-link it with
+\`?tab=checklist\` on the URL). Each item needs an \`id\`
 and \`label\`; \`section\` groups items under a heading.
 
 ## Before you run it

@@ -125,10 +125,11 @@ checklist:
 ---
 ```
 
-The checklist renders as an interactive widget: progress and per-item runner
-notes are saved on the runner's device (localStorage), with a print view for
-paper people. The induction content was adapted from the official Induction
-Workshop v4 document.
+The page renders with **Overview** and **Checklist** tabs: progress and
+per-item runner notes are saved on the runner's device (localStorage), with a
+print view for paper people and a `?tab=checklist` deep link for runner QR
+codes. The induction content was adapted from the official Induction Workshop
+v4 document.
 
 ## Security model
 
@@ -192,6 +193,40 @@ One process serves everything — docs, ops, editor and admin. The legacy stack
 Admin → Backup exports every collection and setting as a single JSON file and
 re-imports it the same way. On the host, backing up the `data/` directory is
 equivalent — it is the entire live state.
+
+## Updating the deployment
+
+Everything mutable lives in `/var/lib/wiki` on the host — outside the Nix
+store — so updating (or rebooting) never touches it:
+
+- `content/docs/` is seeded from the package **only when empty**. Once the
+  wiki has been edited via `/edit`, the live pages are authoritative: content
+  changes pushed to this repo do **not** propagate to a deployed instance.
+  Push content changes by editing the live wiki (or copying MDX into
+  `/var/lib/wiki/content/docs/`).
+- `data/*.json` files are seeded only when missing. Reports, machine status,
+  filament, banks, the WhatsApp config and `settings.json` (which holds the
+  scrypt password hash and the session secret) survive every update.
+- `ADMIN_PASSWORD` only matters on first boot; after that the hash in
+  `settings.json` is authoritative and password changes are made in
+  Admin → Settings.
+
+To deploy a new version of the app:
+
+```bash
+git push                     # this repo
+# then on the server:
+cd /etc/nixos
+sudo git pull
+sudo nix flake update wikispace
+sudo nixos-rebuild switch --flake /etc/nixos#eez156
+```
+
+If `package.json` dependencies changed, the two `appHash` values in
+`package.nix` must be re-pinned first — run `nix build .#default` on macOS and
+`nix build github:HKUST-ECE-MakerSpace/wikispace#default` on the server, read
+the `got:` sha256 from each hash-mismatch error, paste it into the matching
+platform branch of `appHash`, commit and push.
 
 ## License
 
