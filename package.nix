@@ -16,7 +16,7 @@ let
     if stdenv.isDarwin then
       "sha256-gjMepIby9rosa2JZvLkVA2UCK1jbEit7TdOpGir74To="
     else
-      "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+      "sha256-nA8tR92Ge83oO+UtabSMWNAaa3F5Dhitu1Q0d/jNKZg=";
 
   # Everything the build needs — no VCS, no dev scratch, no runtime state,
   # and no doc-only files (README/LICENSE edits don't shift the build hash).
