@@ -11,7 +11,7 @@ import {
   Save,
   Trash2,
 } from 'lucide-react';
-import { useCallback, useEffect, useState, type FormEvent, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 
 import { TEMPLATES, type TemplateKey } from '@/lib/templates';
 
@@ -96,6 +96,7 @@ export function EditorApp() {
     if (session === 'ready') void refreshTree();
   }, [session, refreshTree]);
 
+
   const openFile = useCallback(
     async (path: string): Promise<void> => {
       setLoadingFile(true);
@@ -118,6 +119,15 @@ export function EditorApp() {
     },
     [api, refreshTree],
   );
+
+  // The "Edit this page" button lands here with ?file=; open it on arrival.
+  const deepLinked = useRef(false);
+  useEffect(() => {
+    if (session !== 'ready' || deepLinked.current || typeof window === 'undefined') return;
+    deepLinked.current = true;
+    const wanted = new URLSearchParams(window.location.search).get('file');
+    if (wanted) void openFile(wanted);
+  }, [session, openFile]);
 
   const dirty = openPath !== null && content !== savedContent;
 

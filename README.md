@@ -16,7 +16,8 @@ Built by exco, for exco — one process serves the whole space.
 **Wiki**
 
 - MDX pages with browser editor ([`/edit`](/edit)): file tree, templates,
-  CodeMirror, live preview, ⌘S to publish
+  CodeMirror, live preview, ⌘S to publish; an "Edit this page" button on every
+  page deep-links the editor to that file
 - Fumadocs theme: sidebar with icons and separators, dark mode, full-text
   search that updates the moment a page is saved
 - Custom MDX components for makerspace content — live widgets, tabs,
@@ -31,10 +32,11 @@ Built by exco, for exco — one process serves the whole space.
 
 - 4-state live machine status on every machine page; submitting a report
   auto-flags the machine "Needs Attention"
-- Public issue-report and component-request forms (no login) with admin triage
+- Searchable component-bank grids: merged drawers mirroring the physical bins,
+  aisle columns, full-screen mode, and per-bank restock request forms (no
+  login; admin edits cells in the panel)
+- Public issue-report and component-request forms (no login) feeding admin triage
   queues, plus optional WhatsApp alerts to exco via Green API
-- Three interactive component-bank grids mirroring the physical drawer layout
-  (admin click-to-edit cells)
 - Filament inventory with low-stock WhatsApp alerts
 - QR code on every machine page for physical posters — scan, land on the guide
 - Admin panel: backup export/import (single JSON), password change, WhatsApp
