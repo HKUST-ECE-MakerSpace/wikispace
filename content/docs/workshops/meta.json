@@ -3,7 +3,6 @@
   "icon": "Presentation",
   "defaultOpen": true,
   "pages": [
-    "index",
     "induction",
     "running-a-workshop"
   ]

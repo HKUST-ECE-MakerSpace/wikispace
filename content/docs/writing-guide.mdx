@@ -179,7 +179,6 @@ Each folder's `meta.json` controls order, labels and separators:
   "icon": "Printer",
   "defaultOpen": true,
   "pages": [
-    "index",
     "---3D Printers---",
     "h2c-engineering",
     "j1s",
@@ -192,6 +191,7 @@ Each folder's `meta.json` controls order, labels and separators:
 - `pages` lists page names (file names without `.mdx`) in display order.
 - `"---Name---"` entries render as separators.
 - `title` and `icon` (same allowed names as frontmatter) name the folder; `defaultOpen` expands it on load.
+- A folder's `index.mdx` is **never listed** — the folder label itself links to it (that's the sidebar entry with the chevron). Listing it again would show the page twice.
 - Pages **not** listed don't appear in the sidebar. Use a `"..."` entry to insert all remaining pages at that spot, or `"!page-name"` to hide one.
 - The root `content/docs/meta.json` orders the top-level sections.
 

@@ -3,7 +3,6 @@
   "icon": "Boxes",
   "defaultOpen": true,
   "pages": [
-    "index",
     "electronics-bank",
     "assembly-mechanics",
     "screw-bank"

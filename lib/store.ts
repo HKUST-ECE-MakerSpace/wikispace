@@ -110,7 +110,7 @@ function seedSettings(): Settings {
 const SEED_MACHINES: MachineState[] = [{"id":"h2c-engineering","name":"Engineering H2C","icon":"🖨️","status":"operational","statusNote":"","quantity":""},{"id":"h2c-multicolor","name":"Multi Color H2C","icon":"🖨️","status":"operational","statusNote":"","quantity":""},{"id":"p1s-left","name":"Left P1S","icon":"🖨️","status":"down","statusNote":"","quantity":"need fixing"},{"id":"p1s-middle","name":"Middle P1S","icon":"🖨️","status":"operational","statusNote":"","quantity":""},{"id":"p1s-right","name":"Right P1S","icon":"🖨️","status":"operational","statusNote":"","quantity":""},{"id":"j1s","name":"J1S Printer","icon":"🖨️","status":"maintenance","statusNote":"Calibration drifting","quantity":"Calibration needed"},{"id":"snapmaker-artisan","name":"Snapmaker Artisan (40W Laser + CNC)","icon":"🔩","status":"operational","statusNote":"","quantity":""},{"id":"soldering-station","name":"Soldering Stations","icon":"🔧","status":"operational","statusNote":"","quantity":""}]
 ;
 
-const SEED_REPORTS: Report[] = [{"id":"report_1786897147199_631","machineId":"p1s-left","machineName":"Left P1S","issueType":"borken","reportedBy":"terry","description":"testing\n","status":"open","adminNotes":"","createdAt":"2026-08-16T16:19:07.199Z"}]
+const SEED_REPORTS: Report[] = [];
 ;
 
 const SEED_REQUESTS: ComponentRequest[] = []

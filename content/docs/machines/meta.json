@@ -3,7 +3,6 @@
   "icon": "Printer",
   "defaultOpen": true,
   "pages": [
-    "index",
     "---3D Printers---",
     "h2c-engineering",
     "h2c-multicolor",
