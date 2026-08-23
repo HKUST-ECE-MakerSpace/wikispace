@@ -1,7 +1,6 @@
 {
   lib,
   stdenv,
-  bun,
   nodejs,
   cacert,
   autoPatchelfHook,
@@ -9,13 +8,16 @@
 }:
 
 let
-  # node_modules differ per platform (bun fetches per-OS optional deps),
-  # so each platform pins its own FOD hash.
-  depsHash =
+  # The app is built inside a fixed-output derivation: FODs may use the
+  # network, so npm installs and `next build` runs there directly — no
+  # cache-tarball dance. The output hash pins the result per platform
+  # (node_modules differ: per-OS optional deps like @next/swc-*).
+  appHash =
     if stdenv.isDarwin then
-      "sha256-ssAam8s9mcwn4z9FSk27uxLHIeL8TE5NIZEx4ZBwiRo="
+      "sha256-BPKvGv6Coc0gRieAVSxRhtdaAbb39FXbo0K9tXV8sc0="
     else
       "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+
   # Everything the build needs — no VCS, no dev scratch, no runtime state.
   appSource = lib.cleanSourceWith {
     src = ./.;
@@ -40,86 +42,68 @@ stdenv.mkDerivation (finalAttrs: {
   pname = "wikispace";
   version = (builtins.fromJSON (builtins.readFile ./package.json)).version;
 
-  src = appSource;
-
-  # node_modules fetched by bun against the lockfile (fixed-output, cached).
-  deps = stdenv.mkDerivation {
-    pname = "wikispace-node-deps";
+  app = stdenv.mkDerivation {
+    pname = "wikispace-app";
     inherit (finalAttrs) version;
-
     src = appSource;
 
     buildInputs = [
-      bun
+      nodejs
       cacert
     ];
 
+    # npm rather than bun: bun's prebuilt x86_64 binaries require AVX2,
+    # which the Ivy Bridge Xeon serving wiki.ecemaker.space lacks.
+    # --ignore-scripts is safe: all native deps (swc, oxide, lightningcss)
+    # ship their binaries in platform optionalDependencies.
     buildPhase = ''
       export HOME=$TMPDIR
-      export BUN_INSTALL_CACHE_DIR=$TMPDIR/bun-cache
-      bun install --frozen-lockfile
-      # caches/journals make the output non-deterministic
-      rm -rf node_modules/.cache node_modules/.bun
+      export npm_config_cache=$TMPDIR/npm-cache
+      ${nodejs}/bin/npm ci --ignore-scripts --no-audit --no-fund
+      export NODE_ENV=production
+      export NEXT_TELEMETRY_DISABLED=1
+      export NEXT_OUTPUT_STANDALONE=1
+      node node_modules/next/dist/bin/next build
     '';
 
     installPhase = ''
-      mkdir -p $out
-      cp -R node_modules $out/node_modules
+      app=$out/share/wikispace
+      mkdir -p $app
+      # relocatable standalone server (server.js + traced node_modules)
+      cp -R .next/standalone/. $app/
+      # static assets are not part of the standalone trace
+      cp -R .next/static $app/.next/static
+      # seed content for the first boot; the web editor writes to
+      # WIKI_CONTENT_DIR afterwards, this copy is never touched again
+      cp -R content $app/content
     '';
 
     outputHashMode = "recursive";
     outputHashAlgo = "sha256";
-    outputHash = depsHash;
+    outputHash = appHash;
   };
+
+  dontUnpack = true;
+
   nativeBuildInputs = [
     nodejs
     makeWrapper
   ]
-  # patches native ELF binaries (build-time turbopack/oxide, runtime swc)
-  # in node_modules and in $out — linux only, darwin Mach-O needs nothing
+  # patches native ELF binaries (runtime swc etc.) in $out — linux only,
+  # darwin Mach-O needs nothing
   ++ lib.optionals stdenv.isLinux [ autoPatchelfHook ];
   buildInputs = [ stdenv.cc.cc.lib ];
 
-  buildPhase = ''
-    runHook preBuild
-    export NODE_ENV=production
-    export NEXT_TELEMETRY_DISABLED=1
-    export NEXT_OUTPUT_STANDALONE=1
-
-    cp -R ${finalAttrs.deps}/node_modules ./node_modules
-    chmod -R u+w node_modules
-    # turbopack/oxide/lightningcss ship native binaries that must be patched
-    # before `next build` can execute them (linux only — darwin Mach-O runs
-    # unpatched)
-    ${lib.optionalString stdenv.isLinux "autoPatchelf node_modules"}
-
-    node node_modules/next/dist/bin/next build
-
-    runHook postBuild
-  '';
-
   installPhase = ''
     runHook preInstall
-
-    app=$out/share/wikispace
-    mkdir -p $app
-    # relocatable standalone server (server.js + traced node_modules)
-    cp -R .next/standalone/. $app/
-    # static assets are not part of the standalone trace
-    cp -R .next/static $app/.next/static
-    # seed content for the first boot; the web editor writes to
-    # WIKI_CONTENT_DIR afterwards, this copy is never touched again
-    cp -R content $app/content
-
+    mkdir -p $out/share
+    cp -R ${finalAttrs.app}/share/wikispace $out/share/wikispace
     mkdir -p $out/bin
     makeWrapper ${nodejs}/bin/node $out/bin/wikispace-server \
       --set NODE_ENV production \
-      --add-flags "$app/server.js"
-
+      --add-flags "$out/share/wikispace/server.js"
     runHook postInstall
   '';
-
-  passthru.appDir = "/share/wikispace";
 
   meta = {
     description = "ECE Makerspace wiki — browser-editable MDX docs + live ops";
