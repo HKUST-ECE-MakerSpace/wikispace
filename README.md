@@ -159,7 +159,7 @@ services are:
 
 ```nix
 # flake input
-wiki.url = "git+https://github.com/HKUST-ECE-MakerSpace/wiki";
+wiki.url = "git+https://github.com/HKUST-ECE-MakerSpace/wikispace";
 ```
 
 ```nix
