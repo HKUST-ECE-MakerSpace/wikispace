@@ -22,9 +22,12 @@ Built by exco, for exco — one process serves the whole space.
   search that updates the moment a page is saved
 - Custom MDX components for makerspace content — live widgets, tabs,
   accordions, steps, callouts, embedded video (see the in-app
-  [writing guide](/docs/writing-guide))
+  [writing guide](/docs/exco/writing-pages), admin-only)
 - Interactive workshop pages: checklists declared in frontmatter render as a
   tickable run sheet with per-device progress and a print view
+- Admin-only pages: frontmatter `admin: true` hides a page from members
+  everywhere — sidebar, search, `.md` export, `llms.txt`, OG image, the URL
+  itself — while signed-in exco see it with everything else
 - `llms.txt` / `llms-full.txt` endpoints and per-page Markdown export for
   LLMs and humans alike
 
@@ -107,9 +110,9 @@ Everything is MDX — custom components included:
 <FilamentTable />
 <YouTube url="https://youtu.be/…" title="Benchy removal" />
 ```
-
 The full authoring reference (frontmatter, components, sidebar ordering,
-naming rules) lives in the wiki itself at **`/docs/writing-guide`**.
+naming rules) lives in the wiki itself at **`/docs/exco/writing-pages`**
+(admin-only — sign in at `/edit` first).
 
 ## Workshops
 
@@ -140,6 +143,9 @@ v4 document.
   HMAC-signed cookie with a per-instance random `sessionSecret`
 - Public endpoints are limited to submitting reports/requests and reading
   live status
+- Wiki pages marked `admin: true` are filtered out of the public source before
+  compilation: no page, sidebar entry, search hit, markdown export, `llms.txt`
+  line or OG image exists for non-admins — they get a 404, not a hidden page
 - `data/settings.json` (hash + secret) is gitignored and never leaves the host;
   backups are exported explicitly from the admin panel
 

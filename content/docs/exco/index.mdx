@@ -1,0 +1,22 @@
+---
+title: Exco
+description: Internal documentation for exco — writing wiki pages, updating the website, and other admin tasks.
+icon: Cog
+admin: true
+---
+
+Everything in this section is **admin-only**: the pages carry `admin: true` in
+their frontmatter, so they appear in the sidebar, search and exports only when
+you are signed in at [`/edit`](/edit). Members never see them — not even as
+403s; to them these pages simply do not exist.
+
+This is the shelf for internal runbooks. Current pages:
+
+<Cards>
+  <Card title="Writing pages" description="Create and edit wiki pages — frontmatter, components, admin-only pages, sidebar order." href="/docs/exco/writing-pages" />
+  <Card title="Updating the website" description="Deploy app updates, re-pin build hashes, push content changes to the live wiki." href="/docs/exco/updating-the-website" />
+</Cards>
+
+Adding a new runbook: create the file in this folder from the
+[writing guide](/docs/exco/writing-pages), start its frontmatter with
+`admin: true`, and list it in this folder's `meta.json`.

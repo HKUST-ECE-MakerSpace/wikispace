@@ -1,3 +1,4 @@
+import { isAdminRequest } from '@/lib/auth';
 import { getDocsSource } from '@/lib/source';
 import { notFound } from 'next/navigation';
 import { ImageResponse } from 'next/og';
@@ -7,11 +8,11 @@ import { appName } from '@/lib/shared';
 export const dynamic = 'force-dynamic';
 
 export async function GET(
-  _req: Request,
+  request: Request,
   { params }: RouteContext<'/og/docs/[...slug]'>,
 ) {
   const { slug } = await params;
-  const source = await getDocsSource();
+  const source = await getDocsSource({ includeAdmin: isAdminRequest(request) });
   const page = source.getPage(slug.slice(0, -1));
   if (!page) notFound();
 

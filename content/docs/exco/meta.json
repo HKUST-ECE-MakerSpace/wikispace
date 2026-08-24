@@ -1,0 +1,6 @@
+{
+  "title": "Exco",
+  "icon": "Cog",
+  "defaultOpen": false,
+  "pages": ["index", "writing-pages", "updating-the-website"]
+}

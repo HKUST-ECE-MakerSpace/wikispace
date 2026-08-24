@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import type { ReactNode } from 'react';
+import type { Node } from 'fumadocs-core/page-tree';
 
 import { frontmatter } from 'fumadocs-core/content/md/frontmatter';
 import type { StructuredData } from 'fumadocs-core/mdx-plugins/remark-structure';
@@ -157,7 +158,6 @@ function normalizePageData(raw: string, fallbackName: string): Record<string, un
     return data;
 }
 
-
 async function scanContent(): Promise<ScanResult> {
   const result: ScanResult = { entries: [], meta: {}, hashes: [], hash: '' };
   await scanDir(CONTENT_DIR, '', result);
@@ -165,18 +165,35 @@ async function scanContent(): Promise<ScanResult> {
   return result;
 }
 
-let cached: { hash: string; source: DocsSource } | undefined;
+/** Options for {@link getDocsSource}. */
+export interface DocsSourceOptions {
+  /**
+   * Include pages whose frontmatter says `admin: true`. Without it those
+   * pages are dropped before the loader runs, so they exist nowhere in the
+   * public source: not in the tree, search index, page lookups or exports.
+   */
+  includeAdmin?: boolean;
+}
+
+/** Sources cached per content hash × visibility variant. */
+const sourceCache = new Map<string, DocsSource>();
 
 /**
  * Docs source compiled from the file system at request time.
  * Re-compiles only when content changes (hash of paths + file contents).
  */
-export async function getDocsSource(): Promise<DocsSource> {
+export async function getDocsSource(options: DocsSourceOptions = {}): Promise<DocsSource> {
+  const { includeAdmin = false } = options;
   const scan = await scanContent();
-  if (cached?.hash === scan.hash) return cached.source;
+  const key = `${includeAdmin ? 'admin' : 'public'}:${scan.hash}`;
+  const hit = sourceCache.get(key);
+  if (hit) return hit;
 
-  const source = await buildSource(scan);
-  cached = { hash: scan.hash, source };
+  const entries = includeAdmin
+    ? scan.entries
+    : scan.entries.filter((entry) => entry.data.admin !== true);
+  const source = await buildSource({ ...scan, entries });
+  sourceCache.set(key, source);
   return source;
 }
 
@@ -196,7 +213,7 @@ export async function getPreviewSource(): Promise<DocsSource> {
   try {
     raw = await fs.readFile(draftAbs, 'utf8');
   } catch {
-    return getDocsSource(); // no draft yet → plain source
+    return getDocsSource({ includeAdmin: true }); // no draft yet → plain source
   }
   const draftHash = sha1(raw);
   if (previewCache?.hash === draftHash) return previewCache.source;
@@ -212,6 +229,24 @@ export async function getPreviewSource(): Promise<DocsSource> {
   const source = await buildSource(withDraft);
   previewCache = { hash: draftHash, source };
   return source;
+}
+
+/**
+ * A folder whose every page was filtered out (all `admin: true`) would still
+ * become a sidebar node with no children. Drop those before rendering so the
+ * section itself stays invisible, not just its contents.
+ */
+function pruneChildlessFolders(nodes: Node[]): Node[] {
+  const kept: Node[] = [];
+  for (const node of nodes) {
+    if (node.type !== 'folder') {
+      kept.push(node);
+      continue;
+    }
+    const children = pruneChildlessFolders(node.children);
+    if (children.length > 0 || node.index !== undefined) kept.push({ ...node, children });
+  }
+  return kept;
 }
 
 /** Compile a scan into a loader output with sidebar icons resolved. */
@@ -230,7 +265,10 @@ async function buildSource(scan: ScanResult): Promise<DocsSource> {
   // String icons (meta.json / frontmatter) would render as literal text in
   // the sidebar; swap them for lucide components on every tree read.
   const bareGetPageTree = source.getPageTree.bind(source);
-  source.getPageTree = () => applyTreeIcons(bareGetPageTree());
+  source.getPageTree = () => {
+    const tree = applyTreeIcons(bareGetPageTree());
+    return { ...tree, children: pruneChildlessFolders(tree.children) };
+  };
   return source;
 }
 

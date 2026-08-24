@@ -1,7 +1,8 @@
 ---
-title: Editing the Wiki
-description: How to edit pages in /edit — templates, frontmatter, MDX components, live preview and sidebar ordering.
+title: Writing Pages
+description: How to edit wiki pages in /edit — templates, frontmatter, MDX components, admin-only pages, live preview and sidebar ordering.
 icon: FileText
+admin: true
 ---
 
 Every page on this wiki is a file under `content/docs`. They are all edited in the browser at [`/edit`](/edit) — no local setup, no git.
@@ -33,6 +34,7 @@ title: J1S Printer
 description: Dual-extruder printer, currently under maintenance.
 icon: Printer
 full: false
+admin: false
 ---
 ```
 
@@ -42,6 +44,7 @@ full: false
 | `description` | One-line summary shown under the title and in search results. |
 | `icon` | Sidebar icon — must be one of the names below. |
 | `full` | `true` renders the page edge-to-edge — use it when a wide table needs the full viewport. |
+| `admin` | `true` makes the page admin-only — see [admin-only pages](#admin-only-pages). Omit it or use `false` for public pages. |
 
 Allowed `icon` values: `Boxes`, `CircleAlert`, `Cog`, `FileText`, `FlaskConical`, `Nut`, `Package`, `Presentation`, `Printer`, `ScrollText`, `Wrench`, `Zap`.
 
@@ -63,6 +66,28 @@ checklist:
 ```
 
 Each checklist item needs a unique `id` and a `label`; `section` groups items under a heading.
+
+## Admin-only pages
+
+Any page can be restricted to exco by setting `admin: true` in its frontmatter:
+
+```mdx
+---
+title: Ordering Filament
+description: Suppliers, budget codes and the reorder checklist.
+icon: Package
+admin: true
+---
+```
+
+To anyone without an admin session the page **does not exist**: the URL 404s, and the page is absent from the sidebar, search results, the `.md` export, `llms.txt` and the social-preview image. Signed-in admins see it everywhere, with everything else. Nothing is "hidden but reachable" — the filtering happens before the page is ever compiled for a public request.
+
+Practical rules:
+
+- The check is per page: `admin: true` on one page never affects its siblings or its folder. A folder whose pages are *all* admin-only disappears from the sidebar entirely (that is how this **Exco** section works).
+- Unlisted vs admin-only: a page missing from `meta.json` is public at its URL but invisible in the sidebar. `admin: true` is the only way to make the URL itself private.
+- Linking a public page at an admin-only one is allowed but pointless for members — the link 404s for them. Keep internal cross-links inside the admin section.
+- The editor, preview and this guide are already admin-only, so drafts of admin pages never leak.
 
 ## Writing MDX
 
@@ -167,7 +192,7 @@ Paste the regular `youtu.be` share link and give it a descriptive `title`.
 
 ## Linking between pages
 
-Relative links to another page's `.mdx` file are rewritten to its public URL — this [link to the lab rules](./rules.mdx) is written as `[link to the lab rules](./rules.mdx)`. Absolute `/docs/...` links also work (`[J1S](/docs/machines/j1s)`). Relative paths are better inside a folder: they keep working when the folder moves.
+Relative links to another page's `.mdx` file are rewritten to its public URL — this [link to the lab rules](../rules.mdx) is written as `[link to the lab rules](../rules.mdx)`. Absolute `/docs/...` links also work (`[J1S](/docs/machines/j1s)`). Relative paths are better inside a folder: they keep working when the folder moves.
 
 ## Sidebar order
 
@@ -201,3 +226,4 @@ Each folder's `meta.json` controls order, labels and separators:
 - **Naming**: lowercase-hyphens only, `.mdx`/`.md`/`.json` extensions.
 - **Unlisted pages stay invisible** in the sidebar until `meta.json` mentions them.
 - **Saves publish instantly** — check the live preview before you hit ⌘S.
+- **`admin: true` typos fail open**: `Admin: true` or `admin: yes` is not the boolean `true`, so the page stays public. Double-check internal pages after saving by opening the URL in a private window.

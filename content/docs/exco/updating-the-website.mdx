@@ -1,0 +1,61 @@
+---
+title: Updating the Website
+description: How wiki content and the app itself get updated — /edit for pages, git + NixOS for code, and the appHash re-pinning ritual.
+icon: Cog
+admin: true
+---
+
+There are two kinds of change, and they travel different roads:
+
+| Change | How it ships | Downtime |
+| --- | --- | --- |
+| **Wiki pages** — text, machines, banks, workshops | Edit at [`/edit`](/edit); saved instantly | none |
+| **App code** — components, APIs, styling, dependencies | Commit here, build via the NixOS flake, `nixos-rebuild switch` | a service restart |
+
+## Updating wiki pages
+
+To ship a page written locally (or restore one after a wipe), copy the MDX into the live tree as root:
+
+```bash
+scp my-page.mdx ecemakers@ecemaker.space:/tmp/
+ssh ecemakers@ecemaker.space
+sudo cp /tmp/my-page.mdx /var/lib/wiki/content/docs/machines/my-page.mdx
+sudo chmod 644 /var/lib/wiki/content/docs/machines/my-page.mdx
+```
+
+(The service runs as a dynamic user, so land files as root and make them
+world-readable. The state directory stays writable by the service either way —
+saves go through an atomic rename of the directory entry, not the file. Adjust
+the destination folder to match the page's path.)
+
+## Deploying an app update
+
+1. Commit and push to this repo (default branch).
+2. On the server:
+
+```bash
+cd /etc/nixos
+sudo git pull
+sudo nix flake update wikispace
+sudo nixos-rebuild switch --flake /etc/nixos#eez156
+```
+
+The module runs the standalone Next.js server as a hardened systemd service on port 3001 behind Caddy. Live state never moves: `content/docs/` is seeded only when empty, `data/*.json` (reports, machine status, filament, banks, requests, WhatsApp config, the password hash and session secret) only when missing. `ADMIN_PASSWORD` matters on first boot only — after that the hash in `settings.json` is authoritative and passwords change in Admin → Settings.
+
+### Re-pinning `appHash`
+
+Whenever **app source changes** — code, dependencies, or content committed to this repo — the two `appHash` values in `package.nix` must be re-pinned first. The hash pins the whole build:
+
+1. Reset both hashes in `package.nix` to `sha256-AAAA…=` and push.
+2. Build once per platform to make Nix print the real hash: on macOS `nix build .#default`, on the server `nix build github:HKUST-ECE-MakerSpace/wikispace#default`. Each fails with a hash mismatch showing a `got:` sha256.
+3. Paste each `got:` value into its matching `appHash` branch (aarch64/darwin vs linux), commit, push. Then deploy as above.
+
+Resetting the placeholder first matters: a still-valid output under the old hash makes Nix silently serve the stale build instead of rebuilding. README and LICENSE are excluded from the build source, so doc-only edits to those never need re-pinning — but `content/` **is** part of the build.
+
+### Rolling back
+
+Nix keeps previous generations: `sudo nixos-rebuild switch --rollback` restores the previous service, and `sudo nix-env --rollback`-style generation switching works from the boot menu too. Data and content are untouched by rollbacks — they live in `/var/lib/wiki`, outside the store.
+
+## Backups
+
+Admin → Backup exports every collection and setting as one JSON file and re-imports it the same way. On the host, copying `/var/lib/wiki/data` is equivalent — it is the entire live ops state. `/var/lib/wiki/content/docs` is the wiki itself; a periodic `tar` of both directories is a complete restore point.

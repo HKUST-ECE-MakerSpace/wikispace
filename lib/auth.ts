@@ -1,4 +1,6 @@
 import { createHmac, randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
+import { cookies } from 'next/headers';
+
 import { getSettings } from './store';
 
 export const SESSION_COOKIE = 'wiki_session';
@@ -70,6 +72,17 @@ export function isAdminRequest(request: Request): boolean {
   const value = readSessionCookie(request);
   if (!value) return false;
   return verifySessionValue(value, getSettings().sessionSecret);
+}
+
+/**
+ * True when the current server-component render carries a valid, unexpired
+ * admin session. The `next/headers` cookie store is only readable inside a
+ * request scope — use {@link isAdminRequest} in route handlers, which own a
+ * `Request` directly.
+ */
+export async function isAdminContext(): Promise<boolean> {
+  const value = (await cookies()).get(SESSION_COOKIE)?.value;
+  return value !== undefined && verifySessionValue(value, getSettings().sessionSecret);
 }
 
 /** Full `Set-Cookie` value for a fresh admin session. */
