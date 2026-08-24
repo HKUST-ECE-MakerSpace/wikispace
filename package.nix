@@ -64,6 +64,13 @@ stdenv.mkDerivation (finalAttrs: {
       export HOME=$TMPDIR
       export npm_config_cache=$TMPDIR/npm-cache
       ${nodejs}/bin/npm ci --ignore-scripts --no-audit --no-fund
+      # sharp's prebuilt linux binaries need AVX2, which the Ivy Bridge
+      # Xeon serving wiki.ecemaker.space lacks — merely require()ing sharp
+      # segfaults the whole Node process there. @vercel/og (OG images)
+      # falls back to its bundled resvg.wasm when sharp is unimportable,
+      # so drop it before the build: the standalone trace then ships
+      # without it and OG renders via wasm everywhere.
+      rm -rf node_modules/sharp node_modules/@img
       export NODE_ENV=production
       export NEXT_TELEMETRY_DISABLED=1
       export NEXT_OUTPUT_STANDALONE=1
