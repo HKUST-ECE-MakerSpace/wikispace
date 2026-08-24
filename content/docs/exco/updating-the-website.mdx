@@ -52,6 +52,21 @@ Whenever **app source changes** — code, dependencies, or content committed to 
 
 Resetting the placeholder first matters: a still-valid output under the old hash makes Nix silently serve the stale build instead of rebuilding. README and LICENSE are excluded from the build source, so doc-only edits to those never need re-pinning — but `content/` **is** part of the build.
 
+### The server's github cache lies (read this before re-pinning)
+
+The server's network can serve a **stale copy of a just-pushed commit** for several minutes. A `got:` hash captured on the server right after a push can belong to yesterday's tree, and pinning it deploys old code that looks new (this happened twice on 2026-08-24). Rules:
+
+- Do hash captures from a machine with a clean network path (e.g. your laptop), or wait ~10 minutes after pushing before building on the server.
+- After `nix flake update wikispace`, check the lock points at the commit you pushed: `sudo nix flake metadata /etc/nixos` should show your rev and a narHash matching `nix flake prefetch github:HKUST-ECE-MakerSpace/wikispace/<rev>` run elsewhere.
+- **Before switching, always verify the built package**, not just a successful build:
+  `nix build /etc/nixos#nixosConfigurations.eez156.config.services.wiki.package --print-out-paths` then grep the returned path — `share/wikispace/content/docs/...` should contain your change.
+- If github is being hopeless, bypass it: `git archive HEAD | ssh ecemakers@ecemaker.space 'tar -x -C /tmp/wikispace-build'`, edit hashes in that copy, and build the system with
+  `sudo nix build /etc/nixos#nixosConfigurations.eez156.config.system.build.toplevel --override-input wikispace /tmp/wikispace-build`, then run `<result>/bin/switch-to-configuration switch`.
+
+### Why `sharp` is deleted during the build
+
+The prod host's CPU (Ivy Bridge) lacks AVX2; sharp's prebuilt linux binaries segfault the whole Node process on load — one request to any OG image URL killed the service. The build script removes `node_modules/sharp` + `@img` before `next build`, so image generation uses the portable wasm renderer bundled with `@vercel/og` instead. Don't "fix" the build by re-adding sharp.
+
 ### Rolling back
 
 Nix keeps previous generations: `sudo nixos-rebuild switch --rollback` restores the previous service, and `sudo nix-env --rollback`-style generation switching works from the boot menu too. Data and content are untouched by rollbacks — they live in `/var/lib/wiki`, outside the store.
