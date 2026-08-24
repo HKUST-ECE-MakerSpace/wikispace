@@ -10,6 +10,18 @@ export const dynamic = 'force-dynamic';
  * sessions get the variant including `admin: true` pages, cached separately
  * from the public index.
  */
-export const { GET } = createFromSource(async () =>
+const { GET: search } = createFromSource(async () =>
   getDocsSource({ includeAdmin: await isAdminContext() }),
 );
+
+/**
+ * The index is cookie-personalized, so the response must never be stored by
+ * a shared cache (an edge cache keying only on the URL would hand the admin
+ * index to anonymous users) and must revalidate per cookie.
+ */
+export async function GET(request: Request) {
+  const response = await search(request);
+  response.headers.set('Cache-Control', 'private, no-store');
+  response.headers.set('Vary', 'Cookie');
+  return response;
+}

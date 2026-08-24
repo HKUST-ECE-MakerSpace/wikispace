@@ -2,5 +2,5 @@
   "title": "Exco",
   "icon": "Cog",
   "defaultOpen": false,
-  "pages": ["index", "writing-pages", "updating-the-website"]
+  "pages": ["writing-pages", "updating-the-website"]
 }

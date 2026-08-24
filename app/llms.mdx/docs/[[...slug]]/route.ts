@@ -13,9 +13,13 @@ export async function GET(
   const page = source.getPage(slug?.slice(0, -1));
   if (!page) notFound();
 
+  // Cookie-personalized export (also serves the /docs/*.md rewrites) —
+  // never cacheable by shared caches.
   return new Response(await getLLMText(page), {
     headers: {
       'Content-Type': 'text/markdown',
+      'Cache-Control': 'private, no-store',
+      Vary: 'Cookie',
     },
   });
 }

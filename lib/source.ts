@@ -175,12 +175,22 @@ export interface DocsSourceOptions {
   includeAdmin?: boolean;
 }
 
-/** Sources cached per content hash × visibility variant. */
+/**
+ * Sources cached per content hash × visibility variant. Only the current
+ * content hash's entries are kept — old sources are evicted on rebuild so
+ * the cache stays bounded at two entries no matter how often content
+ * changes (each editor save rotates the hash).
+ */
 const sourceCache = new Map<string, DocsSource>();
 
 /**
- * Docs source compiled from the file system at request time.
- * Re-compiles only when content changes (hash of paths + file contents).
+ * Docs source compiled from the file system at request time. Re-compiles
+ * only when content changes (hash of paths + file contents).
+ *
+ * Returns the **public** variant by default: pages with `admin: true` are
+ * dropped before the loader runs. Pass `{ includeAdmin: true }` only on
+ * surfaces that have already verified an admin session — the admin variant
+ * contains every page.
  */
 export async function getDocsSource(options: DocsSourceOptions = {}): Promise<DocsSource> {
   const { includeAdmin = false } = options;
@@ -191,8 +201,15 @@ export async function getDocsSource(options: DocsSourceOptions = {}): Promise<Do
 
   const entries = includeAdmin
     ? scan.entries
-    : scan.entries.filter((entry) => entry.data.admin !== true);
+    : // Fail closed: an `admin` key hides the page unless it is exactly
+      // `false`. YAML-1.1 spellings (`yes`, `on`, `1`) and quoted values
+      // are not `false`, so a typo keeps the page internal instead of
+      // silently publishing it.
+      scan.entries.filter((entry) => entry.data.admin === undefined || entry.data.admin === false);
   const source = await buildSource({ ...scan, entries });
+  for (const existing of sourceCache.keys()) {
+    if (!existing.endsWith(`:${scan.hash}`)) sourceCache.delete(existing);
+  }
   sourceCache.set(key, source);
   return source;
 }
@@ -204,8 +221,10 @@ let previewCache: { hash: string; source: DocsSource } | undefined;
 
 /**
  * Like getDocsSource but with the hidden editor draft included as an extra
- * page. The scanner skips underscore files, so the draft itself never leaks
- * into the public tree or search; only this source knows about it.
+ * page — and it **always includes admin pages**, so callers must be
+ * admin-gated (only the editor preview is). The scanner skips underscore
+ * files, so the draft itself never leaks into the public tree or search;
+ * only this source knows about it.
  */
 export async function getPreviewSource(): Promise<DocsSource> {
   const draftAbs = path.join(CONTENT_DIR, PREVIEW_FILE);

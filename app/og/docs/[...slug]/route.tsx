@@ -16,11 +16,14 @@ export async function GET(
   const page = source.getPage(slug.slice(0, -1));
   if (!page) notFound();
 
+  // next/og defaults to `Cache-Control: public` — the image is
+  // cookie-personalized (page title/description), so override to private.
   return new ImageResponse(
     <DefaultImage title={page.data.title} description={page.data.description} site={appName} />,
     {
       width: 1200,
       height: 630,
+      headers: { 'Cache-Control': 'private, no-store', Vary: 'Cookie' },
     },
   );
 }

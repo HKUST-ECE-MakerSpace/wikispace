@@ -87,6 +87,7 @@ Practical rules:
 - The check is per page: `admin: true` on one page never affects its siblings or its folder. A folder whose pages are *all* admin-only disappears from the sidebar entirely (that is how this **Exco** section works).
 - Unlisted vs admin-only: a page missing from `meta.json` is public at its URL but invisible in the sidebar. `admin: true` is the only way to make the URL itself private.
 - Linking a public page at an admin-only one is allowed but pointless for members — the link 404s for them. Keep internal cross-links inside the admin section.
+- `meta.json` is **not** gated — its text (folder titles, separators, links) always ships to the public sidebar. Never name an internal page in a public folder's `meta.json`; keep internal pages listed only in this folder's own `meta.json`.
 - The editor, preview and this guide are already admin-only, so drafts of admin pages never leak.
 
 ## Writing MDX
@@ -216,7 +217,7 @@ Each folder's `meta.json` controls order, labels and separators:
 - `pages` lists page names (file names without `.mdx`) in display order.
 - `"---Name---"` entries render as separators.
 - `title` and `icon` (same allowed names as frontmatter) name the folder; `defaultOpen` expands it on load.
-- A folder's `index.mdx` is **never listed** — the folder label itself links to it (that's the sidebar entry with the chevron). Listing it again would show the page twice.
+- A folder's `index.mdx` is **never listed** — the folder label itself links to it (that's the sidebar entry with the chevron). Listing `index` anyway doesn't duplicate the page; it unlinks the folder label and shows it as an ordinary child — so don't.
 - Pages **not** listed don't appear in the sidebar. Use a `"..."` entry to insert all remaining pages at that spot, or `"!page-name"` to hide one.
 - The root `content/docs/meta.json` orders the top-level sections.
 
@@ -226,4 +227,4 @@ Each folder's `meta.json` controls order, labels and separators:
 - **Naming**: lowercase-hyphens only, `.mdx`/`.md`/`.json` extensions.
 - **Unlisted pages stay invisible** in the sidebar until `meta.json` mentions them.
 - **Saves publish instantly** — check the live preview before you hit ⌘S.
-- **`admin: true` typos fail open**: `Admin: true` or `admin: yes` is not the boolean `true`, so the page stays public. Double-check internal pages after saving by opening the URL in a private window.
+- **Admin-only fails closed**: anything except `admin: false` (or leaving the key out) keeps a page internal — `admin: yes`, `admin: 1` or a quoted `"true"` hides it rather than publishing it. A typo can over-hide a public page, never expose an internal one; if a page you expect to be public vanishes, check its `admin` value.
