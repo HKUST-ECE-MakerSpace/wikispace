@@ -14,9 +14,9 @@ let
   # (node_modules differ: per-OS optional deps like @next/swc-*).
   appHash =
     if stdenv.isDarwin then
-      "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+      "sha256-RJTpl8cXIxHJkHVJ3ae0InID/uhX2bDJv5ZIqU+lxNs="
     else
-      "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+      "sha256-WW66aWwJFNsjoUNbBp6by5C1uiLECUn4hu/P/9++Z2k=";
 
   # Everything the build needs — no VCS, no dev scratch, no runtime state,
   # and no doc-only files (README/LICENSE edits don't shift the build hash).
