@@ -1,10 +1,66 @@
 ---
 title: Workshops
-description: Structured sessions for learning the lab, with an overview page and an interactive run checklist.
+description: Structured sessions for learning the lab — the pathway from induction to core skills and machine workshops, with an interactive run checklist per session.
 icon: Presentation
 ---
 
 A workshop is a runner walking a group through one topic: a machine induction, a skill, or a build, following a structured session plan. Sessions run in the lab (RM3125A, Academic Building).
+
+## The pathway
+
+Everything starts with the **induction workshops** (lab access and safety, electronics bench, machine shop, and your first FDM print). After that, two doors open: **core skill workshops** you can take in any order, and **machine workshops** that each certify you on one machine.
+
+<Mermaid
+  links={{
+    Induction: '/docs/workshops/induction',
+    Multi: '/docs/machines/h2c-multicolor',
+    Engineering: '/docs/machines/h2c-engineering',
+  }}
+>{`
+flowchart TD
+    Start(["New Member"]):::start --> Induction
+
+    Induction["Induction Workshops<br/>lab access · safety · hand tools<br/>soldering · machines · first FDM print"]:::required
+
+    subgraph L1["Core skills — take in any order"]
+        direction TB
+        Wire["Wire Harness Crimping"]:::core
+        PCB["Intro to PCB Design"]:::core
+        SMT["Intro to SMT Soldering"]:::core
+        Digital["Intro to Digital Circuits"]:::core
+        Embedded["Intro to Embedded Systems"]:::core
+        CAD["Intro to CAD Modeling"]:::core
+        Wire ~~~ PCB ~~~ SMT ~~~ Digital ~~~ Embedded ~~~ CAD
+    end
+
+    subgraph L2["Machine workshops — one per machine"]
+        direction TB
+        Resin["Intro to Resin Printing"]:::machine
+        Laser["Intro to Laser Cutting & Engraving"]:::machine
+        CNC["Intro to CNC Milling"]:::machine
+        Multi["Multicolor Printing"]:::machine
+        Engineering["Engineering Filament Printing"]:::machine
+        Resin ~~~ Laser ~~~ CNC ~~~ Multi ~~~ Engineering
+    end
+
+    Induction --> L1
+    Induction --> L2
+    CAD -. recommended first .-> Resin
+    CAD -. recommended first .-> Laser
+    CAD -. recommended first .-> CNC
+
+    classDef start fill:#172554,stroke:#60A5FA,color:#FFFFFF,stroke-width:2px;
+    classDef required fill:#FDE68A,stroke:#D97706,color:#451A03,stroke-width:2px;
+    classDef core fill:#D1FAE5,stroke:#059669,color:#064E3B,stroke-width:2px;
+    classDef machine fill:#DBEAFE,stroke:#2563EB,color:#172554,stroke-width:2px;
+`}</Mermaid>
+
+How to read it:
+
+- **Solid arrows** are the route — induction first, then either tier.
+- **Dashed arrows** mean *recommended preparation*, never a hard prerequisite.
+- The diagram scrolls, pans (drag), zooms (ctrl+scroll or the buttons), and has a **fullscreen** button for reading on a phone.
+- Nodes with pages are clickable — currently the **induction workshops**, **multicolor** and **engineering filament** (their guides live on the machine pages). The rest get pages as the sessions are written.
 
 ## How workshop pages work
 

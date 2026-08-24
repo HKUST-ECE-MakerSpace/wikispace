@@ -171,6 +171,29 @@ The source for the two cards above:
 />
 ```
 
+### Mermaid diagrams
+
+Interactive: the rendered diagram pans (drag), zooms (scroll, pinch, or the
+button bar), goes fullscreen, and its nodes can link to wiki pages.
+
+```mdx
+<Mermaid
+  links={{ Start: "/docs", Induction: "/docs/workshops/induction" }}
+>{`
+flowchart LR
+    Start(["New Member"]):::start --> Induction["Induction Workshops"]:::required
+
+    classDef start fill:#172554,stroke:#60A5FA,color:#fff;
+    classDef required fill:#FDE68A,stroke:#D97706,color:#451A03;
+`}</Mermaid>
+```
+
+The chart source is a Mermaid definition passed as a template-literal child —
+the backticks are required. `links` maps Mermaid node ids to URLs; listed
+nodes become clickable. Leave `links` out for a plain diagram. Keep charts
+small: every node, arrow and label costs readability, and the goal is for a
+member to find their next workshop, not to admire the graph.
+
 ### Live widgets
 
 Three components render live data from the ops dashboard — no content to write, just an id:

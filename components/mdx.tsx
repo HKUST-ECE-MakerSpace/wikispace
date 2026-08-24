@@ -9,6 +9,7 @@ import { TypeTable } from 'fumadocs-ui/components/type-table';
 import { ComponentBankWidget } from '@/components/ops/component-bank';
 import { FilamentWidget } from '@/components/ops/filament-table';
 import { MachineStatusWidget } from '@/components/ops/machine-status';
+import { Mermaid } from '@/components/ops/mermaid-diagram';
 import { YouTubeEmbed } from '@/components/ops/youtube-embed';
 
 export function getMDXComponents(components?: MDXComponents) {
@@ -24,8 +25,8 @@ export function getMDXComponents(components?: MDXComponents) {
     MachineStatus: MachineStatusWidget,
     ComponentBank: ComponentBankWidget,
     FilamentTable: FilamentWidget,
+    Mermaid,
     YouTube: YouTubeEmbed,
-    ...components,
   } satisfies MDXComponents;
 }
 
