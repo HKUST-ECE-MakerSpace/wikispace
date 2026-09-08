@@ -28,6 +28,11 @@ world-readable. The state directory stays writable by the service either way —
 saves go through an atomic rename of the directory entry, not the file. Adjust
 the destination folder to match the page's path.)
 
+The running server caches compiled pages and the ops state (`data/*.json`) in
+memory. Files landed by hand — pages **and** data like `banks.json` — only take
+effect after a restart: `sudo systemctl restart wiki`. Pages edited through
+`/edit` apply instantly and don't need this.
+
 ## Deploying an app update
 
 1. Commit and push to this repo (default branch).
