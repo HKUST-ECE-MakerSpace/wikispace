@@ -81,9 +81,11 @@ stdenv.mkDerivation (finalAttrs: {
       app=$out/share/wikispace
       mkdir -p $app
       # relocatable standalone server (server.js + traced node_modules)
-      cp -R .next/standalone/. $app/
       # static assets are not part of the standalone trace
       cp -R .next/static $app/.next/static
+      # public/ (SOP photos etc.) is not traced either — serve it from the
+      # app root next to server.js, where the standalone server looks
+      cp -R public $app/public
       # seed content for the first boot; the web editor writes to
       # WIKI_CONTENT_DIR afterwards, this copy is never touched again
       cp -R content $app/content
