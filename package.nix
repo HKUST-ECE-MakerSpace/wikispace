@@ -14,7 +14,7 @@ let
   # (node_modules differ: per-OS optional deps like @next/swc-*).
   appHash =
     if stdenv.isDarwin then
-      "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+      "sha256-JBBhi6Mm82RpTQ3PdD+FgNzN5bvkg1DnMXTaxS0cPI8="
     else
       "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 
@@ -81,10 +81,10 @@ stdenv.mkDerivation (finalAttrs: {
       app=$out/share/wikispace
       mkdir -p $app
       # relocatable standalone server (server.js + traced node_modules)
-      # static assets are not part of the standalone trace
+      cp -R .next/standalone/. $app/
+      # static assets and public/ are not part of the standalone trace —
+      # serve them from the app root, where the standalone server looks
       cp -R .next/static $app/.next/static
-      # public/ (SOP photos etc.) is not traced either — serve it from the
-      # app root next to server.js, where the standalone server looks
       cp -R public $app/public
       # seed content for the first boot; the web editor writes to
       # WIKI_CONTENT_DIR afterwards, this copy is never touched again
