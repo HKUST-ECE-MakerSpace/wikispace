@@ -78,8 +78,12 @@ export interface BoxItem {
 
 export interface GridCell {
   label: string;
-  description: string;
+  description?: string;
   items?: BoxItem[];
+  /** Explicit box width in grid columns (wide cabinets); default 1. */
+  colSpan?: number;
+  /** Explicit box height in grid rows; default: swallow unlabelled slots below. */
+  rowSpan?: number;
 }
 
 export interface Grid {

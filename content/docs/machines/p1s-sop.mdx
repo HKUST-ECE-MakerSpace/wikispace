@@ -1,0 +1,168 @@
+---
+title: P1S SOP
+description: Standard operating procedure for the P1S printers — material rules, print setup, monitoring, and post-print care.
+icon: Printer
+---
+
+The standard operating procedure for the three P1S printers — [Left](./p1s-left.mdx), [Middle](./p1s-middle.mdx) and [Right](./p1s-right.mdx). It covers what you may print, how to set up and send a job from Bambu Studio, what to watch while it runs, and what to do when it's done (or fails).
+
+## Material Usage Rules
+
+| Material | Authorization |
+| --- | --- |
+| Polymaker CoPE | Free to use (any member) |
+| Polymaker PETG | Free to use (any member) |
+| Any other material | Requires prior approval from ANY Exco or Helper (verbal/text/any format) |
+
+<Callout type="warn" title="AMS filament is handled by staff only">
+  Members cannot change or refill filament into the AMS. Only Helpers, Lab Assistants, and Exco may handle filament loading/unloading.
+</Callout>
+
+## Pre-Print Setup
+
+### Step 1: Prepare Your File
+
+<Steps>
+  <Step>Use the dedicated lab PC with Bambu Studio installed.</Step>
+  <Step>Open Bambu Studio and go to the **Device** page.</Step>
+  <Step>Ensure the correct printer (Bambu Lab P1S) is selected.</Step>
+</Steps>
+
+![Bambu Studio's Device page — make sure the correct P1S is selected.](/p1s-sop/01-device-page.webp)
+
+### Step 2: Configure Your Print
+
+<Steps>
+  <Step>Click **Prepare** and insert your 3D model file.</Step>
+  <Step>Adjust orientation as needed (use the rotation tools).</Step>
+  <Step>Click **Sync Info** — it syncs both machine and filament data.</Step>
+  <Step>Choose the correct filament and apply it to your model.</Step>
+  <Step>
+    Select the correct printing preset:
+
+    - For CoPE: use **0.2mm CoPE 200 - General**.
+    - For PETG: preset not yet created — check with a Helper/Exco for guidance.
+  </Step>
+</Steps>
+
+![The Prepare tab — insert the model, sync info, pick the filament and the preset.](/p1s-sop/02-configure-print.webp)
+
+### Step 3: Support & Adhesion
+
+Always turn ON:
+
+- **Supports** — enable as needed for overhangs.
+- **Brim** — for better bed adhesion.
+
+![Process settings — supports and brim should always be turned on.](/p1s-sop/03-supports-brim.webp)
+
+### Step 4: Final Check
+
+Double-check:
+
+- Correct filament selected.
+- Correct preset applied.
+- Supports and brim ON.
+
+### Step 5: Slice & Print
+
+<Steps>
+  <Step>Click **Slice** to generate the G-code.</Step>
+  <Step>Review the estimated print time and material usage on the preview screen.</Step>
+  <Step>If everything looks correct, click **Print** to send the job to the printer.</Step>
+</Steps>
+
+![Slice the plate, review the time and material estimates, then print.](/p1s-sop/04-slice-print.webp)
+
+## First Layer Monitoring
+
+<Callout type="warn">Mandatory: watch the first 1–3 layers of your print.</Callout>
+
+- If the first layer looks good (smooth, sticking properly), you may leave.
+- If it fails (spaghetti, not sticking, shifting), cancel immediately and re-evaluate.
+
+## During the Print
+
+- You are allowed to leave the lab while the print runs.
+- You do not need to monitor the camera remotely.
+- Lab Assistants will monitor prints and announce any issues in the WhatsApp group chat.
+
+## Long Prints (>5 Hours)
+
+<Callout type="warn">Prints longer than 5 hours should not be started during daytime.</Callout>
+
+Contact a Helper/Exco before starting — they will arrange a nighttime print slot for you.
+
+## Post-Print Procedure
+
+### Step 1: Remove Your Print
+
+<Steps>
+  <Step>Wait for the bed to cool slightly.</Step>
+  <Step>Use the provided spatula/scraper to gently remove the print.</Step>
+</Steps>
+
+<Callout type="warn" title="Two golden rules">
+  **No metal tools** — use only the provided plastic scraper. **Do not scrape the build plate** —
+  be gentle to avoid damaging the surface.
+</Callout>
+
+### Step 2: Return the Build Plate
+
+Immediately place the build plate back onto the magnetic bed after removing your print.
+
+### Step 3: Clean the Plate (Optional but Recommended)
+
+Wipe/wash the build plate with:
+
+- Dish soap + water, **or**
+- Diluted Isopropanol (IPA)
+
+## Print Failures
+
+If a print fails:
+
+1. **Report it** — if you're present, report immediately. If not, a Lab Assistant will report for you.
+2. If the printer is fine: you may restart / reprint.
+3. If a serious error occurs (e.g., print head clog, mechanical issue):
+   - Do **not** attempt to fix it yourself.
+   - Contact a Technician or Exco member immediately.
+
+## Material Switching
+
+- Members do not need to perform any cleaning/purging procedure when switching between CoPE and PETG.
+- Simply notify a Helper/Assistant to switch the AMS filament for you.
+
+## Special Materials
+
+If you have approval to use a special (non-CoPE/PETG) material:
+
+- You should clearly know the required settings (temperature, profile, etc.).
+- If you don't know exactly what you're doing — ask for help. Do not guess.
+
+## Shutdown / End of Day
+
+- No shutdown procedure required.
+- The printer may run 24/7.
+- If the printer has no active jobs and it's nighttime, calibration may be performed.
+
+## General Reminders
+
+| # | Do | Don't |
+| --- | --- | --- |
+| 1 | Use only CoPE or PETG without approval | Change/refill AMS filament yourself |
+| 2 | Watch first 1–3 layers | Use metal tools on the plate |
+| 3 | Put build plate back immediately | Scrape the build plate aggressively |
+| 4 | Contact Exco/Helper for prints >5 hours | Start long prints during daytime without approval |
+| 5 | Ask for help if unsure | Guess settings for special materials |
+
+## Contacts
+
+| Role | Who |
+| --- | --- |
+| Lab Assistants | [Names / Group] |
+| Helpers | [Names / Group] |
+| Exco / Head of Operations | [Name] |
+| Technician | [Name / Contact] |
+
+Names and contacts are placeholders from the source SOP — exco fills them in.

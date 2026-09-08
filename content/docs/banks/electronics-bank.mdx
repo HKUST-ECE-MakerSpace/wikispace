@@ -4,14 +4,20 @@ description: Component storage for electronics parts, including microcontrollers
 icon: Zap
 ---
 
-The labelled grid of storage slots for electronic components: dev boards, sensors, modules, wire and prototyping supplies. Rows are numbered and columns lettered, so a grid coordinate is a real place you can walk to.
+The electronics workstation in two views: the **bank map** shows the numbered cabinets (rows 1–13, letters A–B) you can walk to; the **drawer contents** grid mirrors every drawer and SMT tower inside them, including the resistor, capacitor, diode, transistor and IC towers.
 
 <ComponentBank id="electronics-bank" />
 
+## Drawer contents
+
+The same bank from the drawers' point of view — search a part name (e.g. `0805`, `Modules`, `heatshrink`) and matching drawers light up. Drawers 5B and 6B are currently empty.
+
+<ComponentBank id="electronics-drawers" />
+
 ## Finding things
 
-Search the grid — type "wire" or a module name and matching drawers light up with their coordinates, so you can go straight to the right bin. The **Full screen** button expands the grid for a proper look, and merged boxes mirror the physical bins: one box, one drawer.
+Search the grid for a part name and matching drawers light up with their coordinates. Full screen expands the whole bank; merged boxes mirror the physical bins, one box per drawer. The SMT tower codes (R/C/D/Q/U/L) are listed per drawer in [SMT Drawer Values](/docs/banks/electronics-smt).
 
 <Callout type="info">
-  Something missing or empty? Hit **Request a restock** above the grid, pick the part (or "Something else…"), and it lands in exco's ops dashboard queue. No account needed.
+  Empty slot, or the part you need isn't there? Hit **Request a restock** above the grid and pick the part (or "Something else…"); it lands in exco's ops dashboard queue. No account needed.
 </Callout>

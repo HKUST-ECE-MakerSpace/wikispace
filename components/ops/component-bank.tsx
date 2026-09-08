@@ -10,41 +10,41 @@ function cellKey(col: string, row: number): string {
   return `${col}${row}`;
 }
 
-/** A labelled drawer plus the unlabelled slots it swallows below it. */
+/** A labelled drawer plus the slots it claims below (and right of) it. */
 interface CellRegion {
   col: string;
   row: number;
   span: number;
+  colSpan: number;
   cell: GridCell;
 }
 
-type Slot = { kind: 'start'; region: CellRegion } | { kind: 'skip' } | { kind: 'empty' };
-
 /**
  * Merge rule, matching the physical banks: a labelled drawer claims the
- * unlabelled slots below it in the same column until the next labelled
- * cell or the bottom of the bank — one merged cell per physical bin.
+ * unlabelled slots below it in the same column until the next labelled cell
+ * or the bottom of the bank — one merged cell per physical bin. Explicit
+ * rowSpan/colSpan values (from the storage layout source) pin the exact box
+ * instead, for wide cabinets and pinned tall bins.
  */
-function buildSlots(grid: Grid, col: string, rows: number[]): Slot[] {
-  const slots: Slot[] = [];
-  for (let i = 0; i < rows.length; i++) {
-    const cell = grid.cells[cellKey(col, rows[i])];
-    if (cell && cell.label) {
-      let span = 1;
-      for (let j = i + 1; j < rows.length; j++) {
-        const below = grid.cells[cellKey(col, rows[j])];
-        if (below && below.label) break;
-        span++;
+function buildRegions(grid: Grid, rows: number[]): CellRegion[] {
+  const regions: CellRegion[] = [];
+  for (const col of grid.columns) {
+    for (let i = 0; i < rows.length; i++) {
+      const cell = grid.cells[cellKey(col, rows[i])];
+      if (!cell || !cell.label) continue;
+      let span = cell.rowSpan ?? 0;
+      if (!cell.rowSpan) {
+        span = 1;
+        for (let j = i + 1; j < rows.length; j++) {
+          const below = grid.cells[cellKey(col, rows[j])];
+          if (below && below.label) break;
+          span++;
+        }
       }
-      const region: CellRegion = { col, row: rows[i], span, cell };
-      slots.push({ kind: 'start', region });
-      for (let k = 1; k < span; k++) slots.push({ kind: 'skip' });
-      i += span - 1;
-    } else {
-      slots.push({ kind: 'empty' });
+      regions.push({ col, row: rows[i], span, colSpan: cell.colSpan ?? 1, cell });
     }
   }
-  return slots;
+  return regions;
 }
 
 /** Columns with no labelled drawers at all — physical aisles between bank sections. */
@@ -107,16 +107,30 @@ interface BankGridProps {
 }
 
 function BankGrid({ bank, query, registerCell }: BankGridProps) {
-  const { columns, rowRange, thickRows, cells } = bank.grid;
+  const { columns, rowRange, thickRows } = bank.grid;
   const [startRow, endRow] = rowRange;
   const rows = useMemo(
     () => Array.from({ length: endRow - startRow + 1 }, (_, i) => startRow + i),
     [startRow, endRow],
   );
-  const slotsByColumn = useMemo(
-    () => Object.fromEntries(columns.map((col) => [col, buildSlots(bank.grid, col, rows)])),
-    [bank.grid, columns, rows],
+  const regions = useMemo(() => buildRegions(bank.grid, rows), [bank.grid, rows]);
+  const anchors = useMemo(
+    () => new Map(regions.map((region) => [cellKey(region.col, region.row), region])),
+    [regions],
   );
+  /** Grid slots swallowed by a box's rowSpan/colSpan — not rendered separately. */
+  const covered = useMemo(() => {
+    const cov = new Set<string>();
+    for (const region of regions) {
+      const ci = columns.indexOf(region.col);
+      for (let dc = 0; dc < region.colSpan; dc++) {
+        for (let dr = 0; dr < region.span; dr++) {
+          cov.add(cellKey(columns[ci + dc], region.row + dr));
+        }
+      }
+    }
+    return cov;
+  }, [regions, columns]);
   const gaps = useMemo(() => gapColumns(bank.grid, rows), [bank.grid, rows]);
   const searching = query.trim().length > 0;
 
@@ -139,7 +153,7 @@ function BankGrid({ bank, query, registerCell }: BankGridProps) {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, rowIdx) => (
+          {rows.map((row) => (
             <tr key={row}>
               <th
                 className={`sticky left-0 z-10 border border-fd-border bg-fd-card px-2 py-1 text-center text-xs font-medium ${
@@ -162,34 +176,34 @@ function BankGrid({ bank, query, registerCell }: BankGridProps) {
                     />
                   );
                 }
-                const slot = slotsByColumn[col][rowIdx];
-                if (!slot || slot.kind === 'skip') return null;
-                if (slot.kind === 'empty') {
+                const region = anchors.get(cellKey(col, row));
+                if (region) {
+                  const key = cellKey(region.col, region.row);
+                  const hit = searching && matches(region.cell, query);
                   return (
-                    <td key={col} className="border border-fd-border/60 px-2 py-1.5 align-top">
-                      <span className="text-xs text-fd-muted-foreground/50">—</span>
+                    <td
+                      key={col}
+                      ref={(el) => registerCell(key, el)}
+                      rowSpan={region.span}
+                      colSpan={region.colSpan}
+                      className={`border border-fd-border px-2 py-1.5 align-top transition-opacity ${
+                        thickRows.includes(region.row) ? 'border-t-2' : ''
+                      } ${
+                        hit
+                          ? 'z-10 bg-amber-400/15 ring-2 ring-amber-500'
+                          : searching
+                            ? 'opacity-35'
+                            : 'bg-fd-card'
+                      }`}
+                    >
+                      <CellBody cell={region.cell} />
                     </td>
                   );
                 }
-                const { region } = slot;
-                const key = cellKey(region.col, region.row);
-                const hit = searching && matches(region.cell, query);
+                if (covered.has(cellKey(col, row))) return null;
                 return (
-                  <td
-                    key={col}
-                    ref={(el) => registerCell(key, el)}
-                    rowSpan={region.span}
-                    className={`border border-fd-border px-2 py-1.5 align-top transition-opacity ${
-                      thickRows.includes(region.row) ? 'border-t-2' : ''
-                    } ${
-                      hit
-                        ? 'z-10 bg-amber-400/15 ring-2 ring-amber-500'
-                        : searching
-                          ? 'opacity-35'
-                          : 'bg-fd-card'
-                    }`}
-                  >
-                    <CellBody cell={region.cell} />
+                  <td key={col} className="border border-fd-border/60 px-2 py-1.5 align-top">
+                    <span className="text-xs text-fd-muted-foreground/50">—</span>
                   </td>
                 );
               })}
@@ -198,10 +212,9 @@ function BankGrid({ bank, query, registerCell }: BankGridProps) {
         </tbody>
       </table>
       <p className="px-1 py-2 text-xs text-fd-muted-foreground">
-        {cells === undefined ? null : null}
         Columns are letters, rows are numbers — <strong>B4</strong> means column B, drawer 4.
-        Hatched narrow columns are aisles between bank sections; a drawer box swallows the empty
-        slots beneath it, mirroring the physical bins. Heavy lines mark shelf boundaries.
+        Hatched narrow columns are aisles between bank sections; a box spans exactly the slots it
+        covers, mirroring the physical bins. Heavy lines mark shelf boundaries.
       </p>
     </div>
   );
