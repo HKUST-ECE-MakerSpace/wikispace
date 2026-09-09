@@ -20,7 +20,9 @@ function isValidGrid(value: unknown): value is Grid {
   return Object.values(grid.cells as Record<string, unknown>).every((cell) => {
     if (typeof cell !== 'object' || cell === null) return false;
     const { label, description, items } = cell as Record<string, unknown>;
-    if (typeof label !== 'string' || typeof description !== 'string') return false;
+    // label-only cells are valid (map codes with no joined detail content)
+    if (typeof label !== 'string') return false;
+    if (description !== undefined && typeof description !== 'string') return false;
     if (items === undefined) return true;
     if (!Array.isArray(items)) return false;
     return items.every(

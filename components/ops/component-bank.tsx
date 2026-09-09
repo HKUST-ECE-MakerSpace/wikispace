@@ -378,6 +378,22 @@ export function ComponentBankWidget({ id }: { id: string }) {
     };
   }, [fullscreen]);
 
+  /** Deep link: /docs/banks/<page>?q=<term> fills the search and jumps to
+   *  the first matching drawer — used by the drawer index and site search. */
+  const deepLinked = useRef(false);
+  useEffect(() => {
+    if (deepLinked.current || !bank) return;
+    deepLinked.current = true;
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (!q) return;
+    setQuery(q);
+    const timer = setTimeout(() => {
+      const first = Object.entries(bank.grid.cells).find(([, cell]) => matches(cell, q))?.[0];
+      if (first) jumpTo(first);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [bank]);
+
   function registerCell(key: string, el: HTMLTableCellElement | null) {
     if (el) cellRefs.current.set(key, el);
     else cellRefs.current.delete(key);
