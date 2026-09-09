@@ -14,19 +14,17 @@ There are two kinds of change, and they travel different roads:
 
 ## Updating wiki pages
 
-To ship a page written locally (or restore one after a wipe), copy the MDX into the live tree as root:
+To ship a page written locally (or restore one after a wipe), copy the MDX into the live tree as root — then hand ownership to `nobody:nogroup`, which is what the service looks like on disk (it runs as a dynamic user; systemd maps `nobody` to the real service user inside the unit):
 
 ```bash
 scp my-page.mdx ecemakers@ecemaker.space:/tmp/
 ssh ecemakers@ecemaker.space
 sudo cp /tmp/my-page.mdx /var/lib/wiki/content/docs/machines/my-page.mdx
+sudo chown nobody:nogroup /var/lib/wiki/content/docs/machines/my-page.mdx
 sudo chmod 644 /var/lib/wiki/content/docs/machines/my-page.mdx
 ```
 
-(The service runs as a dynamic user, so land files as root and make them
-world-readable. The state directory stays writable by the service either way —
-saves go through an atomic rename of the directory entry, not the file. Adjust
-the destination folder to match the page's path.)
+Saves from `/edit` work through an atomic rename of a temp file in the same folder, so the directory just needs to be writable by the service. If you create a **new** directory while landing pages, `chown nobody:nogroup` it too — otherwise `/edit` saves into it will fail with a 500. Adjust the destination folder to match the page's path.
 
 The running server caches compiled pages and the ops state (`data/*.json`) in
 memory. Files landed by hand — pages **and** data like `banks.json` — only take

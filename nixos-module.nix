@@ -62,11 +62,21 @@ in
         if [ -z "$(ls -A ${cfg.stateDir}/content/docs 2>/dev/null)" ]; then
           cp -R ${cfg.package}/share/wikispace/content/. ${cfg.stateDir}/content/
         fi
+        # the store copy lands read-only (444/555); the /edit flow needs to
+        # write here, so fix the modes every boot (we own the tree through
+        # the dynamic-user idmap; on disk it is nobody:nogroup)
+        chmod -R u+rwX ${cfg.stateDir}
       '';
 
       serviceConfig = {
         DynamicUser = true;
         StateDirectory = "wiki";
+        # Next's image optimizer caches to <distDir>/cache/images inside the
+        # read-only nix store; redirect it to a persistent, writable cache
+        CacheDirectory = "wiki";
+        BindPaths = [
+          "/var/cache/wiki:${cfg.package}/share/wikispace/.next/cache/images"
+        ];
         ExecStart = "${cfg.package}/bin/wikispace-server";
         Restart = "on-failure";
         RestartSec = "3";
