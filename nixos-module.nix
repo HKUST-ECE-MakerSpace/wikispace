@@ -72,8 +72,9 @@ in
         DynamicUser = true;
         StateDirectory = "wiki";
         # Next's image optimizer caches to <distDir>/cache/images inside the
-        # read-only nix store; redirect it to a persistent, writable cache
         CacheDirectory = "wiki";
+        # the bind is not idmapped, so the top cache dir must be world-writable
+        CacheDirectoryMode = "0777";
         BindPaths = [
           "/var/cache/wiki:${cfg.package}/share/wikispace/.next/cache/images"
         ];
