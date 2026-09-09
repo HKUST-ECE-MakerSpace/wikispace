@@ -14,9 +14,9 @@ let
   # (node_modules differ: per-OS optional deps like @next/swc-*).
   appHash =
     if stdenv.isDarwin then
-      "sha256-099aGLDYRyiFAes0I6u/rKK+BNLwU3VRVnh9Qhonwgs="
+      "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
     else
-      "sha256-RfcqsP2cPOcfRpOf1DdwsjfmlOv4hv9rU4kTWrAqjTI=";
+      "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
 
   # Everything the build needs — no VCS, no dev scratch, no runtime state,
   # and no doc-only files (README/LICENSE edits don't shift the build hash).
@@ -83,8 +83,8 @@ stdenv.mkDerivation (finalAttrs: {
       # relocatable standalone server (server.js + traced node_modules)
       cp -R .next/standalone/. $app/
       # static assets and public/ are not part of the standalone trace —
-      # serve them from the app root, where the standalone server looks
       cp -R .next/static $app/.next/static
+      cp -R public $app/public
       mkdir -p $app/.next/cache/images
       # seed content for the first boot; the web editor writes to
       # WIKI_CONTENT_DIR afterwards, this copy is never touched again
