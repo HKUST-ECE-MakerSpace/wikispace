@@ -49,8 +49,21 @@ function buildRegions(grid: Grid, rows: number[]): CellRegion[] {
 
 /** Columns with no labelled drawers at all — physical aisles between bank sections. */
 function gapColumns(grid: Grid, rows: number[]): Set<string> {
+  // columns covered by a wider box are part of that box, not an aisle
+  const spanned = new Set<string>();
+  for (const [key, cell] of Object.entries(grid.cells)) {
+    if ((cell.colSpan ?? 1) <= 1) continue;
+    const m = /^([A-Z]+)(\d+)$/.exec(key);
+    if (!m) continue;
+    const ci = grid.columns.indexOf(m[1]);
+    for (let dc = 1; dc < (cell.colSpan ?? 1); dc++) {
+      const col = grid.columns[ci + dc];
+      if (col) spanned.add(col);
+    }
+  }
   const gaps = new Set<string>();
   for (const col of grid.columns) {
+    if (spanned.has(col)) continue;
     if (!rows.some((row) => grid.cells[cellKey(col, row)]?.label)) gaps.add(col);
   }
   return gaps;

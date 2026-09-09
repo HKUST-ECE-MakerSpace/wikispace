@@ -1,25 +1,340 @@
 ---
 title: Electronics Bank
-description: Component storage for electronics parts, including microcontrollers, sensors, modules and prototyping supplies.
+description: The electronics workstation in one map — cabinets 1A-13B with their drawer contents and SMT tower slots inside.
 icon: Zap
 ---
 
-The electronics workstation in two views: the **bank map** shows the numbered cabinets (rows 1–13, letters A–B) you can walk to; the **drawer contents** grid mirrors every drawer and SMT tower inside them, including the resistor, capacitor, diode, transistor and IC towers.
+One map for the whole electronics workstation: every box is a cabinet or drawer you can walk to, labelled with its code (rows 1–13, letters A–B, then the thin C–I drawers below), and the text inside says what's in it. The unlabeled boxes under the last row are the lower bench drawers; the cabinets from 8 onwards hold the SMT towers, whose drawer codes (R/C/D/Q/U) are decoded in the value charts further down.
 
 ![How the electronics workstation looks on the bench — cabinet codes 1A to 13B. Outlined empty boxes are the 5B and 6B drawers.](/banks/electronics-workstation.webp)
 
 <ComponentBank id="electronics-bank" />
 
-## Drawer contents
-
-The same bank from the drawers' point of view — search a part name (e.g. `0805`, `Modules`, `heatshrink`) and matching drawers light up. Drawers 5B and 6B are currently empty.
-
-<ComponentBank id="electronics-drawers" />
-
 ## Finding things
 
-Search the grid for a part name and matching drawers light up with their coordinates. Full screen expands the whole bank; merged boxes mirror the physical bins, one box per drawer. The SMT tower codes (R/C/D/Q/U/L) are listed per drawer in [SMT Drawer Values](/docs/banks/electronics-smt).
+Search the grid for a part name — `heatshrink`, `0805`, `Modules` — and matching drawers light up with their coordinates. Full screen expands the whole bank; merged boxes mirror the physical bins, one box per drawer. Empty outlined slots are the 5B and 6B drawers, currently empty.
 
 <Callout type="info">
   Empty slot, or the part you need isn't there? Hit **Request a restock** above the grid and pick the part (or "Something else…"); it lands in exco's ops dashboard queue. No account needed.
 </Callout>
+
+## SMT Drawer Values
+
+The SMT towers (cabinets 8–13 on the grid above) are organised by component letter and drawer code — a drawer labelled `R39 (0402)` on the map is decoded here. Resistor values follow the standard E-series: E24 ({1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1} × each decade), with E12 and E6 subsets for the coarser drawers.
+
+<Accordions>
+<Accordion title="R — resistors">
+
+**R1** — 1/4W & 1/6W or 1/8W THT R
+
+|  |  |  |  |  |
+| --- | --- | --- | --- | --- |
+| 1 | 1.2 | 1.5 | 1.8 | 2.2 |
+| 2.7 | 3.3 | 3.9 | 4.7 | 5.6 |
+| 6.8 | 8.2 | 10 | 11 | 12 |
+| 13 | 15 | 16 | 18 | 20 |
+| 22 | 24 | 27 | 30 | 33 |
+| 36 | 39 | 43 | 47 | 51 |
+
+**R7** — 1206 1Ω-100Ω
+
+|  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 1.1 | 1.2 | 1.3 | 1.5 | 1.6 | 1.8 | 2 |  |
+| 2.2 | 2.4 | 2.7 | 3 | 3.3 | 3.6 | 3.9 | 4.3 |  |
+| 4.7 | 5.1 | 5.6 | 6.2 | 6.8 | 7.5 | 8.2 | 9.1 |  |
+| 10 | 11 | 12 | 13 | 15 | 16 | 18 | 20 |  |
+| 22 | 24 | 27 | 30 | 33 | 36 | 39 | 43 |  |
+| 47 | 51 | 56 | 62 | 68 | 75 | 82 | 91 |  |
+| R8 | Content: | 1206 100Ω-10K |  | Label: | R8 | 1206 100Ω-9.1K |  |  |  |
+| 100 | 110 | 120 | 130 | 150 | 160 | 180 | 200 |  |
+| 220 | 240 | 270 | 300 | 330 | 360 | 390 | 430 |  |
+| 470 | 510 | 560 | 620 | 680 | 750 | 820 | 910 |  |
+
+**R16** — 0805 1Ω-100Ω
+
+|  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 1.1 | 1.2 | 1.3 | 1.5 | 1.6 | 1.8 | 2 |  |
+| 2.2 | 2.4 | 2.7 | 3 | 3.3 | 3.6 | 3.9 | 4.3 |  |
+| 4.7 | 5.1 | 5.6 | 6.2 | 6.8 | 7.5 | 8.2 | 9.1 |  |
+| 10 | 11 | 12 | 13 | 15 | 16 | 18 | 20 |  |
+| 22 | 24 | 27 | 30 | 33 | 36 | 39 | 43 |  |
+| 47 | 51 | 56 | 62 | 68 | 75 | 82 | 91 |  |
+| R17 | Content: | 0805 100Ω-10K |  | Label: | R17 | 0805 100Ω-9.1K |  |  |  |
+| 100 | 110 | 120 | 130 | 150 | 160 | 180 | 200 |  |
+| 220 | 240 | 270 | 300 | 330 | 360 | 390 | 430 |  |
+| 470 | 510 | 560 | 620 | 680 | 750 | 820 | 910 |  |
+
+**R25** — 0603 1Ω-100Ω
+
+|  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 1.1 | 1.2 | 1.3 | 1.5 | 1.6 | 1.8 | 2 |  |
+| 2.2 | 2.4 | 2.7 | 3 | 3.3 | 3.6 | 3.9 | 4.3 |  |
+| 4.7 | 5.1 | 5.6 | 6.2 | 6.8 | 7.5 | 8.2 | 9.1 |  |
+| 10 | 11 | 12 | 13 | 15 | 16 | 18 | 20 |  |
+| 22 | 24 | 27 | 30 | 33 | 36 | 39 | 43 |  |
+| 47 | 51 | 56 | 62 | 68 | 75 | 82 | 91 |  |
+| R26 | Content: | 0603 100Ω-10K |  | Label: | R26 | 0603 100Ω-9.1K |  |  |  |
+| 100 | 110 | 120 | 130 | 150 | 160 | 180 | 200 |  |
+| 220 | 240 | 270 | 300 | 330 | 360 | 390 | 430 |  |
+| 470 | 510 | 560 | 620 | 680 | 750 | 820 | 910 |  |
+
+**R34** — 0402 1Ω-100Ω
+
+|  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 1.1 | 1.2 | 1.3 | 1.5 | 1.6 | 1.8 | 2 |
+| 2.2 | 2.4 | 2.7 | 3 | 3.3 | 3.6 | 3.9 | 4.3 |
+| 4.7 | 5.1 | 5.6 | 6.2 | 6.8 | 7.5 | 8.2 | 9.1 |
+| 10 | 11 | 12 | 13 | 15 | 16 | 18 | 20 |
+| 22 | 24 | 27 | 30 | 33 | 36 | 39 | 43 |
+| 47 | 51 | 56 | 62 | 68 | 75 | 82 | 91 |
+| R35 | Content: | 0402 100Ω-10K |  | Label: | R35 | 0402 100Ω-9.1K |  |  |
+| 100 | 110 | 120 | 130 | 150 | 160 | 180 | 200 |
+| 220 | 240 | 270 | 300 | 330 | 360 | 390 | 430 |
+| 470 | 510 | 560 | 620 | 680 | 750 | 820 | 910 |
+
+</Accordion>
+
+<Accordion title="C — capacitors">
+
+**C1** — THT Capacitors
+
+|  |  |  |  |  |
+| --- | --- | --- | --- | --- |
+| 10pF | 22pF | 33pF | 47pF |  |
+| 100pF | 220pF | 330pF | 470pF |  |
+| 1nF | 2.2nF | 3.3nF | 4.7nF |  |
+| 10nF | 22nF | 33nF | 47nF |  |
+| 100nF | 220nF | 330nF | 470nF |  |
+| 1uF | 2.2uF | 3.3uF | 4.7uF | 6.8uF |
+| 10uF | 22uF | 33uF | 47uF | 68uF |
+| 100uF | 220uF | 330uF | 470uF | 680uF |
+| 1000uF | 2200uF | 3300uF | 4700uF | 6800uF |
+
+**C2** — 1206 1pF-8.2nF
+
+|  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 1.2 | 1.5 | 1.8 | 2.2 | 2.7 | 3.3 | 3.9 |  |
+| 4.7 | 5.6 | 6.8 | 8.2 | 10 | 12 | 15 | 18 |  |
+| 22 | 27 | 33 | 39 | 47 | 56 | 68 | 82 |  |
+| 100 | 120 | 150 | 180 | 220 | 270 | 330 | 390 |  |
+| 470 | 560 | 680 | 820 | 1n | 1.2n | 1.5n | 1.8n |  |
+| 2.2n | 2.7n | 3.3n | 3.9n | 4.7n | 5.6n | 6.8n | 8.2n |  |
+
+**C15** — 0805 1pF-8.2nF
+
+|  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 1.2 | 1.5 | 1.8 | 2.2 | 2.7 | 3.3 | 3.9 |  |
+| 4.7 | 5.6 | 6.8 | 8.2 | 10 | 12 | 15 | 18 |  |
+| 22 | 27 | 33 | 39 | 47 | 56 | 68 | 82 |  |
+| 100 | 120 | 150 | 180 | 220 | 270 | 330 | 390 |  |
+| 470 | 560 | 680 | 820 | 1n | 1.2n | 1.5n | 1.8n |  |
+| 2.2n | 2.7n | 3.3n | 3.9n | 4.7n | 5.6n | 6.8n | 8.2n |  |
+
+**C13** — 0603 1pF-8.2nF
+
+|  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 1.2 | 1.5 | 1.8 | 2.2 | 2.7 | 3.3 | 3.9 |  |
+| 4.7 | 5.6 | 6.8 | 8.2 | 10 | 12 | 15 | 18 |  |
+| 22 | 27 | 33 | 39 | 47 | 56 | 68 | 82 |  |
+| 100 | 120 | 150 | 180 | 220 | 270 | 330 | 390 |  |
+| 470 | 560 | 680 | 820 | 1n | 1.2n | 1.5n | 1.8n |  |
+| 2.2n | 2.7n | 3.3n | 3.9n | 4.7n | 5.6n | 6.8n | 8.2n |  |
+
+**C11** — 0402 1pF-8.2nF
+
+|  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | 1.2 | 1.5 | 1.8 | 2.2 | 2.7 | 3.3 | 3.9 |
+| 4.7 | 5.6 | 6.8 | 8.2 | 10 | 12 | 15 | 18 |
+| 22 | 27 | 33 | 39 | 47 | 56 | 68 | 82 |
+| 100 | 120 | 150 | 180 | 220 | 270 | 330 | 390 |
+| 470 | 560 | 680 | 820 | 1n | 1.2n | 1.5n | 1.8n |
+| 2.2n | 2.7n | 3.3n | 3.9n | 4.7n | 5.6n | 6.8n | 8.2n |
+
+**C3** — 1206 >10nF
+
+|  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 10n | 12n | 15n | 18n | 22n | 27n | 33n | 39n |  |
+| 47n | 56n | 68n | 82n | 100n | 120n | 150n | 180n |  |
+| 220n | 270n | 330n | 390n | 470n | 560n | 680n | 820n |  |
+| 1u |  |  |  |  |  |  |  |  |
+| 10u |  |  |  |  |  |  |  |  |
+
+**C16** — 1206 >10nF
+
+|  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 10n | 12n | 15n | 18n | 22n | 27n | 33n | 39n |  |
+| 47n | 56n | 68n | 82n | 100n | 120n | 150n | 180n |  |
+| 220n | 270n | 330n | 390n | 470n | 560n | 680n | 820n |  |
+| 1u |  |  |  |  |  |  |  |  |
+| 10u |  |  |  |  |  |  |  |  |
+
+**C14** — 0603 >10nF
+
+|  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 10n | 12n | 15n | 18n | 22n | 27n | 33n | 39n |  |
+| 47n | 56n | 68n | 82n | 100n | 120n | 150n | 180n |  |
+| 220n | 270n | 330n | 390n | 470n | 560n | 680n | 820n |  |
+| 1u |  |  |  |  |  |  |  |  |
+| 10u |  |  |  |  |  |  |  |  |
+
+**C12** — 0402 >10nF
+
+|  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 10n | 12n | 15n | 18n | 22n | 27n | 33n | 39n |
+| 47n | 56n | 68n | 82n | 100n | 120n | 150n | 180n |
+| 220n | 270n | 330n | 390n | 470n | 560n | 680n | 820n |
+| 1u |  |  |  |  |  |  |  |
+| 10u |  |  |  |  |  |  |  |
+
+</Accordion>
+
+<Accordion title="D — diodes & LEDs">
+
+**D1** — THT Diodes
+
+|  |  |  |  |
+| --- | --- | --- | --- |
+| 1N4001
+1N4148 | 1N5822
+1N5824 | 1N4004
+1N5404 | 1N4007
+1N5408 |
+| 1N4728
+1N4733 | 1N4742
+1N4751 |  | 6A10
+10A10 |
+| 1N5819
+- |  |  |  |
+| FR107
+FR157 | FR207
+FR307 |  |  |
+
+**D2** — THT F3/F5/F10 LEDs
+
+|  |  |  |  |
+| --- | --- | --- | --- |
+| Red | Orange | Yellow | Green |
+| Blue |  |  |  |
+| Red
+(clear) | Orange
+(clear) | Yellow
+(clear) | Lime
+(clear) |
+| Green
+(clear) | Blue
+(clear) | Magenta
+(clear) | White
+(clear) |
+
+**D3** — 0603 LEDs
+
+**D4** — 0805 LEDs
+
+**D5** — 1206 LEDs
+
+**D12** — SOD-123, SOD-323
+
+**D13** — SOD-123, SOD-323
+
+**D14** — SOD-123, SOD-323
+
+**D15** — SMA, SMB, SMC
+
+</Accordion>
+
+<Accordion title="Q — transistors">
+
+**Q1** — TO-92, TO-220
+
+|  |  |  |
+| --- | --- | --- |
+| 2N2222
+2N3904
+2N3906 | 2N5401
+2N5551 | A1015
+C1815
+C945 |
+| S9012
+S9013 | S9014
+S9015
+S9018 | SS8050
+SS8550 |
+| BC547
+BC557 | IRL244N
+IRF2807 |  |
+
+**Q2** — SOT, PPAK
+
+**Q3**
+
+**Q4**
+
+**Q5** — SOT, TO
+
+**Q6**
+
+**Q7**
+
+</Accordion>
+
+<Accordion title="U — ICs">
+
+**U1** — 74xx Series ICs
+
+|  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 74HC4072 | 74HC374 |  |  |  |  |  |  |  |
+| 74HC541 | 74HC595 | 74HC574 | 74LS160 | 74HC164 | 74LS257 | 74LS283 | 74LS76 | 74LS92 |
+| 74HC86 | 74LS90 | 74LS137 | 74HC147 | 74HC155 | 74HC194 | 74HC273 | 74HC390 | 74HC393 |
+| 74HC00 | 74HC02 | 74HC04 | 74HC08 | 74HC14 | 74HC21 | 7HC27 | 74HC32 | 74HC47 |
+
+**U2** — 4000 Series ICs
+
+|  |  |  |  |
+| --- | --- | --- | --- |
+| OP497 | AD767 | MCP3002 | DG308A |
+
+**U3** — Analogue ICs
+
+|  |  |  |  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| CD40102 | CD40103 | CD4007 | CD4012 |  |  |  |  |  |
+| CD4072 | CD4081 | CD4511 | CD4541 |  |  |  |  |  |
+| CD4001 | CD4002 | CD4040 | CD4047 | CD4051 | CD4053 | CD4069 | CD4070 | CD4071 |
+| CD4011 | CD4013 | CD4016 | CD4017 | CD4018 | CD4020 | CD4026 | CD4028 | CD4029 |
+
+**U4** — Power ICs
+
+|  |  |  |  |  |  |
+| --- | --- | --- | --- | --- | --- |
+| LM2577 | MBRB2545 | STPS745FP | STPS745G |  |  |
+| LM7805 | LM317 | LM7812 | LM7824 | LM7809 | LM7818 |
+
+**U5** — Opto ICs
+
+**U9** — General ICs
+
+**U10** — General ICs
+
+**U11** — Power ICs
+
+**U12** — Power ICs
+
+**U13** — General ICs
+
+**U14** — General ICs
+
+</Accordion>
+</Accordions>

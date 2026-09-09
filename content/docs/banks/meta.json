@@ -4,7 +4,6 @@
   "defaultOpen": true,
   "pages": [
     "electronics-bank",
-    "electronics-smt",
     "assembly-mechanics",
     "screw-bank"
   ]
