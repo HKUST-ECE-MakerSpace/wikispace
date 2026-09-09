@@ -379,19 +379,31 @@ export function ComponentBankWidget({ id }: { id: string }) {
   }, [fullscreen]);
 
   /** Deep link: /docs/banks/<page>?q=<term> fills the search and jumps to
-   *  the first matching drawer — used by the drawer index and site search. */
-  const deepLinked = useRef(false);
+   *  the first matching drawer. Applied on load and again whenever an
+   *  in-page drawer-index link or a history move changes ?q=. */
+  const lastLinked = useRef<string | null>(null);
   useEffect(() => {
-    if (deepLinked.current || !bank) return;
-    deepLinked.current = true;
-    const q = new URLSearchParams(window.location.search).get('q');
-    if (!q) return;
-    setQuery(q);
-    const timer = setTimeout(() => {
-      const first = Object.entries(bank.grid.cells).find(([, cell]) => matches(cell, q))?.[0];
-      if (first) jumpTo(first);
-    }, 300);
-    return () => clearTimeout(timer);
+    if (!bank) return;
+    let timer: number | undefined;
+    const apply = () => {
+      const q = new URLSearchParams(window.location.search).get('q');
+      if (!q || q === lastLinked.current) return;
+      lastLinked.current = q;
+      setQuery(q);
+      timer = window.setTimeout(() => {
+        const first = Object.entries(bank.grid.cells).find(([, cell]) => matches(cell, q))?.[0];
+        if (first) jumpTo(first);
+      }, 300);
+    };
+    apply();
+    // Next <Link> to the same route neither re-runs effects nor exposes a
+    // navigation event — watch the URL instead (drawer-index clicks, site
+    // search hits, back/forward all converge here).
+    const watch = setInterval(apply, 200);
+    return () => {
+      clearInterval(watch);
+      clearTimeout(timer);
+    };
   }, [bank]);
 
   function registerCell(key: string, el: HTMLTableCellElement | null) {
@@ -420,7 +432,10 @@ export function ComponentBankWidget({ id }: { id: string }) {
         <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-fd-muted-foreground" />
         <input
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => {
+            lastLinked.current = null;
+            setQuery(e.target.value);
+          }}
           placeholder="Search this bank — try “M3”, “wire”, “bearings”…"
           className="w-full rounded-md border border-fd-border bg-fd-background py-1.5 pl-8 pr-8 text-sm outline-none focus:border-fd-primary"
         />

@@ -204,7 +204,7 @@ Three components render live data from the ops dashboard — no content to write
 <FilamentTable />
 ```
 
-`MachineStatus` ids match the machine slugs (`j1s`, `p1s-left`, `snapmaker-artisan`, …). `ComponentBank` ids are `electronics-bank`, `assembly-mechanics` and `screw-bank`. The bank grids replicate the master *Inventory Storage layout* workbook — regenerate them from it rather than editing drawer-by-drawer.
+`MachineStatus` ids match the machine slugs (`j1s`, `p1s-left`, `snapmaker-artisan`, …). `ComponentBank` ids are `electronics-bank`, `assembly-mechanics` and `screw-bank`. The bank grids replicate the master *Inventory Storage layout* workbook — regenerate them from it rather than editing drawer-by-drawer. Each bank page also carries a generated **Drawer index** section (the plain-text list below the grid); it feeds the site search and its codes deep-link to the grid with `?q=`, so it regenerates together with the grids.
 
 ### YouTube
 
