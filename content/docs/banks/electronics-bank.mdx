@@ -4,23 +4,102 @@ description: The electronics workstation in one map — cabinets 1A-13B with the
 icon: Zap
 ---
 
-One map for the whole electronics workstation: every box is a cabinet or drawer you can walk to, labelled with its code (rows 1–13, letters A–B, then the thin C–I drawers below), and the text inside says what's in it. The unlabeled boxes under the last row are the lower bench drawers; the cabinets from 8 onwards hold the SMT towers, whose drawer codes (R/C/D/Q/U) are decoded in the value charts further down.
+One map for the whole electronics workstation: every box is a cabinet or drawer you can walk to, labelled with its code (rows 1–13, letters A–B, then the thin C–I drawers below), and the text inside says what's in it. The cabinets from 8 onwards hold the SMT towers, whose drawer codes (R/C/D/Q/U) are decoded in the value charts further down; drawers 5B and 6B hold the printed sensor and MCU boxes.
 
-![How the electronics workstation looks on the bench — cabinet codes 1A to 13B. Outlined empty boxes are the 5B and 6B drawers.](/banks/electronics-workstation.webp)
+![How the electronics workstation looks on the bench — cabinet codes 1A to 13B, with the 5B and 6B drawers labelled.](/banks/electronics-workstation.webp)
 
 <ComponentBank id="electronics-bank" />
 
 ## Finding things
 
-Search the grid for a part name — `heatshrink`, `0805`, `Modules` — and matching drawers light up with their coordinates. Full screen expands the whole bank; merged boxes mirror the physical bins, one box per drawer. Empty outlined slots are the 5B and 6B drawers, currently empty.
+Search the grid for a part name — `heatshrink`, `0805`, `Modules` — and matching drawers light up with their coordinates. Full screen expands the whole bank; merged boxes mirror the physical bins, one box per drawer.
 
 <Callout type="info">
   Empty slot, or the part you need isn't there? Hit **Request a restock** above the grid and pick the part (or "Something else…"); it lands in exco's ops dashboard queue. No account needed.
 </Callout>
 
+## The 5B and 6B boxes — sensors and MCUs
+
+Drawers 5B and 6B each hold three printed boxes side by side. The sensor box (1) is one tall unit that spans both drawers — `1aa` faces 5B and `1ba` faces 6B — printed with the same category list; the module and MCU boxes sit separately in each drawer.
+
+<Accordions>
+<Accordion title="1aa / 1ba — sensors">
+
+| Row | What goes here |
+| --- | --- |
+| Temp / Humidity | DHT11, DHT22, LM35, raw thermistors |
+| Motion / PIR | HC-SR501 PIR sensors, passive IR motion sensors |
+| Distance / Ultrasonic | HC-SR04 ultrasonic sensors, IR obstacle sensors |
+| Light / LDR | Photoresistors (LDR), photodiodes, phototransistors |
+| Color / IR | Color sensor ICs, IR receivers, IR emitters |
+| Sound / Microphone | Microphone capsules, sound detection sensors |
+| Magnetic / Touch | Hall effect sensors, reed switches, capacitive touch pads |
+| IMU / Accelerometer | MPU6050, accelerometers, gyroscopes, magnetometers |
+| Current / Voltage | ACS712, INA219, voltage sensor ICs |
+| Gas / Air Quality | MQ-series gas sensors, air quality sensors |
+| RTC / Timing | DS3231, DS1307, oscillator chips |
+| Force / Flex | Force sensitive resistors (FSR), flex sensors |
+| Water / Soil | Water level sensors, soil moisture sensors, rain sensors |
+| Reserved | (left empty for future sensor expansion) |
+
+</Accordion>
+<Accordion title="2ba — sensor modules">
+
+| Row | What goes here |
+| --- | --- |
+| Temp / Humidity Modules | DHT22 modules, SHT30, BME280, AM2320 (pre-soldered boards) |
+| Motion / Distance Modules | HC-SR04 modules, TOF sensors (VL53L0X), PIR modules |
+| IMU / Compass Modules | MPU6050 modules, MPU9250, HMC5883L, GY-521 boards |
+| Light / Color Modules | TCS3200, TCS34725, BH1750, UV sensor modules |
+| Gas / Air Quality Modules | MQ-2, MQ-3, MQ-7, CCS811, SGP30, air quality breakout boards |
+| Current / Voltage Modules | ACS712 modules, INA219, INA226, voltage sensor boards |
+| Sound / Audio Modules | MAX9814, MAX4466, sound detection modules, audio breakout boards |
+| RTC / Timing Modules | DS3231, DS1307, PCF8523 modules with battery holders |
+| Biometric / Specialty Modules | Heart rate (MAX30100), fingerprint, flex, force sensor modules |
+| Other / Misc Sensors | Any remaining sensors or modules that don't fit the above |
+
+</Accordion>
+<Accordion title="2bb — switches and batteries">
+
+| Row | What goes here |
+| --- | --- |
+| Switches & Buttons | Tactile buttons, toggle switches, rotary encoders, DIP switches |
+| Batteries | Li-Po batteries, 18650 cells, coin cells (CR2032), battery packs |
+| Reserved | (left empty for future use) |
+
+</Accordion>
+<Accordion title="3aa — small MCUs">
+
+| Row | What goes here |
+| --- | --- |
+| Arduino Nano / Mini | Arduino Nano, Arduino Pro Mini, Arduino Micro |
+| ESP32 Mini / C3 | ESP32-C3 Mini, ESP32-S2 Mini, ESP8266 (D1 Mini) |
+| Raspberry Pi Pico | Raspberry Pi Pico, Pico W, Pico 2 |
+| Other Small MCUs | Teensy 4.0, STM32 Blue Pill, any other small-form boards |
+| Reserved | (left empty for future use) |
+
+</Accordion>
+<Accordion title="3bb — big MCUs">
+
+| Row | What goes here |
+| --- | --- |
+| Arduino Uno | Arduino Uno R3, Uno R4, Uno WiFi |
+| Arduino Mega | Arduino Mega 2560, Mega 2560 Pro |
+| Arduino Due / Zero | Arduino Due, Arduino Zero, Arduino Giga |
+| ESP32 DevKit | ESP32 DevKitC, ESP32-WROOM, ESP32-WROVER |
+| ESP8266 Boards | NodeMCU, Wemos D1 Mini (full size), ESP8266 Dev boards |
+| STM32 Boards | STM32 Nucleo, STM32 Discovery, STM32 Black Pill |
+| Raspberry Pi | Raspberry Pi 3, 4, 5 (full-size single-board computers) |
+| FPGA / Specialty | FPGA boards, custom dev boards, other niche MCUs |
+| Other Big MCUs | Any remaining larger microcontroller boards |
+| Reserved | (left empty for future use) |
+
+</Accordion>
+</Accordions>
+
 ## SMT Drawer Values
 
-The SMT towers (cabinets 8–13 on the grid above) are organised by component letter and drawer code — a drawer labelled `R39 (0402)` on the map is decoded here. Resistor values follow the standard E-series: E24 ({1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1} × each decade), with E12 and E6 subsets for the coarser drawers.
+The SMT towers (cabinets 8 onwards on the grid above) are organised by component letter and drawer code — a drawer labelled `R39 (0402)` on the map is decoded here. Resistor values follow the standard E-series: E24 ({1.0, 1.1, 1.2, 1.3, 1.5, 1.6, 1.8, 2.0, 2.2, 2.4, 2.7, 3.0, 3.3, 3.6, 3.9, 4.3, 4.7, 5.1, 5.6, 6.2, 6.8, 7.5, 8.2, 9.1} × each decade), with E12 and E6 subsets for the coarser drawers.
 
 <Accordions>
 <Accordion title="R — resistors">
@@ -347,17 +426,24 @@ Every drawer with its contents, as a plain list — click a code to jump to the 
 
 | Drawer | Contents |
 | --- | --- |
-| [`1A`](/docs/banks/electronics-bank?q=1a) | Storage · 3D printing storage |
-| [`1B`](/docs/banks/electronics-bank?q=1b) | Storage · 3D printing storage |
+| [`1A`](/docs/banks/electronics-bank?q=1a) | Storage |
+| [`1B`](/docs/banks/electronics-bank?q=1b) | 3D printing storage · Storage |
 | [`2A`](/docs/banks/electronics-bank?q=2a) | Storage |
 | [`2B`](/docs/banks/electronics-bank?q=2b) | Connectors |
 | [`2D`](/docs/banks/electronics-bank?q=2d) | Terminals, sockets, crimps, breadboards, perfboards · Heatshrink tube spools · Connectors Storage |
 | [`3A`](/docs/banks/electronics-bank?q=3a) | Storage |
 | [`3B`](/docs/banks/electronics-bank?q=3b) | Tools |
+| [`3C`](/docs/banks/electronics-bank?q=3c) | Tools |
+| [`3D`](/docs/banks/electronics-bank?q=3d) | Tools |
+| [`3E`](/docs/banks/electronics-bank?q=3e) | Tools |
+| [`3F`](/docs/banks/electronics-bank?q=3f) | Tools |
+| [`3G`](/docs/banks/electronics-bank?q=3g) | Tools · Cables & Adaptors · Stationary · Soldering equipment · Other Tools |
 | [`4A`](/docs/banks/electronics-bank?q=4a) | Storage |
 | [`4B`](/docs/banks/electronics-bank?q=4b) | Battery holders |
+| [`4C`](/docs/banks/electronics-bank?q=4c) | Battery holders |
 | [`4D`](/docs/banks/electronics-bank?q=4d) | Jumper wires, connector wires · Wire spools · Wire Storage |
 | [`5A`](/docs/banks/electronics-bank?q=5a) | Storage |
+| [`5B`](/docs/banks/electronics-bank?q=5b) | 1aa Sensors · 2ba Sensor modules · 3aa Small MCUs |
 | [`5C`](/docs/banks/electronics-bank?q=5c) | Modules |
 | [`5D`](/docs/banks/electronics-bank?q=5d) | Modules |
 | [`5E`](/docs/banks/electronics-bank?q=5e) | Modules |
@@ -366,31 +452,38 @@ Every drawer with its contents, as a plain list — click a code to jump to the 
 | [`5H`](/docs/banks/electronics-bank?q=5h) | Modules |
 | [`5I`](/docs/banks/electronics-bank?q=5i) | Modules · M Storage · Displays · Power supplies · K Storage · Ribbon Cables · Speakers |
 | [`6A`](/docs/banks/electronics-bank?q=6a) | Storage |
-| [`6C`](/docs/banks/electronics-bank?q=6c) | Micro controllers |
-| [`6D`](/docs/banks/electronics-bank?q=6d) | Micro controllers |
-| [`6E`](/docs/banks/electronics-bank?q=6e) | Micro controllers |
-| [`6F`](/docs/banks/electronics-bank?q=6f) | Storage · Microcontrollers, SBCs · Motors & controllers · Other Expensive Items · Micro controllers |
+| [`6B`](/docs/banks/electronics-bank?q=6b) | 1ba Sensors · 2bb Switches, buttons, batteries · 3bb Big MCUs |
+| [`6C`](/docs/banks/electronics-bank?q=6c) | Modules · Micro controllers |
+| [`6D`](/docs/banks/electronics-bank?q=6d) | Modules · Micro controllers |
+| [`6E`](/docs/banks/electronics-bank?q=6e) | Micro controllers · Modules |
+| [`6F`](/docs/banks/electronics-bank?q=6f) | Modules · Micro controllers · Microcontrollers, SBCs · Motors & controllers · Other Expensive Items · Storage |
 | [`7A`](/docs/banks/electronics-bank?q=7a) | Storage |
 | [`7B`](/docs/banks/electronics-bank?q=7b) | Storage |
 | [`8A`](/docs/banks/electronics-bank?q=8a) | Storage |
 | [`8B`](/docs/banks/electronics-bank?q=8b) | U7 |
 | [`8C`](/docs/banks/electronics-bank?q=8c) | U5 |
+| [`8D`](/docs/banks/electronics-bank?q=8d) | U5 |
 | [`8E`](/docs/banks/electronics-bank?q=8e) | U3 |
+| [`8F`](/docs/banks/electronics-bank?q=8f) | U3 |
 | [`8G`](/docs/banks/electronics-bank?q=8g) | U1 |
+| [`8H`](/docs/banks/electronics-bank?q=8h) | U1 |
 | [`8I`](/docs/banks/electronics-bank?q=8i) | S1 · S Storage · Q Storage · D Storage · U Storage · Y Storage · F Storage |
-| [`9B`](/docs/banks/electronics-bank?q=9b) | U8 |
-| [`9C`](/docs/banks/electronics-bank?q=9c) | U4 · U2 |
-| [`10B`](/docs/banks/electronics-bank?q=10b) | U17 · U16 · U15 |
-| [`10C`](/docs/banks/electronics-bank?q=10c) | U14 · U13 · U12 · U11 · U10 · U9 · D2 (LED) · Shop towel … |
+| [`9A`](/docs/banks/electronics-bank?q=9a) | Storage |
+| [`9C`](/docs/banks/electronics-bank?q=9c) | Q1 · S Storage · Q Storage · D Storage · U Storage · Y Storage · F Storage |
+| [`9D`](/docs/banks/electronics-bank?q=9d) | S Storage · Q Storage · D Storage · U Storage · Y Storage · F Storage |
+| [`10A`](/docs/banks/electronics-bank?q=10a) | Storage |
+| [`10B`](/docs/banks/electronics-bank?q=10b) | U8 |
+| [`10C`](/docs/banks/electronics-bank?q=10c) | U6 · U4 · U2 · D1 · Bin |
 | [`11A`](/docs/banks/electronics-bank?q=11a) | Storage |
-| [`11B`](/docs/banks/electronics-bank?q=11b) | Q10 · Q9 · Q8 |
-| [`11C`](/docs/banks/electronics-bank?q=11c) | Q7 |
-| [`11D`](/docs/banks/electronics-bank?q=11d) | Q6 |
-| [`11E`](/docs/banks/electronics-bank?q=11e) | Q5 |
-| [`11F`](/docs/banks/electronics-bank?q=11f) | Q4 · Q3 · Q2 · R1 · Measuring & Testing Equipment Storage |
-| [`12B`](/docs/banks/electronics-bank?q=12b) | D20 · D19 · D18 |
-| [`12C`](/docs/banks/electronics-bank?q=12c) | D17 · D16 · D15 · D14 · D13 · D12 · R2 |
-| [`13A`](/docs/banks/electronics-bank?q=13a) | D11 · D10 · D9 · Storage · R44 · R43 · R42 · R33 … |
-| [`13B`](/docs/banks/electronics-bank?q=13b) | D8 · D7 · D6 · D5 (1206) · D4 (0805) · D3 (0603) · R39 (0402) · R38 (0402) … |
+| [`11B`](/docs/banks/electronics-bank?q=11b) | U17 · U16 · U15 |
+| [`11C`](/docs/banks/electronics-bank?q=11c) | U14 |
+| [`11D`](/docs/banks/electronics-bank?q=11d) | U13 |
+| [`11E`](/docs/banks/electronics-bank?q=11e) | U12 |
+| [`11F`](/docs/banks/electronics-bank?q=11f) | U11 · U10 · U9 · D2 (LED) · Shop towel · Cleaning equipment |
+| [`12A`](/docs/banks/electronics-bank?q=12a) | Storage |
+| [`12B`](/docs/banks/electronics-bank?q=12b) | Q10 · Q9 · Q8 · Q7 · Q6 |
+| [`12C`](/docs/banks/electronics-bank?q=12c) | R Storage · C Storage · L Storage |
+| [`13A`](/docs/banks/electronics-bank?q=13a) | Storage |
+| [`13B`](/docs/banks/electronics-bank?q=13b) | Storage |
 
 </Accordion></Accordions>
