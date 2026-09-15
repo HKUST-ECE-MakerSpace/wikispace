@@ -3,8 +3,11 @@ title: Induction Workshop
 description: The official new-member induction, with an overview for attendees and a run checklist for whoever is running it.
 icon: Presentation
 audience: new members
-duration: 165
+duration: 150
 checklist:
+  - id: prep-stock
+    label: Stock check — perfboard, most-common resistor and pin headers at ≥2× the needed amount; contact the Education Program Manager or Procurement Manager if low
+    section: Pre-Workshop
   - id: icebreaker
     label: Icebreaker — names + one thing each person wants to build; keep it light, ~30s each
     section: Pre-Workshop
@@ -29,6 +32,15 @@ checklist:
   - id: s1-bookings
     label: Bookings & workshop info — notice board, WhatsApp, booking sheet for long prints
     section: 1 · Lab Introduction
+  - id: next-workshops
+    label: Enrichment workshops — schedule on notice board/WhatsApp, free for members
+    section: What's Next
+  - id: next-projects
+    label: Project support — equipment, Exco mentorship, open hours; bring project ideas
+    section: What's Next
+  - id: next-community
+    label: Community — WhatsApp group, socials, open lab hours, collaborate
+    section: What's Next
   - id: s2-what-is-fdm
     label: What is FDM printing — how it works, STL/OBJ/3MF (3MF preferred), import into Bambu Studio
     section: 2 · FDM 3D Printing
@@ -36,16 +48,19 @@ checklist:
     label: P1S setup — plate placement/cleanliness (IPA or dish soap), purge lines with plastic scraper
     section: 2 · FDM 3D Printing
   - id: s2-slicing
-    label: Bambu Studio slicing — PC password, correct printer + filament sync, process/presets, supports, brim
+    label: Bambu Studio slicing — PC password makerspace2026, correct printer + filament sync, process/presets, supports, brim
     section: 2 · FDM 3D Printing
   - id: s2-start
     label: Start printing — slice, info panel, print plate panel, send, what the printer does
     section: 2 · FDM 3D Printing
   - id: s2-removal
-    label: Print removal demo — benchy, bend the plate, metal spatula, plate back in correctly
+    label: Print removal demo — benchy, bend the plate, plastic spatula (never metal), plate back in correctly
+    section: 2 · FDM 3D Printing
+  - id: s2-try
+    label: Members' prints — each attendee sends a benchy via the recommended CoPE profile (PETG profile coming soon)
     section: 2 · FDM 3D Printing
   - id: s2-rules
-    label: Printing rules — no AMS filament changes, tell exco when out, no >4h daytime prints, pause failures
+    label: Printing rules — no AMS filament changes, tell exco when out, no >4h daytime prints, pause failures; H2C only after enrichment/Exco approval
     section: 2 · FDM 3D Printing
   - id: s3-hand-tools
     label: Hand tools — strippers/cutters/crimpers by model, each only for its designated purpose
@@ -54,31 +69,16 @@ checklist:
     label: Test equipment — demo controls of power supply, multimeter, signal generator, oscilloscope
     section: 3 · Electronics Tools
   - id: s4-ppe
-    label: PPE briefing (MANDATORY) — goggles on all, hair tied, no loose clothing/jewellery, no gloves; check everyone
+    label: PPE briefing (MANDATORY) — goggles on all whenever any machine runs, hair tied, no loose clothing/jewellery, no gloves on rotating machinery; check everyone
     section: 4 · Mechanical Tools
-  - id: s4-drill-overview
-    label: Pillar drill overview — controls, chuck key removed before start, e-stop
+  - id: s4-hand-drill
+    label: Hand drill demo — right bit, workpiece clamped (never by hand); each attendee drills once under supervision
     section: 4 · Mechanical Tools
-  - id: s4-drill-op
-    label: Pillar drill operation — clamp workpiece (never by hand), speed per material, slow feed
-    section: 4 · Mechanical Tools
-  - id: s4-saw-overview
-    label: Mitre saw overview — controls, blade guard (never disabled), fence, e-stop
-    section: 4 · Mechanical Tools
-  - id: s4-saw-op
-    label: Mitre saw operation — workpiece against fence, full speed before cut, wait for blade stop
-    section: 4 · Mechanical Tools
-  - id: s4-drill-hands-on
-    label: Hands-on pillar drill — every attendee drills one hole under supervision, correct immediately
-    section: 4 · Mechanical Tools
-  - id: s4-saw-hands-on
-    label: Hands-on mitre saw — every attendee makes one cut under supervision, correct immediately
-    section: 4 · Mechanical Tools
-  - id: s4-files-cleanup
-    label: Files & cleanup — smooth even strokes, file card, tools returned, sweep the area
+  - id: s4-cleanup
+    label: Cleanup — tools returned, sweep the area, dispose of scraps
     section: 4 · Mechanical Tools
   - id: s5-setup
-    label: Soldering station overview — iron, stand, brass cleaner, solder, flux; 350°C leaded / 380°C lead-free
+    label: Soldering station overview — iron, stand, brass cleaner, solder, flux; set ~350°C, ready in ~10s
     section: 5 · Soldering & Electronics
   - id: s5-tinning
     label: Tinning the tip — small blob of solder on clean tip, don't over-wipe
@@ -96,29 +96,20 @@ checklist:
     label: Tip cleaning — brass cleaner or damp sponge, never abrasives, re-tin after cleaning
     section: 5 · Soldering & Electronics
   - id: s5-shutdown
-    label: Turn off & tidy — iron off, cool 15 min before storing, workspace clean, wash hands
+    label: Turn off & tidy — iron off, cool ≥15 min before storing, workspace clean, wash hands (esp. 60/40 leaded)
     section: 5 · Soldering & Electronics
   - id: s5-hands-on
     label: Hands-on practice — each attendee solders ≥1 component + a wire; circulate and correct technique
     section: 5 · Soldering & Electronics
-  - id: next-workshops
-    label: Enrichment workshops — schedule on notice board/WhatsApp, free for members
-    section: What's Next
-  - id: next-projects
-    label: Project support — equipment, Exco mentorship, open hours; bring project ideas
-    section: What's Next
-  - id: next-community
-    label: Community — WhatsApp group, socials, open lab hours, collaborate
-    section: What's Next
   - id: attendance
-    label: Attendance — verify credentials one-by-one, join WhatsApp, merch; lanyard handouts & visitor policy
+    label: Attendance — signups.ecemaker.space (dev/dev), scan ID-card barcode (not student number), WhatsApp compulsory, Discord QR, keychain while stock lasts, lanyards (access within a week)
     section: Attendance
 ---
 
 The induction is the gateway to MakerSpace: every new member attends it once, and an Exco member or trained runner runs it. This page has two tabs. The **Overview** below is what the workshop covers, for everyone; the **Checklist** tab is the tickable run sheet for the runner, saved on the runner's device — or open it directly at [`?tab=checklist`](?tab=checklist). Print it if you prefer paper.
 
 <Callout type="info">
-  Adapted from **Induction Workshop v4**. For groups of more than six, run Sections 3 and 4 **in parallel** and swap the two groups after 15–20 minutes; the manufacturing room has limited space, and the test-equipment screens are hard for large groups to see.
+  Adapted from **Induction Workshop v4**. For large groups, split attendees in half: one half does Section 2 (FDM 3D Printing) while the other half does Sections 3–4 (Electronics Tools + Mechanical Tools), then swap the two halves after **25 minutes**.
 </Callout>
 
 ## Core messages
@@ -133,22 +124,31 @@ The induction must land these three points:
 
 | Section | Time | Content | Format |
 | --- | --- | --- | --- |
-| Pre-Workshop: Icebreaker | 5–10 min | Attendees interact and introduce themselves | Icebreaker activity |
-| 1. Lab Introduction | 15 min | Lab layout, equipment, rules and policies | Mini tour + presentation |
-| 2. FDM 3D Printing | 30 min | Print on the P1S from start to finish | Demonstration |
-| 3. Electronics Tools & Test Equipment | 15 min | Tools & purposes; basic test-equipment operations | Presentation + demo |
-| 4. Mechanical Tools | 20 min | Drills, saws, files, clamps | Demo + hands-on |
-| 5. Soldering and Electronics | 60 min | Solder correctly on a perfboard | Presentation + hands-on |
-| What Can You Do Next? | 5–10 min | Enrichment workshops, ongoing activities | Presentation |
-| Attendance | 5 min | Credentials, WhatsApp, merch | One-by-one verification |
+| Pre-Workshop: Preparation | 20 min | Stock check before attendees arrive (runner only) | Runner checklist |
+| Pre-Workshop: Icebreaker | 5 min | Attendees interact and introduce themselves | Icebreaker activity |
+| 1. Lab Introduction | 10 min | Lab layout, equipment, rules and policies | Mini tour + presentation |
+| What Can You Do Next? | 5 min | Enrichment workshops, ongoing activities | Presentation |
+| 2. FDM 3D Printing | 25 min | Print on the P1S from start to finish | Demonstration + hands-on |
+| 3. Electronics Tools & Measuring | 10 min | Tools & purposes; basic test-equipment operations | Presentation + demo |
+| 4. Mechanical Tools | 15 min | PPE briefing, hand drill, cleanup | Demo + hands-on |
+| 5. Soldering and Electronics | 75 min | Solder correctly on a perfboard | Presentation + hands-on |
+| Attendance | 5 min | Credentials, WhatsApp, Discord, merch | One-by-one verification |
 
-## Pre-Workshop: Icebreaker (5–10 min)
+Attendees are in the room for **150 minutes** in total; the runner adds the 20-minute preparation, so about **170 minutes** door to door.
+
+## Pre-Workshop: Preparation (20 min)
+
+**Objective:** arrive before the attendees and make sure the consumables the soldering session burns through are in stock: **perfboard, the most common resistor, and pin headers**.
+
+If any of them is below **2× the amount you need**, contact the Education Program Manager or the Procurement Manager to restock before running the session. You can do this check once a week rather than before every induction.
+
+## Pre-Workshop: Icebreaker (5 min)
 
 **Objective:** get attendees talking to each other at least once before the technical content begins, and make the session feel approachable.
 
 Ask everyone to stand in a circle or sit together. Each person gives their name and one thing they want to build or learn in MakerSpace, roughly 30 seconds each. Encourage brief follow-up questions so people actually talk to each other, and keep the pace light; if it starts to drag, move on.
 
-## Section 1: Lab Introduction (15 min)
+## Section 1: Lab Introduction (10 min)
 
 **Objective:** present what MakerSpace is, the equipment/tools/supplies on offer, the services, and the lab rules and policies.
 
@@ -163,27 +163,35 @@ Explain the map first, then walk the tour:
 - **Component bank details**: connectors, heat-shrink, wires, tools, battery holders, motors; sensors, modules, breakout boards, microcontrollers (expensive MCUs are locked but loanable); ICs, transistors, diodes, resistors, capacitors. Grey SMT boxes hold ICs, yellow ones resistors, blue ones capacitors. Common components sit on the pegboard; the rest live in drawers.
 - **Desks**: general vs soldering vs SMT soldering vs electronics measuring; use the desk that fits the task.
 - **Assembly station**: basic mechanical tools and the large assembly desk.
-- **Mechanical station**: drill press, power tools in the cabinet above (special training required), more machines coming.
-- **CAM station**: resin printers (special training), the Snapmaker for large-volume printing / laser / 4-axis CNC (special training), and the mechanical hardware bank (in construction).
+- **Mechanical station**: drill press and pillar drill; power tools in the cabinet above (special training required); more machines coming.
+- **CAM station**: resin printers (very precise 3D printing, special training required); the **Snapmaker Artisan** for 3-axis laser cutting/engraving and 3/4-axis CNC milling (special training required); and the mechanical hardware bank (under construction).
 
 Also cover the rules and policies (read from the latest document); services (project storage, the visitor scheme, enrichment workshops, membership renewal); where to get help (WhatsApp first, any Exco member, or the machine documentation, because nobody should struggle alone); SOPs and documentation (shared drive plus copies posted near equipment, datasheets in the electronics section); and bookings (notice board, WhatsApp, and the booking sheet for long prints).
 
-## Section 2: FDM 3D Printing (30 min)
+## What Can You Do Next? (5 min)
+
+- **Enrichment workshops**: PCB design, microcontrollers, advanced CAD…; schedule on the notice board and WhatsApp; free for members; sign up in advance.
+- **Project support**: equipment access, Exco mentorship, collaborative community; bring your project ideas and use open hours.
+- **Community**: join the WhatsApp group; socials, open lab hours, drop-in sessions; collaborate.
+
+## Section 2: FDM 3D Printing (25 min)
 
 **Objective:** operate the P1S to 3D print; printing rules and good practices.
 
 1. **What is FDM** (~3 min): how FDM works and the process of preparing a print. Export as STL / OBJ / **3MF (preferred, preserves geometry best)**; import into Bambu Studio.
 2. **Setting up the P1S**: plate in the correct place and removing it safely; **purge lines come off with the plastic scraper**; plate clean and dry (isopropanol, or dish soap and a clean towel); plate back in correctly.
-3. **Slicing in Bambu Studio** (~5 min): the printing PC password; select the correct printer under "Device"; sync filaments ("Prepare" → "Sync info" → "Continue"); correct plate selected. UI layout: "Process" controls speed/infill/layer height, "Global" vs "Objects" scope, the top bar manipulates objects; place objects flat and "Auto-arrange" multiples; system vs user presets; recommended processes; wall loops & infill; supports; brim.
+3. **Slicing in Bambu Studio** (~5 min): the printing PC password is **makerspace2026**; select the correct printer under "Device"; sync filaments ("Prepare" → "Sync info" → "Continue"); correct plate selected. UI layout: "Process" controls speed/infill/layer height, "Global" vs "Objects" scope, the top bar manipulates objects; place objects flat and "Auto-arrange" multiples; system vs user presets; recommended processes; wall loops & infill; supports; brim.
 4. **Start printing** (~2 min): "Slice" and read the info panel; "Print plate" and what each function does; "Send"; what the printer does while preparing.
-5. **Print removal** (~1 min): demo with the pre-printed benchy. Remove the bed, bend the plate, use the metal spatula without damaging the plate, plate back in.
-6. **Rules & guidelines** (~2 min):
+5. **Print removal** (~2 min): demo with the pre-printed benchy. Remove the bed, gently bend the plate, and lift the print off with the **plastic spatula — never a metal one, and never scrape the plate itself**; put the plate straight back on the magnetic bed.
+6. **Members' prints**: each attendee sends a benchy print themselves using the recommended CoPE profile (a PETG profile is coming soon).
+7. **Rules & guidelines** (~3 min):
    - Do not change filaments in the AMS; if filament runs out, tell an Exco.
    - Long prints (>4 h) must not run during daytime.
    - Filament is free but not to be wasted; don't print useless stuff.
    - See a failing print → press pause. Your print failed → ask in the WhatsApp group.
+   - Induction only teaches the P1S printers; the H2C multi-color printers may be operated **only** by members who have completed the relevant enrichment workshop or been granted Exco approval.
 
-## Section 3: Electronics Tools & Measuring Equipment (15 min)
+## Section 3: Electronics Tools & Measuring Equipment (10 min)
 
 **Objective:** what the electronics hand tools do; basic operations on the oscilloscope, power supply, multimeter and signal generator.
 
@@ -196,42 +204,42 @@ Hand tools:
 - The rest are crimping irons; a future workshop covers them.
 - Only use each tool for its designated purpose.
 
-For the test equipment (~10 min), ask how many people have used each instrument before, then demonstrate the controls of the **power supply**, **multimeter**, **signal generator** and **oscilloscope**.
+Then, for the test equipment, ask how many people have used each instrument before, and demonstrate the controls of the **power supply**, **multimeter**, **signal generator** and **oscilloscope**.
 
-## Section 4: Mechanical Tools (20 min)
+## Section 4: Mechanical Tools (15 min)
 
-**Objective:** identify the pillar drill, mitre saw, files and clamps; safe operation with strong PPE emphasis; every attendee operates the drill and the saw once under supervision.
+**Objective:** run the PPE briefing, demonstrate the hand drill, get every attendee to use it once, and finish with cleanup.
 
 <Callout type="warn" title="PPE is mandatory">
-  Safety goggles worn by everyone at all times while any machine is operating — no exceptions. No loose hair (tie it back), no loose clothing or dangling jewellery, **no gloves** near rotating machinery. Check every attendee before they approach a machine; if PPE is wrong, they do not operate. Unsafe behaviour can mean immediate loss of access.
+  Safety goggles worn by everyone at all times while any machine is operating — no exceptions. No loose hair (tie it back), no loose clothing, scarves, loose sleeves, string hoodies or dangling jewellery, and **no gloves when operating rotating machinery** (pillar drill, mitre saw). Check every attendee before any machine runs; if PPE is wrong, they do not operate. Unsafe behaviour can mean immediate loss of access.
 </Callout>
 
-**Pillar drill** makes clean perpendicular holes in wood, plastic or metal. Controls: power, speed selector, quill feed lever, e-stop; the chuck key must be **removed before starting**; the table raises, lowers and tilts. To operate: right bit for material and size, tightened with the chuck key and removed again; secure the workpiece in the vise or clamps (**never hold it by hand**); speed slow for metal, medium for plastic, fast for wood; lower the quill slowly and let the bit cut; after drilling, raise the bit, power off, and wait for full stop; clean swarf with a brush, never hands.
+**Hand drill** demo: the right bit for the material and size, seated and tightened in the chuck; workpiece secured in a vise or clamps — **never held by hand**; speed slow for metal, medium for plastic, fast for wood; steady pressure, and let the bit cut.
 
-**Mitre saw** makes precise crosscuts and angled cuts in wood and plastic. Controls: power, blade guard (never disabled or tied back), fence, angle adjustment, e-stop. To operate: right sharp blade; set and lock the angle; workpiece secured against the fence, never by hand; check clearance with the guard and release it; reach full speed before cutting; lower steadily without forcing; release the trigger and **wait for the blade to stop completely** before raising; clear scraps only after it stops.
+**Hands-on**: scrap wood and goggles for each attendee. The supervisor demonstrates once more, then watches each attendee drill one hole, correcting technique immediately.
 
-**Hands-on**: scrap wood and goggles for each attendee. The supervisor demonstrates once more, then watches each attendee drill a hole and make a cut, correcting technique immediately. Finish with files: smooth even strokes, never pushing on the return stroke; clean with a file card; return tools; sweep and dispose of scraps.
+**Cleanup**: return the tools, sweep the area, and dispose of scraps.
 
-## Section 5: Soldering and Electronics (60 min)
+## Section 5: Soldering and Electronics (75 min)
 
 **Objective:** solder correctly on a perfboard; understand station setup, safety and maintenance; solder at least one component.
 
-Setup: iron, stand, brass tip cleaner (or damp sponge), solder wire (60/40 or lead-free) and flux. Turn on, set **~350 °C leaded / ~380 °C lead-free**, and wait 2–3 min for the display to stabilise. **Never leave a heated iron unattended**; park it in the stand.
+Setup: iron, stand, brass tip cleaner (or damp sponge), solder wire (60/40 or lead-free) and flux. Turn on, set **~350 °C**, and wait about **10 seconds** for the iron to reach temperature. **Never leave a heated iron unattended**; park it in the stand.
 
 - **Tinning**: wipe the tip and apply a small blob of solder to coat it; this protects against oxidation and improves heat transfer. Don't over-wipe.
 - **Stripping wires** (hands-on): correct gauge hole, squeeze gently, pull; never nick the strands (if damaged, trim and re-strip); twist stranded conductors lightly.
 - **Soldering on perfboard**: insert leads, bend slightly outward to hold; heat **the pad and lead together** 1–2 s; apply solder **to the joint, not the iron**; remove solder then iron. A good joint is shiny, smooth, concave; a cold joint is dull/grainy/blobby, so reheat it with flux. LED polarity: long lead = anode (+). Work ventilated; fumes are harmful. (Practice component may vary: resistor, LED, diode…)
 - **Flux** cleans surfaces and helps flow; a small amount on oxidized/dirty joints. Excess is corrosive. Rosin is standard; water-soluble requires cleaning after use.
 - **Tip care**: brass cleaner, insert the hot tip and twist; or a quick wipe on a damp (not wet) sponge; **never abrasives**; re-tin immediately after cleaning.
-- **Shutdown**: iron off; cool ≥15 min before storing; dispose of wire scraps, coil solder wire, tidy; **wash hands**, especially after leaded.
-- **Hands-on practice** (~32 min): each attendee strips wires, solders a wire and at least one component to a perfboard. Supervisors circulate, correct technique, and encourage inspecting and reworking joints.
-
-## What Can You Do Next? (5–10 min)
-
-- **Enrichment workshops**: PCB design, microcontrollers, advanced CAD…; schedule on the notice board and WhatsApp; free for members; sign up in advance.
-- **Project support**: equipment access, Exco mentorship, collaborative community; bring your project ideas and use open hours.
-- **Community**: join the WhatsApp group; socials, open lab hours, drop-in sessions; collaborate.
+- **Shutdown**: iron off; cool ≥15 min before storing; dispose of wire scraps, coil solder wire, tidy; **wash hands** — especially after 60/40 leaded solder.
+- **Hands-on practice** (~45 min): each attendee strips wires, solders a wire and at least one component to a perfboard. Supervisors circulate, correct technique, and encourage inspecting and reworking joints.
 
 ## Attendance (5 min)
 
-Confirm member credentials one-by-one, get everyone into the WhatsApp group, and hand out merch. Lanyard handouts and the visitor policy apply here.
+Work through attendees one by one:
+
+1. **Record attendance**: open [signups.ecemaker.space](https://signups.ecemaker.space), sign in to admin (user `dev`, password `dev`), and scan the **barcode number printed on the student ID card** — *not* the student ID number.
+2. **WhatsApp group** (compulsory): everyone joins before they leave.
+3. **Discord**: scan the QR code posted around the lab.
+4. **Merch**: hand out the keychain while stock lasts.
+5. **Lanyards**: lab access is added **within a week**.

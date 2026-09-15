@@ -1,31 +1,76 @@
 ---
 title: Multi Color H2C
-description: Four-slot AMS printer for multi-colour work in PLA and CoPE.
+description: Four AMS 2 Pro units for multi-color printing in Polymaker PETG, with PLA loaded only as the support filament.
 icon: Palette
 ---
 
 <MachineStatus id="h2c-multicolor" />
 
-This is the multi-colour machine. Its four AMS slots run PLA and CoPE in a single print, with a purge tower carrying the transitions; those transitions are where multi-colour prints usually go wrong, which is why the quick start has you watch the first color changes and not just the first layer.
+This is the multi-color machine. Four AMS 2 Pro units (A–D, four slots each — 16 slots in total) are preloaded with Polymaker PETG colors, backed by eight high-temperature inputs (HT A–H). The only PLA on the machine is the Panchroma PLA support filament in HT G, which always prints on the left extruder. The automatic flushing between colors is where multi-color prints usually go wrong, which is why the quick start has you watch the first color changes and not just the first layer.
+
+## AMS and Filament Configuration
+
+The AMS units and HT inputs come preloaded to the fixed default configuration below — two filament track swappers route the shared colors to either extruder, and there should be little reason to modify the setup for specific prints.
+
+| Input | Slots | Filament | Default extruder |
+| --- | --- | --- | --- |
+| AMS 2 Pro A | 1–4 | Polymaker PETG Red, Magenta, Orange, Yellow | R |
+| AMS 2 Pro B | 1–4 | Polymaker PETG Lemon Yellow, Green, Dark Green, Silver | R |
+| AMS 2 Pro C | 1–4 | Polymaker PETG Teal, Blue, Dark Blue, Electric Blue | R |
+| AMS 2 Pro D | 1–4 | Polymaker PETG Pink, Purple, Dark Purple, Dark Grey | R |
+| HT A | — | Polymaker PETG Black | R |
+| HT B | — | Polymaker PETG Black | L/R (track swapper) |
+| HT C | — | Polymaker PETG Grey | R |
+| HT D | — | Polymaker PETG Grey | L/R (track swapper) |
+| HT E | — | Polymaker PETG White | R |
+| HT F | — | Polymaker PETG White | L/R (track swapper) |
+| HT G | — | Panchroma PLA — the support filament | L |
+| HT H | — | Flex use (no assigned filament) | L/R (track swapper) |
+
+<Callout type="warn" title="Staff handle the AMS">
+Members never load, unload, or refill filament in the AMS units or HT inputs — only Helpers, Lab Assistants, and Exco handle filament loading. The units are preloaded to the default configuration above; if you need a change, ask them.
+</Callout>
+
+HT G is the support filament (Panchroma PLA, any color). Support filament should always be on the left extruder. HT H is the one flex slot: anyone may put their own filament in it for a print, but it must be taken out afterwards — it is left empty by default.
+
+## Nozzle Configuration
+
+| Nozzle | Configuration |
+| --- | --- |
+| L | 0.4mm |
+| R1–R6 | 0.4mm induction |
+
+Six 0.4mm induction nozzles are the default for the right extruder; they can be swapped for 0.2mm induction nozzles if a print needs finer detail.
 
 ## Quick Start
 
 <Steps>
   <Step>Power on the printer and wait for the touchscreen to fully initialize.</Step>
-  <Step>Load all 4 AMS slots with the filament colors you need (PLA or CoPE only).</Step>
+  <Step>Pick your colors from the preloaded configuration above — 16 Polymaker PETG colors plus black, grey, and white on the HT inputs. Never load or unload filament yourself; ask a Helper, Lab Assistant, or Exco if you need something changed.</Step>
+  <Step>If you need a filament that isn't loaded, use the HT H flex slot: you may put your own spool there for your print, and you must take it out afterwards.</Step>
   <Step>Verify each spool is properly seated and the AMS hub connections are secure.</Step>
   <Step>Close the enclosure door before starting the print.</Step>
   <Step>Select your multi-color sliced file from the network queue or USB drive.</Step>
   <Step>Run the automatic bed-leveling calibration sequence.</Step>
-  <Step>Start the print and monitor the first layer and the first 3 color changes; you're watching for proper purging and clean color separation.</Step>
+  <Step>Start the print and monitor the first layer and the first 3 color changes; you're watching for clean flushing and clean color separation.</Step>
 </Steps>
 
 ## Settings
 
-Verified profiles. The purge values matter as much as the temperatures here.
+Verified profiles. The flush volumes matter as much as the temperatures here.
 
-<Tabs items={['PLA', 'Polymaker CoPE']}>
-  <Tab value="PLA">
+<Tabs items={['Polymaker PETG', 'Panchroma PLA (support)']}>
+  <Tab value="Polymaker PETG">
+
+    | Parameter | Value |
+    | --- | --- |
+    | Nozzle temp | 230-240C |
+    | Bed temp | 70-80C |
+    | Speed | Slow-normal |
+    | Notes | Colors come from the preloaded AMS configuration; use the HT G Panchroma PLA on the left extruder for support interfaces. |
+
+  </Tab>
+  <Tab value="Panchroma PLA (support)">
 
     | Parameter | Value |
     | --- | --- |
@@ -34,23 +79,7 @@ Verified profiles. The purge values matter as much as the temperatures here.
     | Speed | 80-120mm/s |
     | Cooling | 100% |
     | Retraction | 0.8mm @ 30mm/s |
-    | Purge volume | 150-200mm³ |
-    | Purge tower | Recommended for all color changes |
-
-  </Tab>
-  <Tab value="Polymaker CoPE">
-
-    | Parameter | Value |
-    | --- | --- |
-    | Nozzle temp | 245-260C |
-    | Bed temp | 75-85C |
-    | Speed | 30-50mm/s |
-    | Cooling | 20-30% |
-    | Enclosure | 45-50C |
-    | Retraction | 1.0mm @ 25mm/s |
-    | Purge volume | 300-400mm³ for clean transitions |
-    | Purge tower | Required when switching from CoPE to PLA |
-    | Drying | 70C for 4-6 hours |
+    | Notes | Loaded in HT G as the support filament; it always prints on the left extruder. |
 
   </Tab>
 </Tabs>
@@ -59,22 +88,19 @@ Verified profiles. The purge values matter as much as the temperatures here.
 
 <Accordions>
   <Accordion title="Color Bleeding / Contamination">
-    Increase the purge volume between colors by 50-100mm³ and enable the purge tower in the slicer. Check the flush settings for each color pair, and run AMS calibration so filament retraction behaves.
+    Increase the flush volume between colors by 50-100mm³ in the slicer. Check the flush settings for each color pair, and run AMS calibration so filament retraction behaves.
   </Accordion>
   <Accordion title="AMS Filament Feeding Failure">
-    Check the spool isn't tangled, then gently push the filament by hand to help the AMS grab it. Verify the PTFE tube isn't kinked, reseat the spool in its slot, and clean the AMS feeder gears if they're clogged with filament dust.
+    Check the spool isn't tangled, then gently push the filament by hand to help the AMS grab it. Verify the PTFE tube isn't kinked, reseat the spool in its slot, and clean the AMS feeder gears if they're clogged with filament dust. Recurring feed errors go to a Helper or Exco — don't swap spools yourself.
   </Accordion>
   <Accordion title="Nozzle Clog During Color Change">
-    Heat the nozzle to 250°C (the higher of the two material temps) and manually push filament through. Cool to 90°C and perform a cold pull; if it's still clogged, use an acupuncture needle, and replace the nozzle as a last resort.
-  </Accordion>
-  <Accordion title="Purge Tower Printing Issues">
-    Verify the purge tower position on the bed (it must not overlap the print), adjust the purge volume in the slicer, and make sure the tower has a minimum of 5-10 layers to stabilize. Check that the tower is adhering to the bed.
+    Heat the nozzle to 250°C and manually push filament through. Cool to 90°C and perform a cold pull; if it's still clogged, use an acupuncture needle, and replace the nozzle as a last resort.
   </Accordion>
   <Accordion title="First Layer Adhesion Problems">
-    Re-level the bed using auto-leveling and clean the plate with 99% IPA. Adjust the Z-offset (0.1mm with a feeler gauge), lower first layer speed to 20mm/s, and apply glue stick for CoPE layers.
+    Re-level the bed using auto-leveling and clean the plate with 99% IPA. Adjust the Z-offset (0.1mm with a feeler gauge), lower first layer speed to 20mm/s, and apply glue stick for PETG layers.
   </Accordion>
   <Accordion title="Layer Shifting in Multi-Color Print">
-    Check belt tension (~100Hz twang) and inspect for mechanical obstructions. Reduce print speed by 30%, and verify the print head isn't colliding with the purge tower.
+    Check belt tension (~100Hz twang) and inspect for mechanical obstructions. Reduce print speed by 30%.
   </Accordion>
 </Accordions>
 
@@ -91,7 +117,7 @@ Verified profiles. The purge values matter as much as the temperatures here.
   <Accordion title="AMS PTFE Tube Replacement">
     **Difficulty:** Medium · **Tools:** 2.5mm hex key, replacement PTFE tubes, tube cutter
 
-    Remove all filament from the AMS, open the AMS hub connections, and unscrew the pneumatic fittings to free the old PTFE tubes. Cut the new tubes to exact length, insert them fully into the fittings, and test the filament path for each slot.
+    Remove all filament from the AMS, open the AMS hub connections, and unscrew the pneumatic fittings to free the old PTFE tubes. Cut the new tubes to exact length, insert them fully into the fittings, and test the filament path for each slot. AMS filament handling during this repair is limited to Helpers, Lab Assistants, and Exco.
 
     <Callout type="warn">Cut PTFE tubes square. Do not crush tubes during installation. Test each AMS slot after replacement.</Callout>
   </Accordion>
@@ -100,13 +126,14 @@ Verified profiles. The purge values matter as much as the temperatures here.
 ## Rules
 
 - Supervise the first layer and the first color transition of every multi-color print.
-- All 4 AMS slots must be loaded before starting any multi-color print.
+- Never load or unload filament in the AMS units or HT inputs yourself — Helpers, Lab Assistants, and Exco only.
+- Leave the AMS in its default configuration; there should be little reason to modify it for a specific print.
+- If you use the HT H flex slot, take your own filament out after printing; the slot is left empty by default.
+- The support filament (Panchroma PLA in HT G) always prints on the left extruder.
 - Clean the build plate with 99% IPA before and after every print.
 - Report all AMS feeding errors, tangled spools, or color mixing issues to exco immediately.
-- Remove all filament spools from the AMS after printing and store in dry boxes with desiccant.
 - Do not run unattended overnight prints without exco approval.
 - Log all print jobs (colors used, duration, username) in the workshop registry.
-- Do not mix PLA and CoPE in the same print without proper purge tower settings.
 - Firmware updates are restricted to exco members only.
 - Do not manually force filament through the AMS; follow official protocols.
 

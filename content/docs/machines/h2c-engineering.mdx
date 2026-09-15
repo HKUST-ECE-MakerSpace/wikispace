@@ -1,18 +1,66 @@
 ---
 title: Engineering H2C
-description: The lab's engineering FDM printer for CoPE, TPU and ASA, with a heated enclosure and AMS.
+description: The lab's engineering FDM printer for PETG, CoPE, ABS/ASA, PC and fibre-filled filaments, with TPU fed via the external TPU feeder and a heated enclosure.
 icon: Printer
 ---
 
 <MachineStatus id="h2c-engineering" />
 
-This is the machine for parts that have to survive use. It runs the engineering materials (CoPE, TPU 90A, TPU 95A, ASA), and its heated enclosure is what keeps ASA from warping halfway through a print; filament comes from the AMS. Dry your filament before printing anything here, per the drying notes in the profile tables below.
+This is the machine for parts that have to survive use. It runs the engineering filaments (PETG, CoPE, ABS, ASA, PC, and the carbon/glass-fibre nylons and polyesters) from its four AMS 2 Pro units and HT inputs, and its heated enclosure is what keeps ASA from warping halfway through a print. TPU is the exception: it never goes in the AMS, feeding instead through the external TPU feeder straight to the right extruder. Dry your filament before printing anything here, per the drying notes in the profile tables below.
+
+## AMS and Filament Configuration
+
+| Input | Slots | Filament | Default extruder |
+| --- | --- | --- | --- |
+| AMS 2 Pro A | 1–4 | PETG, PETG, Panchroma CoPE, Panchroma CoPE | — |
+| AMS 2 Pro B | 1–4 | Polylite ABS, Polylite ASA, Fiberon ASA-CF, Siraya Tech ABS-CF | R |
+| AMS 2 Pro C | 1–4 | PETG, PETG, Polylite PETG Transparent, Fiberon PETG-rCF | R |
+| AMS 2 Pro D | 1–4 | Panchroma PLA (L), Panchroma PLA (L), Polymaker HT PLA-GF (L), Support for PLA/PETG (L) | L |
+| HT A | — | Polymide CoPA | R |
+| HT B | — | Polymax PC | R |
+| HT C | — | Polylite PC | R |
+| HT D | — | Fibreon PA6-GF | R |
+| HT E | — | Fibreon PA6-CF | R |
+| HT F | — | Fiberon PET-GF | R |
+| HT G | — | Fibreon PET-CF17 | R |
+| HT H | — | Flex use (no assigned filament) | L/R |
+| External TPU feeder | — | TPU only | R |
+
+Which materials bond to which is documented in the FDM Polymers Bonding Matrix on the Loop workspace.
+
+<Callout type="warn" title="Staff handle the AMS">
+Members never load, unload, or refill filament in the AMS units — only Helpers, Lab Assistants, and Exco handle filament loading. The units are preloaded to the default configuration above; if you need a change, ask them.
+</Callout>
+
+HT H is the one flex slot: anyone may put their own filament in it for a print, but it must be taken out afterwards — it is left empty by default.
+
+<Callout type="warn" title="TPU never goes in the AMS">
+TPU feeds exclusively through the external TPU feeder: a dedicated PTFE tube routes it from the TPU outlet to the right extruder, with a feeder module installed on the printer to help push it — this is the dedicated input for TPU. Softer TPUs (below 95A, like TPU 90A) cannot be printed in an AMS or on the left extruder at all.
+</Callout>
+
+## Nozzle Configuration
+
+| Nozzle | Configuration | Role |
+| --- | --- | --- |
+| L | 0.4mm HF-WC (high-flow tungsten-carbide) | — |
+| R1 | 0.4mm HF induction | — |
+| R2 | 0.4mm HF induction | — |
+| R3 | 0.6mm induction | — |
+| R4 | 0.4mm induction | Dedicated fibre nozzle |
+| R5 | 0.6mm induction | Dedicated fibre nozzle |
+| R6 | 0.6mm HF induction | Dedicated TPU/PEBA nozzle |
+
+<Callout type="warn" title="R6 is the TPU/PEBA nozzle — nothing else">
+Only TPU and PEBA should be printed on R6. Flexible filaments are known to clog a nozzle that has previously printed rigid filaments — especially fibre-infused ones — so keeping R6 dedicated avoids spending ages cold-pulling it clean. Its 0.6mm size also makes extruding flexible filaments easier.
+</Callout>
 
 ## Quick Start
 
 <Steps>
   <Step>Turn on the main power switch at the back of the printer and wait for the touchscreen to fully boot.</Step>
-  <Step>Load the filament you need (CoPE, TPU 90A, TPU 95A, or ASA) into the AMS.</Step>
+  <Step>Pick your material from the preloaded configuration above; never load or unload AMS filament yourself — ask a Helper, Lab Assistant, or Exco if you need something changed.</Step>
+  <Step>For TPU, use the external TPU feeder — never the AMS. The dedicated PTFE tube routes it to the right extruder, and it prints on the R6 TPU/PEBA nozzle only.</Step>
+  <Step>If you need a filament that isn't loaded, use the HT H flex slot: you may put your own spool there for your print, and you must take it out afterwards.</Step>
   <Step>Inspect the build plate for debris and apply bed adhesive if the material calls for it.</Step>
   <Step>Close the enclosure door securely before starting any high-temperature print.</Step>
   <Step>Select your sliced file from the network queue or USB drive.</Step>
@@ -46,6 +94,7 @@ Verified profiles. Start from these; adjust only if you know why.
     | Speed | Very slow (15-30mm/s) |
     | Cooling | 20-30% fan |
     | Retraction | Disabled or 1mm @ 15mm/s |
+    | Feeding | External TPU feeder only — never the AMS; right extruder (R6 dedicated TPU/PEBA nozzle) only |
     | Drying | Dry at 50C for 4-6 hours before printing |
 
   </Tab>
@@ -58,6 +107,7 @@ Verified profiles. Start from these; adjust only if you know why.
     | Speed | Very slow (15-30mm/s) |
     | Cooling | 20-30% fan |
     | Retraction | Disabled or 0.5mm @ 15mm/s |
+    | Feeding | External TPU feeder only — never the AMS; right extruder (R6 dedicated TPU/PEBA nozzle) only |
     | Drying | Dry at 50C for 4-6 hours before printing |
 
   </Tab>
@@ -82,8 +132,11 @@ Verified profiles. Start from these; adjust only if you know why.
   <Accordion title="Nozzle Clog">
     Heat the nozzle to printing temperature, retract and reinsert the filament, then do a cold pull if you still feel resistance. If the clog survives that, use an acupuncture needle.
   </Accordion>
+  <Accordion title="TPU Not Feeding">
+    Check the external TPU feeder is engaged and the dedicated PTFE tube from the TPU outlet is fully seated — TPU on this machine never feeds from the AMS. Confirm the job is sliced for the R6 TPU/PEBA nozzle and the right extruder; if feeding is still inconsistent, slow the print down and ask a Helper or Exco.
+  </Accordion>
   <Accordion title="Filament Loading Issues">
-    Confirm the filament path is clear, check the extruder gear for grinding, and trim the filament tip at an angle before loading.
+    Confirm the filament path is clear, check the extruder gear for grinding, and trim the filament tip at an angle before loading. AMS loading and unloading is Helpers/LAs/Exco work — don't swap spools yourself.
   </Accordion>
   <Accordion title="First Layer Not Sticking">
     Re-level the bed, clean the plate with IPA, check the nozzle-to-bed z-offset, and lower the first layer speed.
@@ -106,7 +159,7 @@ Verified profiles. Start from these; adjust only if you know why.
     When the AMS displays a filament feed error, gently push the filament by hand to help the feeder grab it. Verify the spool isn't tangled and reseat it in its slot. Check the PTFE tube for kinks, and clean the AMS feeder gears if they're dirty.
   </Accordion>
   <Accordion title="Nozzle Clog">
-    Heat the nozzle to 250°C and manually push filament through until it flows smoothly. Let it cool to 90°C, then yank the filament out quickly to perform a cold pull; inspect the pulled tip for a clean nozzle impression and repeat 2-3 times if the clog persists. If it's still blocked after that, replace the nozzle.
+    Heat the nozzle to 250°C and manually push filament through until it flows smoothly. Let it cool to 90°C, then yank the filament out quickly to perform a cold pull; inspect the pulled tip for a clean nozzle impression and repeat 2-3 times if the clog persists. If it's blocked after that, replace the nozzle.
   </Accordion>
   <Accordion title="Grinding Noise at Extruder">
     Check filament diameter (1.75mm ± 0.05mm) and dry the filament at its recommended temperature. Reduce retraction speed to 25mm/s and clean the extruder gear teeth with a brass brush.
@@ -123,10 +176,13 @@ Verified profiles. Start from these; adjust only if you know why.
 
 - Wear appropriate PPE when handling high-temperature materials like CoPE and ASA.
 - Stay at the printer until the entire first layer has visibly adhered.
+- Never load or unload filament in the AMS units — Helpers, Lab Assistants, and Exco only. Ask them for material changes.
+- TPU never goes in the AMS: feed it through the external TPU feeder to the right extruder.
+- Print TPU and PEBA only on the dedicated R6 nozzle; never run flexible filaments through a nozzle that has printed rigid or fibre filaments.
+- If you use the HT H flex slot, take your own filament out after printing; the slot is left empty by default.
 - Unattended overnight prints require exco approval and a visible contact label on the printer.
 - Clean the build plate with 99% IPA after every print, once it has cooled.
 - Report all hardware issues, clogs, or unusual noises to exco immediately.
-- Remove filament spools from the AMS after printing and store them in dry boxes with desiccant.
 - Trained users may adjust standard print settings; advanced profiles require exco authorization.
 - Firmware updates are exco-only.
 - Log every print job (material, duration, username) in the workshop registry.
