@@ -23,24 +23,65 @@ flowchart TD
     Induction["Induction Workshops<br/>lab access · safety · hand tools<br/>soldering · machines · first FDM print"]:::required
 
     subgraph L1["Core skills — take in any order"]
-        direction TB
+        direction LR
+
+        %% Row 1
         Wire["Wire Harness Crimping"]:::core
         PCB["Intro to PCB Design"]:::core
         SMT["Intro to SMT Soldering"]:::core
+
+        %% Row 2
         Digital["Intro to Digital Circuits"]:::core
         Embedded["Intro to Embedded Systems"]:::core
         CAD["Intro to CAD Modeling"]:::core
-        Wire ~~~ PCB ~~~ SMT ~~~ Digital ~~~ Embedded ~~~ CAD
+
+        %% Invisible structure to force 2x3
+        row1_1[ ]:::hidden
+        row1_2[ ]:::hidden
+        row1_3[ ]:::hidden
+
+        row2_1[ ]:::hidden
+        row2_2[ ]:::hidden
+        row2_3[ ]:::hidden
+
+        Wire --> row1_1 --> PCB --> row1_2 --> SMT --> row1_3
+        Digital --> row2_1 --> Embedded --> row2_2 --> CAD --> row2_3
+
+        row1_1 ~~~ row2_1
+        row1_2 ~~~ row2_2
+        row1_3 ~~~ row2_3
     end
 
     subgraph L2["Machine workshops — one per machine"]
-        direction TB
+        direction LR
+
+        %% Row 1
         Resin["Intro to Resin Printing"]:::machine
         Laser["Intro to Laser Cutting & Engraving"]:::machine
         CNC["Intro to CNC Milling"]:::machine
+
+        %% Row 2
         Multi["Multicolor Printing"]:::machine
         Engineering["Engineering Filament Printing"]:::machine
-        Resin ~~~ Laser ~~~ CNC ~~~ Multi ~~~ Engineering
+
+        %% Pad to keep 2x3 shape (one extra hidden)
+        pad2_3[ ]:::hidden
+
+        %% Invisible structure
+        r1a[ ]:::hidden
+        r1b[ ]:::hidden
+        r1c[ ]:::hidden
+
+        r2a[ ]:::hidden
+        r2b[ ]:::hidden
+        r2c[ ]:::hidden
+
+        Resin --> r1a --> Laser --> r1b --> CNC --> r1c
+        Multi --> r2a --> Engineering --> r2b --> pad2_3 --> r2c
+
+        r1a ~~~ r2a
+        r1b ~~~ r2b
+        r1c ~~~ r2c
     end
 
     Induction --> L1
@@ -53,6 +94,7 @@ flowchart TD
     classDef required fill:#FDE68A,stroke:#D97706,color:#451A03,stroke-width:2px;
     classDef core fill:#D1FAE5,stroke:#059669,color:#064E3B,stroke-width:2px;
     classDef machine fill:#DBEAFE,stroke:#2563EB,color:#172554,stroke-width:2px;
+    classDef hidden fill:none,stroke:none,color:transparent,stroke-width:0px;
 `}</Mermaid>
 
 How to read it:
