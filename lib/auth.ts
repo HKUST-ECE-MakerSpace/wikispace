@@ -56,20 +56,20 @@ export function verifySessionValue(value: string, sessionSecret: string): boolea
   }
 }
 
-function readSessionCookie(request: Request): string | null {
-  const header = request.headers.get('cookie');
+/** Read one cookie value out of a raw `Cookie` header, or null. */
+export function readCookie(header: string | null, name: string): string | null {
   if (!header) return null;
   for (const part of header.split(';')) {
     const eq = part.indexOf('=');
     if (eq === -1) continue;
-    if (part.slice(0, eq).trim() === SESSION_COOKIE) return part.slice(eq + 1).trim();
+    if (part.slice(0, eq).trim() === name) return part.slice(eq + 1).trim();
   }
   return null;
 }
 
 /** True when the request carries a valid, unexpired admin session cookie. */
 export function isAdminRequest(request: Request): boolean {
-  const value = readSessionCookie(request);
+  const value = readCookie(request.headers.get('cookie'), SESSION_COOKIE);
   if (!value) return false;
   return verifySessionValue(value, getSettings().sessionSecret);
 }

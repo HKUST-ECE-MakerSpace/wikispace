@@ -23,7 +23,7 @@ export default async function PreviewPage() {
   if (!page) notFound();
   const [data, layoutSource] = await Promise.all([
     page.data.load(),
-    getDocsSource({ includeAdmin: true }),
+    getDocsSource({ visibility: 'admin' }),
   ]);
 
   return (

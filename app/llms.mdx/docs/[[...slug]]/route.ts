@@ -1,5 +1,5 @@
-import { isAdminRequest } from '@/lib/auth';
 import { getLLMText, getDocsSource } from '@/lib/source';
+import { requestAccess } from '@/lib/visibility';
 import { notFound } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
@@ -9,7 +9,9 @@ export async function GET(
   { params }: RouteContext<'/llms.mdx/docs/[[...slug]]'>,
 ) {
   const { slug } = await params;
-  const source = await getDocsSource({ includeAdmin: isAdminRequest(request) });
+  const source = await getDocsSource({
+    visibility: await requestAccess(request),
+  });
   const page = source.getPage(slug?.slice(0, -1));
   if (!page) notFound();
 

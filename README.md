@@ -25,9 +25,10 @@ Built by exco, for exco — one process serves the whole space.
   [writing guide](/docs/exco/writing-pages), admin-only)
 - Interactive workshop pages: checklists declared in frontmatter render as a
   tickable run sheet with per-device progress and a print view
-- Admin-only pages: frontmatter `admin: true` hides a page from members
-  everywhere — sidebar, search, `.md` export, `llms.txt`, OG image, the URL
-  itself — while signed-in exco see it with everything else
+- Page access levels: frontmatter `access: public | members | admin` decides who
+  reads a page. Restricted pages disappear from members everywhere: sidebar,
+  search, `.md` export, `llms.txt`, `llms-full.txt`, OG image, and the URL
+  itself 404s, while readers who qualify see them with everything else
 - `llms.txt` / `llms-full.txt` endpoints and per-page Markdown export for
   LLMs and humans alike
 
@@ -74,7 +75,7 @@ Default admin password is `exco2026` — **change it** on first boot via Admin �
 Settings, or set `ADMIN_PASSWORD` in the environment before the first start.
 The password is stored scrypt-hashed; it is never kept in plaintext.
 
-Copy `.env.example` to `.env` to enable WhatsApp alerts:
+Copy `.env.example` to `.env` to configure the optional integrations:
 
 | Variable | Purpose |
 | --- | --- |
@@ -82,6 +83,8 @@ Copy `.env.example` to `.env` to enable WhatsApp alerts:
 | `GREEN_API_INSTANCE_ID` | Green API instance for WhatsApp alerts |
 | `GREEN_API_TOKEN` | Green API auth token |
 | `WHATSAPP_GROUP_ID` | Group chat that receives alerts |
+| `ACCOUNTS_ORIGIN` | Base URL of the accounts service that verifies `ms_session` for `access: members` pages (default `http://127.0.0.1:3100`) |
+| `PROCUREMENT_ITSCS` | Comma-separated ITSC logins allowed to read `access: members` pages. Empty means any authenticated member |
 
 ## What's where
 
@@ -143,9 +146,17 @@ v4 document.
   HMAC-signed cookie with a per-instance random `sessionSecret`
 - Public endpoints are limited to submitting reports/requests and reading
   live status
-- Wiki pages marked `admin: true` are filtered out of the public source before
-  compilation: no page, sidebar entry, search hit, markdown export, `llms.txt`
-  line or OG image exists for non-admins — they get a 404, not a hidden page
+- Wiki pages declare an access level in frontmatter (`access: public` by
+  default, otherwise `members` or `admin`) and are filtered out of the source
+  before compilation: no page, sidebar entry, search hit, markdown export,
+  `llms.txt` line or OG image exists below that level. Callers get a 404, not a
+  hidden page
+- `access: members` qualifies on the wiki admin session or on a valid
+  accounts-service `ms_session`, verified per request by calling
+  `${ACCOUNTS_ORIGIN}/api/me` with the cookie forwarded (1.5 s timeout, fixed
+  loopback origin, never request input). An unreachable or slow accounts
+  service counts as "not a member"; `PROCUREMENT_ITSCS` can narrow the tier to
+  named ITSC logins
 - `data/settings.json` (hash + secret) is gitignored and never leaves the host;
   backups are exported explicitly from the admin panel
 

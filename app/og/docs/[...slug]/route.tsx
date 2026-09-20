@@ -1,5 +1,5 @@
-import { isAdminRequest } from '@/lib/auth';
 import { getDocsSource } from '@/lib/source';
+import { requestAccess } from '@/lib/visibility';
 import { notFound } from 'next/navigation';
 import { ImageResponse } from 'next/og';
 import { generate as DefaultImage } from 'fumadocs-ui/og';
@@ -12,7 +12,9 @@ export async function GET(
   { params }: RouteContext<'/og/docs/[...slug]'>,
 ) {
   const { slug } = await params;
-  const source = await getDocsSource({ includeAdmin: isAdminRequest(request) });
+  const source = await getDocsSource({
+    visibility: await requestAccess(request),
+  });
   const page = source.getPage(slug.slice(0, -1));
   if (!page) notFound();
 

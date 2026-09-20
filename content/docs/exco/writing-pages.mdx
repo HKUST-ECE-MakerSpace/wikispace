@@ -2,7 +2,7 @@
 title: Writing Pages
 description: How to edit wiki pages in /edit — templates, frontmatter, MDX components, admin-only pages, live preview and sidebar ordering.
 icon: FileText
-admin: true
+access: admin
 ---
 
 Every page on this wiki is a file under `content/docs`. They are all edited in the browser at [`/edit`](/edit) — no local setup, no git.
@@ -34,7 +34,7 @@ title: J1S Printer
 description: Dual-extruder printer, currently under maintenance.
 icon: Printer
 full: false
-admin: false
+access: public
 ---
 ```
 
@@ -44,7 +44,7 @@ admin: false
 | `description` | One-line summary shown under the title and in search results. |
 | `icon` | Sidebar icon — must be one of the names below. |
 | `full` | `true` renders the page edge-to-edge — use it when a wide table needs the full viewport. |
-| `admin` | `true` makes the page admin-only — see [admin-only pages](#admin-only-pages). Omit it or use `false` for public pages. |
+| `access` | Who can read the page: `public` (the default when the key is absent), `members` or `admin`. See [page access](#page-access). |
 
 Allowed `icon` values: `Boxes`, `CircleAlert`, `Cog`, `FileText`, `FlaskConical`, `Nut`, `Package`, `Presentation`, `Printer`, `ScrollText`, `Wrench`, `Zap`.
 
@@ -67,28 +67,36 @@ checklist:
 
 Each checklist item needs a unique `id` and a `label`; `section` groups items under a heading.
 
-## Admin-only pages
+## Page access
 
-Any page can be restricted to exco by setting `admin: true` in its frontmatter:
+One frontmatter key, `access`, decides who can read a page:
+
+| Value | Who can read the page |
+| --- | --- |
+| `public` | Everyone. An absent key means this. |
+| `members` | Signed-in members: a wiki admin session, or a session with the makerspace accounts service. The deployment can narrow this tier to a list of ITSC logins. |
+| `admin` | Wiki admins only (the password used at `/edit`). |
+
+That is the whole mechanism: there is no second way to restrict a page.
 
 ```mdx
 ---
 title: Ordering Filament
 description: Suppliers, budget codes and the reorder checklist.
 icon: Package
-admin: true
+access: admin
 ---
 ```
 
-To anyone without an admin session the page **does not exist**: the URL 404s, and the page is absent from the sidebar, search results, the `.md` export, `llms.txt` and the social-preview image. Signed-in admins see it everywhere, with everything else. Nothing is "hidden but reachable" — the filtering happens before the page is ever compiled for a public request.
+To a caller who cannot read the page it **does not exist**: the URL 404s, and the page is absent from the sidebar, search results, the `.md` export, `llms.txt`, `llms-full.txt` and the social-preview image. Callers who qualify see it everywhere, with everything else. Nothing is "hidden but reachable": the filter runs before the page is compiled, on every request.
 
 Practical rules:
 
-- The check is per page: `admin: true` on one page never affects its siblings or its folder. A folder whose pages are *all* admin-only disappears from the sidebar entirely (that is how this **Exco** section works).
-- Unlisted vs admin-only: a page missing from `meta.json` is public at its URL but invisible in the sidebar. `admin: true` is the only way to make the URL itself private.
-- Linking a public page at an admin-only one is allowed but pointless for members — the link 404s for them. Keep internal cross-links inside the admin section.
-- `meta.json` is **not** gated — its text (folder titles, separators, links) always ships to the public sidebar. Never name an internal page in a public folder's `meta.json`; keep internal pages listed only in this folder's own `meta.json`.
-- The editor, preview and this guide are already admin-only, so drafts of admin pages never leak.
+- The check is per page: `access: admin` on one page never affects its siblings or its folder. A folder whose pages are *all* restricted disappears from the sidebar entirely (that is how this **Exco** section works).
+- Unlisted vs restricted: a page missing from `meta.json` is public at its URL but invisible in the sidebar. `access: members` or `access: admin` is what makes the URL itself private.
+- Linking a public page at a restricted one is allowed but pointless for readers who cannot open it: the link 404s for them. Keep internal cross-links inside the restricted section.
+- `meta.json` is **not** gated, so its text (folder titles, separators, links) always ships to the public sidebar. Never name an internal page in a public folder's `meta.json`; keep internal pages listed only in this folder's own `meta.json`.
+- The editor, preview and this guide are already admin-only, so drafts of restricted pages never leak.
 
 ## Writing MDX
 
@@ -250,4 +258,4 @@ Each folder's `meta.json` controls order, labels and separators:
 - **Naming**: lowercase-hyphens only, `.mdx`/`.md`/`.json` extensions.
 - **Unlisted pages stay invisible** in the sidebar until `meta.json` mentions them.
 - **Saves publish instantly** — check the live preview before you hit ⌘S.
-- **Admin-only fails closed**: anything except `admin: false` (or leaving the key out) keeps a page internal — `admin: yes`, `admin: 1` or a quoted `"true"` hides it rather than publishing it. A typo can over-hide a public page, never expose an internal one; if a page you expect to be public vanishes, check its `admin` value.
+- **`access` fails closed**: only the exact strings `public` and `members` are read as themselves, so `access: yes`, `access: 1`, `access: "true"`, `access: Public` with a capital P, or a typo all read as `admin`. A mistake can over-hide a public page, never expose an internal one; if a page you expect to be public vanishes, check its `access` value.

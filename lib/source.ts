@@ -165,14 +165,40 @@ async function scanContent(): Promise<ScanResult> {
   return result;
 }
 
+/**
+ * Who may read a page, from the frontmatter `access` key. An absent key means
+ * `public`. The order is least to most privileged, so a numeric rank compares
+ * a page's level against a caller's level directly.
+ */
+export type Access = 'public' | 'members' | 'admin';
+
+const ACCESS_RANK: Record<Access, number> = { public: 0, members: 1, admin: 2 };
+
+/**
+ * Frontmatter `access` → level, failing closed: only the exact strings
+ * `public` and `members` are read as themselves, and anything else — `admin`,
+ * YAML-1.1 spellings (`yes`, `on`, `1`), numbers, quoted strings, typos — is
+ * treated as `admin`, so a mistake keeps a page internal instead of
+ * publishing it.
+ */
+export function pageAccess(data: Record<string, unknown>): Access {
+  const raw = data.access;
+  if (raw === undefined || raw === 'public') return 'public';
+  if (raw === 'members') return 'members';
+  return 'admin';
+}
+
 /** Options for {@link getDocsSource}. */
 export interface DocsSourceOptions {
   /**
-   * Include pages whose frontmatter says `admin: true`. Without it those
-   * pages are dropped before the loader runs, so they exist nowhere in the
-   * public source: not in the tree, search index, page lookups or exports.
+   * Highest access level the caller may read; defaults to `public`. Pages
+   * above it are dropped before the loader runs, so they exist nowhere in the
+   * returned source: not in the tree, search index, page lookups or exports.
+   * Pass `members` for a caller holding a wiki-admin session or a verified
+   * accounts-service session, and `admin` only on surfaces that have already
+   * verified a wiki-admin session (the editor's live preview).
    */
-  includeAdmin?: boolean;
+  visibility?: Access;
 }
 
 /**
@@ -187,25 +213,20 @@ const sourceCache = new Map<string, DocsSource>();
  * Docs source compiled from the file system at request time. Re-compiles
  * only when content changes (hash of paths + file contents).
  *
- * Returns the **public** variant by default: pages with `admin: true` are
- * dropped before the loader runs. Pass `{ includeAdmin: true }` only on
- * surfaces that have already verified an admin session — the admin variant
- * contains every page.
+ * Returns the **public** variant by default: pages whose frontmatter `access`
+ * is above `public` are dropped before the loader runs. Pass the caller's
+ * level as `{ visibility }` only on surfaces that have verified the session
+ * that level requires.
  */
 export async function getDocsSource(options: DocsSourceOptions = {}): Promise<DocsSource> {
-  const { includeAdmin = false } = options;
+  const { visibility = 'public' } = options;
   const scan = await scanContent();
-  const key = `${includeAdmin ? 'admin' : 'public'}:${scan.hash}`;
+  const key = `${visibility}:${scan.hash}`;
   const hit = sourceCache.get(key);
   if (hit) return hit;
 
-  const entries = includeAdmin
-    ? scan.entries
-    : // Fail closed: an `admin` key hides the page unless it is exactly
-      // `false`. YAML-1.1 spellings (`yes`, `on`, `1`) and quoted values
-      // are not `false`, so a typo keeps the page internal instead of
-      // silently publishing it.
-      scan.entries.filter((entry) => entry.data.admin === undefined || entry.data.admin === false);
+  const maxRank = ACCESS_RANK[visibility];
+  const entries = scan.entries.filter((entry) => ACCESS_RANK[pageAccess(entry.data)] <= maxRank);
   const source = await buildSource({ ...scan, entries });
   for (const existing of sourceCache.keys()) {
     if (!existing.endsWith(`:${scan.hash}`)) sourceCache.delete(existing);
@@ -221,10 +242,10 @@ let previewCache: { hash: string; source: DocsSource } | undefined;
 
 /**
  * Like getDocsSource but with the hidden editor draft included as an extra
- * page — and it **always includes admin pages**, so callers must be
- * admin-gated (only the editor preview is). The scanner skips underscore
- * files, so the draft itself never leaks into the public tree or search;
- * only this source knows about it.
+ * page — and it **always includes restricted pages** (`visibility: 'admin'`),
+ * so callers must be wiki-admin-gated (only the editor preview is). The
+ * scanner skips underscore files, so the draft itself never leaks into the
+ * public tree or search; only this source knows about it.
  */
 export async function getPreviewSource(): Promise<DocsSource> {
   const draftAbs = path.join(CONTENT_DIR, PREVIEW_FILE);
@@ -232,7 +253,7 @@ export async function getPreviewSource(): Promise<DocsSource> {
   try {
     raw = await fs.readFile(draftAbs, 'utf8');
   } catch {
-    return getDocsSource({ includeAdmin: true }); // no draft yet → plain source
+    return getDocsSource({ visibility: 'admin' }); // no draft yet → plain source
   }
   const draftHash = sha1(raw);
   if (previewCache?.hash === draftHash) return previewCache.source;
@@ -251,9 +272,9 @@ export async function getPreviewSource(): Promise<DocsSource> {
 }
 
 /**
- * A folder whose every page was filtered out (all `admin: true`) would still
- * become a sidebar node with no children. Drop those before rendering so the
- * section itself stays invisible, not just its contents.
+ * A folder whose every page was filtered out (say, all `access: admin`) would
+ * still become a sidebar node with no children. Drop those before rendering so
+ * the section itself stays invisible, not just its contents.
  */
 function pruneChildlessFolders(nodes: Node[]): Node[] {
   const kept: Node[] = [];

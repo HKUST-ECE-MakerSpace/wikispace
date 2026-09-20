@@ -1,4 +1,4 @@
-import { isAdminContext } from '@/lib/auth';
+import { contextAccess } from '@/lib/visibility';
 import { getDocsSource, getPageImageUrl, getPageMarkdownUrl } from '@/lib/source';
 import {
   DocsBody,
@@ -32,9 +32,11 @@ function isChecklistItem(value: unknown): value is ChecklistItem {
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   const params = await props.params;
   const searchParams = await props.searchParams;
-  // Admin-only pages resolve only for signed-in admins; everyone else gets
-  // the public source, where the page simply does not exist → 404.
-  const source = await getDocsSource({ includeAdmin: await isAdminContext() });
+  // Restricted pages resolve only for callers allowed to read them; everyone
+  // else gets the public source, where the page does not exist → 404.
+  const source = await getDocsSource({
+    visibility: await contextAccess(),
+  });
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
@@ -113,7 +115,9 @@ export async function generateMetadata(
   props: PageProps<'/docs/[[...slug]]'>,
 ): Promise<Metadata> {
   const params = await props.params;
-  const source = await getDocsSource({ includeAdmin: await isAdminContext() });
+  const source = await getDocsSource({
+    visibility: await contextAccess(),
+  });
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
